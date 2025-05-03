@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Amnematchinensis</title>
+  
+  <subtitle>青山生柳</subtitle>
+  <link href="https://varamnematchinensis.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://varamnematchinensis.github.io/"/>
+  <updated>2025-05-03T20:47:13.948Z</updated>
+  <id>https://varamnematchinensis.github.io/</id>
+  
+  <author>
+    <name>青山生柳</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://varamnematchinensis.github.io/2025/04/25/hello-world/"/>
+    <id>https://varamnematchinensis.github.io/2025/04/25/hello-world/</id>
+    <published>2025-04-25T15:00:20.660Z</published>
+    <updated>2025-05-03T20:47:13.948Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="测试" scheme="https://varamnematchinensis.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="Typora" scheme="https://varamnematchinensis.github.io/tags/Typora/"/>
+    
+    <category term="Markdown" scheme="https://varamnematchinensis.github.io/tags/Markdown/"/>
+    
+  </entry>
+  
+</feed>
