@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="GaussDB(DWS)数据库-基础篇, Amnematchinensis">
-    <meta name="description" content="GaussDB(DWS)数据库-基础篇，主要介绍DWS数据仓库的基本概念和基础知识。">
+    <meta name="keywords" content="GaussDB(DWS)数据库-导入导出篇, Amnematchinensis">
+    <meta name="description" content="GaussDB(DWS)数据库-导入导出篇，主要介绍DWS数据仓库的主要的入库和出库的方式：外表、GDS、Flink。同时说明了DWS如何利用Flink来构建实时数仓，进而实现实时增量读和实时入库。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GaussDB(DWS)数据库-基础篇 | Amnematchinensis</title>
+    <title>GaussDB(DWS)数据库-导入导出篇 | Amnematchinensis</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -333,12 +333,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-基础篇</h1>
+                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-导入导出篇</h1>
                 </div>
             </div>
         </div>
@@ -413,14 +413,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    7 分
                 </div>
                 
 
@@ -440,94 +440,114 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h2><p>软件架构：分为存算分离型和存算一体型，二者的区别在于DN和存储（Local-Disk）是否绑定在一起，绑定在一起为存算一体，否则为存算分离。</p>
-<h2 id="数据组件-7种类型"><a href="#数据组件-7种类型" class="headerlink" title="数据组件(7种类型)"></a>数据组件(7种类型)</h2><ol>
-<li>OM(运维管理模块、主备)：提供日常运维和配置管理功能，每个节点都部署</li>
-<li>CM(集群管理模块、主备)：自动化集群管理和监控各单元的物理资源使用情况，每个节点都部署。</li>
-<li>GTM(全局事务控制器，主备)：主要负责生成并维护全局事务ID、事务快照、时间戳等需要全局唯一的信息。DWS集群部署2个，一主一备，分布在不同节点上。</li>
-<li>WLM(工作负载管理)：控制资源分配，防止过载对系统冲击导致的业务拥塞和系统崩溃。内置在CN和DN实例中。</li>
-<li>CN(Coordinator Node,协调节点，多主)：主要处理请求分解、调度、结果返回。负责SQL解析和优化。决定对外业务访问能力，默认部署2个，最大支持5个。</li>
-<li>DN(Data Node,数据节点，主备从)：负责存储业务数据（支持行存、列存、混合存储）、执行数据查询任务以及向CN返回执行结果。决定对外业务处理能力。根据节点规格，每个节点部署2-4个，最大支持1024个。</li>
-<li>GDS Loader(多实例)：负责批量数据加载和并行加速。</li>
-</ol>
-<p>物理集群由3到多个节点组成，最大支持1024个，节点为ECS&#x2F;BMS.<br>数据组件分布：以最简的ECS+EVS结构为例。ECS负责计算资源（CPU+内存+DWS实例（CN+DN等））。EVS负责存储资源，每个DN挂载EVS盘。</p>
-<h2 id="DWS资源分配"><a href="#DWS资源分配" class="headerlink" title="DWS资源分配"></a>DWS资源分配</h2><ol>
-<li>CPU资源：20%+60%+20%：20%CPU资源用于系统运维，20%CPU资源用于数据接入入库业务，60%CPU资源用于数据分析业务,入库业务和分析业务资源隔离，互不影响。</li>
-<li>内存资源：默认GaussDB(DWS)使用内存占主机Linux系统可用内存的80%。GaussDB 200 默认关闭操作系统的虚拟内存。</li>
-<li>内存参数：<ul>
-<li>max_process_memory ：一个数据库节点（DN&#x2F;CN）可用的最大物理内存</li>
-<li>视图pv_total_memory_detail：查看一个数据库节点总的内存分配情况。</li>
-</ul>
-</li>
-</ol>
-<h2 id="业务架构"><a href="#业务架构" class="headerlink" title="业务架构"></a>业务架构</h2><p>业务下发的SQL信息是如何在GaussDB(DWS)中的各个组件运行的。CN-&gt;DN-&gt;CN</p>
+                <h2 id="DWS外表"><a href="#DWS外表" class="headerlink" title="DWS外表"></a>DWS外表</h2><p>外表定义(Foregin table)：是对外部数据源的描述，通过使用SQL接口提供访问外部数据的能力。<br>解决问题：实现数据的导入导出，访问其他DWS集群或者其他外部组件等，扩展了DWS对其他组件进行读写的能力。<br>使用原理：利用FDW(foreign data wrapper)机制。首先定义链接信息，之后创建外表，外表的创建是用于定义DWS数据库上对应其他数据源的表结构。<br>外表创建和管理，分为手动创建和自动创建:</p>
 <ol>
-<li>业务的查询信息先下发SQL到CN节点，其中的SQL信息可以是对数据的增删改查。</li>
-<li>CN通过优化器生成执行计划，DN按照执行计划处理数据</li>
-<li>在分布式存储中，数据处理的DN和数据存储DN不同，数据处理过程中需要从其他DN获取数据，通过stream流（广播流、聚合流和重分布流）降低数据在DN节点间的流动。</li>
-<li>DN返回数据处理结果给CN，CN汇总结果。</li>
-<li>CN将汇总结果返回给业务。</li>
+<li>手动创建如下：在普通表基础上，额外添加server和option信息，先建服务，再建外表。<ul>
+<li><p>server是数据库对象，通过create server创建，存储外部数据源访问和认证信息，用于外表如何找到目标数据。</p>
+</li>
+<li><p>语法格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create server server_name </span><br><span class="line">foreign data warpper fdw_name</span><br><span class="line">option();</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>权限控制：默认只有系统管理员有权限，如果其他人使用需要对foreign data wrapper 授权才能创建，授权语法如下： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant usage on foreign data wrapper fdw_name to username;</span><br></pre></td></tr></table></figure></li>
+<li>options：数据源定制描述，例如编码、压缩等，不同数据源不同外表差别大。</li>
+<li>系统查询：通过pg_foreign_server和pg_foreign_table系统表查询创建的server和外表。</li>
+<li>自动创建如下：<ul>
+<li>MRS&#x2F;OBS数据源管理+Lakeformation元数据管理；</li>
+<li>MRS&#x2F;OBS数据源管理用于对接HDFS或者OBS,自动建server；</li>
+<li>Lakeformaion元数据管理，自动建外表，使用外部元数据直接进行数据访问。</li>
+</ul>
+</li>
 </ol>
-<h2 id="分布式架构优点"><a href="#分布式架构优点" class="headerlink" title="分布式架构优点"></a>分布式架构优点</h2><ol>
-<li>支持按需扩展，支持2048节点的超大规模，100PB级的数据容量.</li>
-<li>通过多层级的并行计算引擎，基于鲲鹏CPU的优化，软硬协同，性能相比于X86提升30%。</li>
-<li>通过支持事务ACID,实现全场景数据的一致性数据保障，支持双集群容灾，全组件HA设计，来实现高可用。</li>
-<li>兼容标准SQL 2003、JDBC和ODBC接口，全图形化的运维管理和开发工具，来实现高兼容性。</li>
-</ol>
-<h2 id="高性能"><a href="#高性能" class="headerlink" title="高性能"></a>高性能</h2><p>高斯数据库实现高性能的技术：全并行架构+分布式优化+行列混合引擎</p>
+<h2 id="外表分类"><a href="#外表分类" class="headerlink" title="外表分类"></a>外表分类</h2><p>功能分类：HDFS外表、OBS外表、GDS外表、DLI外表等。<br>server类型分类：</p>
 <ol>
-<li>全并行架构：目的是解决如何利用x86的多核计算资源，如何解决鲲鹏众核的资源利用问题。解决方法：从大到小<ul>
-<li>MPP(节点并行)：在集群内并行，通过使用分布式执行框架，支持1000以上的服务器，万级CPU的并行计算 </li>
-<li>SMP(算子并行)：在查询内并行，通过多线程并行算法，从而实现在核心算子内的并行执行。众核支持，和NUMA架构优化。</li>
-<li>SIMD(指令级并行)：操作数归并，通过SIMD和向量化引擎    ，实现一个指令执行一批数据的操作，指令可以是x86或者鲲鹏指令.</li>
-<li>LLVM(动态编译)：指令数减少，通过将热点函数预编译成机器码，实现减少SQL执行指令数，从而提升性能。</li>
-</ul>
-</li>
-<li>分布式优化：用于分布式架构下最优执行计划的生成。<ul>
-<li>分布式查询重写:<ul>
-<li>解决问题：单机SQL逻辑无法实现分布式执行的问题</li>
-<li>解决方法：利用分布式查询重写技术，在分布式下消除NestLoop和子查询等查询瓶颈。</li>
-</ul>
-</li>
-<li>分布式计划生成：<ul>
-<li>解决问题：单机统计信息不能全面反应分布式数据特征</li>
-<li>解决方案：基于Poisson估算模型，单点和全局cost估算模型，local和Global结合数据处理估算模型，实现单机+全局的自动统计信息收集。</li>
-</ul>
-</li>
-<li>分布式倾斜处理：<ul>
-<li>解决问题：数据倾斜导致的分布式执行出现木桶效应.</li>
-<li>解决方案：针对静态模型，使用分布式倾斜估算模型；针对动态模型，使用动态倾斜处理方案RLBT（Runtime Load Balance Technology）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>行列混合引擎：分为查询引擎和存储引擎。查询引擎分为行存+列存<ul>
-<li>行存：适合高并发+短事务场景，例如点查询、数据更新、实时数据接入、并发增删改。</li>
-<li>列存：适合分析AP场景，例如分析统计分组聚合、统计分析、批量加载、访问大量行少数列。</li>
-<li>Delta列存：适合实时分析场景，例如实时分析同时进行实时插入和更新、实时插入更新进入行存Delta、实时分析基于列存+行存Delta<br>注意：Delta表是列存表附带的行存表，若创建列存表同时开启Delta表,插入列存表的数据也会以行存的形式保存。</li>
-</ul>
-</li>
+<li>dfs_fdw&#x2F;hdfs_fdw外表：适应用于外部文件系统（HDFS&#x2F;OBS）上的结构化数据查询。</li>
+<li>dist_fdw外表：适用于文件导入导出。</li>
+<li>gc_fdw外表：适用于协同分析。</li>
+<li>log_fdw外表：适用于dws内部使用，日志查询。</li>
+<li>file_fdw外表：访问服务器文件 。</li>
 </ol>
-<h2 id="高扩展"><a href="#高扩展" class="headerlink" title="高扩展"></a>高扩展</h2><p>逻辑集群+异构扩展</p>
+<h2 id="GDS-Gauss-Data-Service-工具"><a href="#GDS-Gauss-Data-Service-工具" class="headerlink" title="GDS(Gauss Data Service)工具"></a>GDS(Gauss Data Service)工具</h2><p>定义：DWS提供的数据导入导出工具</p>
+<p>适配场景：</p>
 <ol>
-<li>逻辑集群实现如下功能：通过使用CN+DN<ul>
-<li>逻辑统一+业务隔离：用逻辑集群实现DN层的计算存储资源隔离，从而实现业务隔离。</li>
-<li>数据共享：将不同逻辑集群的公共数据放到同一个逻辑集群中</li>
-<li>计算弹性：可以利用空闲集群的计算资源用于其他业务的作业。</li>
+<li>数据迁移，同构异构集群数据迁移。</li>
+<li>以文本数据作为来源的大数据量表导入</li>
+<li>大数据量表导出<br>  支持导入和导出的文件格式：csv&#x2F;text&#x2F;binary&#x2F;fixed（每行数据等长）</li>
+</ol>
+<p>工具原理：<br>数据导入过程：GDS通过网络和数据库系统相连，CN负责任务规划和下发，GDS负责数据文件切分，然后分发给各个DN，各个DN节点负责数据并行导入，各DN收到数据分片后解析数据，根据表的分布列计算hash值并确定归属哪个DN，如果是自身就缓存到本地，否则就通过网络传给相应的DN.导出过程正好相反。<br>导入要点：</p>
+<ol>
+<li>导入时，GDS数量&lt;&#x3D;DN数量。</li>
+<li>GDS导入时，服务器普通文件系统数据可以导入DWS数据库，HDFS文件系统数据暂时不可以导入DWS数据库。</li>
+</ol>
+<p>导出要点：</p>
+<ol>
+<li>按照导出目的地是否是集群内的主机，分为local模式和remote模式；目的地是集群节点所在主机上为local模式，否则为remote模式。</li>
+<li>导出支持的数据文件格式：csv&#x2F;text&#x2F;fixed，单行数据大小需要&lt;1GB</li>
+<li>在local模式中，数据均匀切割并生成到集群指定文件夹下，需要占用集群磁盘空间。</li>
+<li>在remote模式中，1个GDS同一时刻只为1个集群服务，多个GDS可以并发导出。和集群在同一内网的GDS，导出速度受网络带宽影响。</li>
+</ol>
+<p>GDS导入操作：启动GDS服务&gt;创建外表&gt;执行导入&gt;分析错误表<br>导入操作要点：</p>
+<ol>
+<li>GDS导入数据目录文件过多时，可以使用正则表达式指定外表的location,选择需要的导入文件</li>
+<li>导入过程中的错误，分为数据格式和非数据格式两种错误。数据格式错误是指缺失或多出字段值、数据类型错误或者数据编码错误等。可以通过在创建外表时，设置参数“log into error_table_name”，将导入过程中的数据格式错位信息写入指定的错误信息表中。</li>
+</ol>
+<p>GDS导出操作：启动GDS&gt;创建外表&gt;执行导出<br>导出操作要点：导出的文本命名格式为t1_foreign_output.data.</p>
+<h2 id="实时数仓"><a href="#实时数仓" class="headerlink" title="实时数仓"></a>实时数仓</h2><ol>
+<li>Flink:分布式、流批一体、开源处理引擎。</li>
+<li>用途：在无边界和有边界数据流上进行有状态计算。无边界数据流是指源源不断产生数据，数据流没有结束，类似于kafka消息流。有边界数据流是指有开始和结束的数据流，可以对所有数据做处理。有状态计算是指在流处理过程中，可以将中间状态保留，用于后续数据处理使用。</li>
+<li>Flink内容：组件+任务+API库</li>
+<li>Flink组件：<ul>
+<li>JobManager:负责分配任务、协调执行任务、协助检查点，并处理失败。</li>
+<li>TaskManager:在集群中并行执行任务，管理任务状态和缓冲区。</li>
+<li>Client:提交Flink作业，并与JobManager通讯。</li>
 </ul>
 </li>
-<li>异构扩展：用于冷数据的低成本管理<ul>
-<li>功能：用本地盘做性能加速，用OBS做冷数据区，实现数据存储异构，自动冷热数据迁移（2年以上冷数据）。<br>结果：分层存储+成本最优：按需选择存储和计算引擎，实现冷热数据的动态切换。</li>
+<li>Flink任务：任务由多算子组成，每个算子设置各自的并行度任务<ul>
+<li>source+transformation+sink算子组成。</li>
+<li>source:数据流起点，从外部系统读取数据并转换为Flink可处理的内部数据结构。</li>
+<li>transformation:对数据流进行操作，转换&#x2F;聚合&#x2F;连接&#x2F;分割数据</li>
+<li>sink:数据流终点，将处理后的数据写入外部系统。</li>
+</ul>
+</li>
+<li>Flink的API库：<ul>
+<li>DataStream API:提供转换操作符,用于构建流处理应用核心API。</li>
+<li>Table API&amp;SQL:提供声明式API,用类SQL方式查询流和批处理数据。</li>
 </ul>
 </li>
 </ol>
-<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p>主备从HA技术+多租户资源管理+可信安全+多层次多类型备份</p>
-<h3 id="主备从HA技术"><a href="#主备从HA技术" class="headerlink" title="主备从HA技术"></a>主备从HA技术</h3><p>功能：数据三重保护（主+备+从备）+容忍单副本故障+两副本提供HA保障。<br>主备流程：<br>正常情况：主机和备机通过日志+数据页流复制实现强同步，主机和从备仅保持连接，从备不占用额外存储资源<br>主机故障：集群管理器感知并仲裁备机升为主机，升级后的备机和从备进行主从强同步。<br>备机故障：主机自动感知，主机的未同步日志和数据发送给从备，实现主从强同步，主备同步利用内核底层实现主从同步切换，事务层不感知</p>
-<h3 id="多租户资源管理"><a href="#多租户资源管理" class="headerlink" title="多租户资源管理"></a>多租户资源管理</h3><p>和企业组织结构匹配+管理租户资源（计算+存储）+租户资源隔离（容器技术）+租户资源监控</p>
-<h3 id="多层级多类型备份"><a href="#多层级多类型备份" class="headerlink" title="多层级多类型备份"></a>多层级多类型备份</h3><p>多种介质：云备份推荐使用OBS备份，支持OBS&#x2F;NBU&#x2F;华为数据一体机<br>全量+增量备份：全量物理备份、差异增量、累积增量等类型备份<br>完全在线：备份期间不加锁，业务SQL无影响<br>全局一致性：备份全局一致性快照<br>细颗粒备份恢复：支持集群+schema级+表级备份恢复，支持就地集群恢复。<br>安全：加密传输。</p>
-<h2 id="融合分析"><a href="#融合分析" class="headerlink" title="融合分析"></a>融合分析</h2><p>支持直接读写HDFS&#x2F;OBS&#x2F;PostGIS数据：<br>数据源互通：可以读取Oracle&#x2F;Spark&#x2F;Hive数据库<br>外表机制：支持HDFS&#x2F;OBS&#x2F;MPP外表，读取HDFS&#x2F;OBS数据。<br>兼容性：兼容SQL2003、JDBC&#x2F;ODBC、SQL2003访问HDFS和OBS</p>
-<h2 id="智能运维"><a href="#智能运维" class="headerlink" title="智能运维"></a>智能运维</h2><p>适应场景：支持扩容加节点+扩容重分布+空间回收Vacuum full<br>快照策略：手动快照+自动快照<br>存储介质选择：OBS + NBU</p>
-<p>学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
+<h2 id="dws-flink-connector工具"><a href="#dws-flink-connector工具" class="headerlink" title="dws-flink-connector工具"></a>dws-flink-connector工具</h2><ol>
+<li>用途：可以通过Flink SQL实现从DWS中读写数据（包括增量读）</li>
+<li>功能：<ul>
+<li>批量读：将DWS中表作为数据源供Flink用于批读</li>
+<li>维流join：将DWS中表作为维表供Fink维流join(即用实时流和维表join)</li>
+<li>攒批写：将DWS中表作为结果表供Flink写入数据（一定时间一定量）</li>
+</ul>
+</li>
+<li>Flink catalog：通过Flink catalog，实现Flink和DWS表相互映射。</li>
+<li>语法说明：<ul>
+<li>Flink SQL中的表字段必须和DWS表中有对应字段</li>
+<li>with参数设置中，connector需要指定dws, tableName需要指定为DWS对应表名。lookupAsync表示是否异步读取</li>
+<li>在Flink catalog中，with参数type需要指定为dws,base_url中不用带数据库名称。use catalog dws 表示使用新建catalog。show catalog表示查询所有catalog。可以直接查询数据库中的表信息，不需要在Flink中建映射表。</li>
+</ul>
+</li>
+</ol>
+<h2 id="实时增量读取"><a href="#实时增量读取" class="headerlink" title="实时增量读取"></a>实时增量读取</h2><ol>
+<li>原理：只对变化的数据进行读取，而不重新读取整个数据集。<ul>
+<li>好处：提高处理效率，减少资源消耗</li>
+</ul>
+</li>
+<li>操作：DWS通过Binlog实现增量读取。对表做DML操作时，先进行双写，对应的DML记录到辅助表中，然后通过读取该辅助表来获取增量数据，实现数据同步和增量计算。</li>
+<li>Binlog表语法：用Binlog表作为源表供Flink实时读取。with参数中的binlog属性需要设置为true,binlogSlotName需要设置为自定义的槽位名。</li>
+<li>注意要点：<ul>
+<li>DWS中只有Hstore和Hstore-opt表支持Binlog功能，表需要有主键且设置为enable_binlog &#x3D; on </li>
+<li>如果多任务消费同一个表的Binlog数据，需要保证每个任务的binlogSlotName唯一。</li>
+<li>为达到最高读取速度，建议Flink任务并行度和DWS集群DN数设置一致。</li>
+<li>可以使用dws-flink-connector的sink能力来写入读取到的Binlog数据，需要注意点如下：如果要保证DN内数据写入顺序，需要设置connectionSize &#x3D; 1.如果源端有更新主键操作或者Flink聚合操作，需要将ignoreUpdateBefore设置为False(默认为True).</li>
+</ul>
+</li>
+</ol>
+<h2 id="实时数仓-1"><a href="#实时数仓-1" class="headerlink" title="实时数仓"></a>实时数仓</h2><p>Flink实时处理能力+DWS的Binlog能力。</p>
+<p>基于公开来源信息, 学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
 
                 
             </div>
@@ -554,7 +574,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/</a>
+                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -665,9 +685,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/">
                     <div class="card-image">
@@ -685,9 +706,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -700,6 +721,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -730,31 +752,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/04/25/hello-world/">
+                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-基础篇">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">GaussDB(DWS)数据库-基础篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
+                            GaussDB(DWS)数据库-基础篇，主要介绍DWS数据仓库的基本概念和基础知识。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%B5%8B%E8%AF%95/" class="post-category">
-                                    测试
+                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    数据
                                 </a>
                             
                             
@@ -764,12 +786,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Typora/">
-                        <span class="chip bg-color">Typora</span>
+                    <a href="/tags/GaussDB-DWS/">
+                        <span class="chip bg-color">GaussDB(DWS)</span>
                     </a>
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                        <span class="chip bg-color">数据仓库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                        <span class="chip bg-color">数据</span>
                     </a>
                     
                 </div>

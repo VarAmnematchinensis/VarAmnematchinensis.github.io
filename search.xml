@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>GaussDB(DWS)数据库-导入导出篇</title>
+      <link href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/"/>
+      <url>/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/</url>
+      
+        <content type="html"><![CDATA[<h2 id="DWS外表"><a href="#DWS外表" class="headerlink" title="DWS外表"></a>DWS外表</h2><p>外表定义(Foregin table)：是对外部数据源的描述，通过使用SQL接口提供访问外部数据的能力。<br>解决问题：实现数据的导入导出，访问其他DWS集群或者其他外部组件等，扩展了DWS对其他组件进行读写的能力。<br>使用原理：利用FDW(foreign data wrapper)机制。首先定义链接信息，之后创建外表，外表的创建是用于定义DWS数据库上对应其他数据源的表结构。<br>外表创建和管理，分为手动创建和自动创建:</p><ol><li>手动创建如下：在普通表基础上，额外添加server和option信息，先建服务，再建外表。<ul><li><p>server是数据库对象，通过create server创建，存储外部数据源访问和认证信息，用于外表如何找到目标数据。</p></li><li><p>语法格式如下：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create server server_name </span><br><span class="line">foreign data warpper fdw_name</span><br><span class="line">option();</span><br></pre></td></tr></table></figure></li></ul></li><li>权限控制：默认只有系统管理员有权限，如果其他人使用需要对foreign data wrapper 授权才能创建，授权语法如下： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant usage on foreign data wrapper fdw_name to username;</span><br></pre></td></tr></table></figure></li><li>options：数据源定制描述，例如编码、压缩等，不同数据源不同外表差别大。</li><li>系统查询：通过pg_foreign_server和pg_foreign_table系统表查询创建的server和外表。</li><li>自动创建如下：<ul><li>MRS&#x2F;OBS数据源管理+Lakeformation元数据管理；</li><li>MRS&#x2F;OBS数据源管理用于对接HDFS或者OBS,自动建server；</li><li>Lakeformaion元数据管理，自动建外表，使用外部元数据直接进行数据访问。</li></ul></li></ol><h2 id="外表分类"><a href="#外表分类" class="headerlink" title="外表分类"></a>外表分类</h2><p>功能分类：HDFS外表、OBS外表、GDS外表、DLI外表等。<br>server类型分类：</p><ol><li>dfs_fdw&#x2F;hdfs_fdw外表：适应用于外部文件系统（HDFS&#x2F;OBS）上的结构化数据查询。</li><li>dist_fdw外表：适用于文件导入导出。</li><li>gc_fdw外表：适用于协同分析。</li><li>log_fdw外表：适用于dws内部使用，日志查询。</li><li>file_fdw外表：访问服务器文件 。</li></ol><h2 id="GDS-Gauss-Data-Service-工具"><a href="#GDS-Gauss-Data-Service-工具" class="headerlink" title="GDS(Gauss Data Service)工具"></a>GDS(Gauss Data Service)工具</h2><p>定义：DWS提供的数据导入导出工具</p><p>适配场景：</p><ol><li>数据迁移，同构异构集群数据迁移。</li><li>以文本数据作为来源的大数据量表导入</li><li>大数据量表导出<br>  支持导入和导出的文件格式：csv&#x2F;text&#x2F;binary&#x2F;fixed（每行数据等长）</li></ol><p>工具原理：<br>数据导入过程：GDS通过网络和数据库系统相连，CN负责任务规划和下发，GDS负责数据文件切分，然后分发给各个DN，各个DN节点负责数据并行导入，各DN收到数据分片后解析数据，根据表的分布列计算hash值并确定归属哪个DN，如果是自身就缓存到本地，否则就通过网络传给相应的DN.导出过程正好相反。<br>导入要点：</p><ol><li>导入时，GDS数量&lt;&#x3D;DN数量。</li><li>GDS导入时，服务器普通文件系统数据可以导入DWS数据库，HDFS文件系统数据暂时不可以导入DWS数据库。</li></ol><p>导出要点：</p><ol><li>按照导出目的地是否是集群内的主机，分为local模式和remote模式；目的地是集群节点所在主机上为local模式，否则为remote模式。</li><li>导出支持的数据文件格式：csv&#x2F;text&#x2F;fixed，单行数据大小需要&lt;1GB</li><li>在local模式中，数据均匀切割并生成到集群指定文件夹下，需要占用集群磁盘空间。</li><li>在remote模式中，1个GDS同一时刻只为1个集群服务，多个GDS可以并发导出。和集群在同一内网的GDS，导出速度受网络带宽影响。</li></ol><p>GDS导入操作：启动GDS服务&gt;创建外表&gt;执行导入&gt;分析错误表<br>导入操作要点：</p><ol><li>GDS导入数据目录文件过多时，可以使用正则表达式指定外表的location,选择需要的导入文件</li><li>导入过程中的错误，分为数据格式和非数据格式两种错误。数据格式错误是指缺失或多出字段值、数据类型错误或者数据编码错误等。可以通过在创建外表时，设置参数“log into error_table_name”，将导入过程中的数据格式错位信息写入指定的错误信息表中。</li></ol><p>GDS导出操作：启动GDS&gt;创建外表&gt;执行导出<br>导出操作要点：导出的文本命名格式为t1_foreign_output.data.</p><h2 id="实时数仓"><a href="#实时数仓" class="headerlink" title="实时数仓"></a>实时数仓</h2><ol><li>Flink:分布式、流批一体、开源处理引擎。</li><li>用途：在无边界和有边界数据流上进行有状态计算。无边界数据流是指源源不断产生数据，数据流没有结束，类似于kafka消息流。有边界数据流是指有开始和结束的数据流，可以对所有数据做处理。有状态计算是指在流处理过程中，可以将中间状态保留，用于后续数据处理使用。</li><li>Flink内容：组件+任务+API库</li><li>Flink组件：<ul><li>JobManager:负责分配任务、协调执行任务、协助检查点，并处理失败。</li><li>TaskManager:在集群中并行执行任务，管理任务状态和缓冲区。</li><li>Client:提交Flink作业，并与JobManager通讯。</li></ul></li><li>Flink任务：任务由多算子组成，每个算子设置各自的并行度任务<ul><li>source+transformation+sink算子组成。</li><li>source:数据流起点，从外部系统读取数据并转换为Flink可处理的内部数据结构。</li><li>transformation:对数据流进行操作，转换&#x2F;聚合&#x2F;连接&#x2F;分割数据</li><li>sink:数据流终点，将处理后的数据写入外部系统。</li></ul></li><li>Flink的API库：<ul><li>DataStream API:提供转换操作符,用于构建流处理应用核心API。</li><li>Table API&amp;SQL:提供声明式API,用类SQL方式查询流和批处理数据。</li></ul></li></ol><h2 id="dws-flink-connector工具"><a href="#dws-flink-connector工具" class="headerlink" title="dws-flink-connector工具"></a>dws-flink-connector工具</h2><ol><li>用途：可以通过Flink SQL实现从DWS中读写数据（包括增量读）</li><li>功能：<ul><li>批量读：将DWS中表作为数据源供Flink用于批读</li><li>维流join：将DWS中表作为维表供Fink维流join(即用实时流和维表join)</li><li>攒批写：将DWS中表作为结果表供Flink写入数据（一定时间一定量）</li></ul></li><li>Flink catalog：通过Flink catalog，实现Flink和DWS表相互映射。</li><li>语法说明：<ul><li>Flink SQL中的表字段必须和DWS表中有对应字段</li><li>with参数设置中，connector需要指定dws, tableName需要指定为DWS对应表名。lookupAsync表示是否异步读取</li><li>在Flink catalog中，with参数type需要指定为dws,base_url中不用带数据库名称。use catalog dws 表示使用新建catalog。show catalog表示查询所有catalog。可以直接查询数据库中的表信息，不需要在Flink中建映射表。</li></ul></li></ol><h2 id="实时增量读取"><a href="#实时增量读取" class="headerlink" title="实时增量读取"></a>实时增量读取</h2><ol><li>原理：只对变化的数据进行读取，而不重新读取整个数据集。<ul><li>好处：提高处理效率，减少资源消耗</li></ul></li><li>操作：DWS通过Binlog实现增量读取。对表做DML操作时，先进行双写，对应的DML记录到辅助表中，然后通过读取该辅助表来获取增量数据，实现数据同步和增量计算。</li><li>Binlog表语法：用Binlog表作为源表供Flink实时读取。with参数中的binlog属性需要设置为true,binlogSlotName需要设置为自定义的槽位名。</li><li>注意要点：<ul><li>DWS中只有Hstore和Hstore-opt表支持Binlog功能，表需要有主键且设置为enable_binlog &#x3D; on </li><li>如果多任务消费同一个表的Binlog数据，需要保证每个任务的binlogSlotName唯一。</li><li>为达到最高读取速度，建议Flink任务并行度和DWS集群DN数设置一致。</li><li>可以使用dws-flink-connector的sink能力来写入读取到的Binlog数据，需要注意点如下：如果要保证DN内数据写入顺序，需要设置connectionSize &#x3D; 1.如果源端有更新主键操作或者Flink聚合操作，需要将ignoreUpdateBefore设置为False(默认为True).</li></ul></li></ol><h2 id="实时数仓-1"><a href="#实时数仓-1" class="headerlink" title="实时数仓"></a>实时数仓</h2><p>Flink实时处理能力+DWS的Binlog能力。</p><p>基于公开来源信息, 学习资源来自<a href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> GaussDB(DWS) </tag>
+            
+            <tag> 数据库 </tag>
+            
+            <tag> 数据仓库 </tag>
+            
+            <tag> 数据 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>GaussDB(DWS)数据库-基础篇</title>
       <link href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/"/>
       <url>/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/</url>

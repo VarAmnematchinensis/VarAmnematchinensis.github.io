@@ -6,7 +6,7 @@
   <link href="https://varamnematchinensis.github.io/atom.xml" rel="self"/>
   
   <link href="https://varamnematchinensis.github.io/"/>
-  <updated>2025-08-03T12:45:05.273Z</updated>
+  <updated>2025-08-03T14:12:29.683Z</updated>
   <id>https://varamnematchinensis.github.io/</id>
   
   <author>
@@ -17,11 +17,42 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>GaussDB(DWS)数据库-导入导出篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/</id>
+    <published>2025-08-03T13:34:00.000Z</published>
+    <updated>2025-08-03T14:12:29.683Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;DWS外表&quot;&gt;&lt;a href=&quot;#DWS外表&quot; class=&quot;headerlink&quot; title=&quot;DWS外表&quot;&gt;&lt;/a&gt;DWS外表&lt;/h2&gt;&lt;p&gt;外表定义(Foregin</summary>
+        
+      
+    
+    
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
     <title>GaussDB(DWS)数据库-基础篇</title>
     <link href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/"/>
     <id>https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/</id>
     <published>2025-08-03T12:22:00.000Z</published>
-    <updated>2025-08-03T12:45:05.273Z</updated>
+    <updated>2025-08-03T12:47:16.665Z</updated>
     
     
       
