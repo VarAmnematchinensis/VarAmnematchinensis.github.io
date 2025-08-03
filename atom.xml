@@ -6,7 +6,7 @@
   <link href="https://varamnematchinensis.github.io/atom.xml" rel="self"/>
   
   <link href="https://varamnematchinensis.github.io/"/>
-  <updated>2025-08-03T12:10:51.923Z</updated>
+  <updated>2025-08-03T12:25:05.936Z</updated>
   <id>https://varamnematchinensis.github.io/</id>
   
   <author>
@@ -17,23 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>GaussDB(DWS)数据库-基础篇</title>
     <link href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/"/>
     <id>https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/</id>
-    <published>2025-08-03T12:05:44.739Z</published>
-    <updated>2025-08-03T12:10:51.923Z</updated>
+    <published>2025-08-03T12:22:00.000Z</published>
+    <updated>2025-08-03T12:25:05.936Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;title: GaussDB(DWS)数据库-基础篇&lt;br&gt;summary: GaussDB(DWS)数据库-基础篇，主要介绍DWS数据仓库的基本概念和基础知识。&lt;br&gt;categories:</summary>
+    <summary type="html">&lt;h2 id=&quot;GaussDB-DWS&quot;&gt;&lt;a href=&quot;#GaussDB-DWS&quot; class=&quot;headerlink&quot;</summary>
         
       
     
     
     
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
