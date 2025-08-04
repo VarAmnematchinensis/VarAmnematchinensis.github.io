@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="GaussDB(DWS)数据库-基础篇, Amnematchinensis">
-    <meta name="description" content="GaussDB(DWS)数据库-基础篇，主要介绍DWS数据仓库的基本概念和基础知识。">
+    <meta name="keywords" content="GaussDB(DWS)数据库-性能调优和开发实践篇, Amnematchinensis">
+    <meta name="description" content="GaussDB(DWS)数据库-性能调优和开发实践篇，主要介绍性能调优、SQL调优、plan hint、SQL改写等方面。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GaussDB(DWS)数据库-基础篇 | Amnematchinensis</title>
+    <title>GaussDB(DWS)数据库-性能调优和开发实践篇 | Amnematchinensis</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -333,12 +333,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-基础篇</h1>
+                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-性能调优和开发实践篇</h1>
                 </div>
             </div>
         </div>
@@ -399,28 +399,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-08-03
+                    2025-08-04
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-08-03
+                    2025-08-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    5.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    20 分
                 </div>
                 
 
@@ -440,94 +440,331 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h2><p>软件架构：分为存算分离型和存算一体型，二者的区别在于DN和存储（Local-Disk）是否绑定在一起，绑定在一起为存算一体，否则为存算分离。</p>
-<h2 id="数据组件-7种类型"><a href="#数据组件-7种类型" class="headerlink" title="数据组件(7种类型)"></a>数据组件(7种类型)</h2><ol>
-<li>OM(运维管理模块、主备)：提供日常运维和配置管理功能，每个节点都部署</li>
-<li>CM(集群管理模块、主备)：自动化集群管理和监控各单元的物理资源使用情况，每个节点都部署。</li>
-<li>GTM(全局事务控制器，主备)：主要负责生成并维护全局事务ID、事务快照、时间戳等需要全局唯一的信息。DWS集群部署2个，一主一备，分布在不同节点上。</li>
-<li>WLM(工作负载管理)：控制资源分配，防止过载对系统冲击导致的业务拥塞和系统崩溃。内置在CN和DN实例中。</li>
-<li>CN(Coordinator Node,协调节点，多主)：主要处理请求分解、调度、结果返回。负责SQL解析和优化。决定对外业务访问能力，默认部署2个，最大支持5个。</li>
-<li>DN(Data Node,数据节点，主备从)：负责存储业务数据（支持行存、列存、混合存储）、执行数据查询任务以及向CN返回执行结果。决定对外业务处理能力。根据节点规格，每个节点部署2-4个，最大支持1024个。</li>
-<li>GDS Loader(多实例)：负责批量数据加载和并行加速。</li>
-</ol>
-<p>物理集群由3到多个节点组成，最大支持1024个，节点为ECS&#x2F;BMS.<br>数据组件分布：以最简的ECS+EVS结构为例。ECS负责计算资源（CPU+内存+DWS实例（CN+DN等））。EVS负责存储资源，每个DN挂载EVS盘。</p>
-<h2 id="DWS资源分配"><a href="#DWS资源分配" class="headerlink" title="DWS资源分配"></a>DWS资源分配</h2><ol>
-<li>CPU资源：20%+60%+20%：20%CPU资源用于系统运维，20%CPU资源用于数据接入入库业务，60%CPU资源用于数据分析业务,入库业务和分析业务资源隔离，互不影响。</li>
-<li>内存资源：默认GaussDB(DWS)使用内存占主机Linux系统可用内存的80%。GaussDB 200 默认关闭操作系统的虚拟内存。</li>
-<li>内存参数：<ul>
-<li>max_process_memory ：一个数据库节点（DN&#x2F;CN）可用的最大物理内存</li>
-<li>视图pv_total_memory_detail：查看一个数据库节点总的内存分配情况。</li>
+                <h3 id="性能调优"><a href="#性能调优" class="headerlink" title="性能调优"></a>性能调优</h3><ol>
+<li>定义：通过优化数据库系统的配置及SQL查询，以提高数据库性能和效率的过程。目的是消除性能瓶颈、减少响应时间、提高系统吞吐量和资源利用率，降低业务成本，从而提高系统稳定性，给用户带来更大的价值。</li>
+<li>SQL执行计划解析, 执行计划命令：<ul>
+<li>EXPLAIN VERBOSE + SQL语句(select&#x2F;update&#x2F;insert&#x2F;delete&#x2F;merge into&#x2F;create table as):获取详细执行信息，SQL语句不会真正执行 verbose</li>
+<li>EXPLAIN PERFORMANCE+ SQL语句(select&#x2F;update&#x2F;insert&#x2F;delete&#x2F;merge into&#x2F;create table as):获取详细执行信息。performance</li>
+</ul>
+</li>
+<li>verbose选项下打印详细计划信息中，plan information信息包括：<ul>
+<li>E-rows:算子估算输出行数</li>
+<li>E-distinct:单DN上算子distinct估计值</li>
+<li>E-memory:DN上每个算子估算的内存使用量，只有DN上执行的算子才会显示。某些场景会在估算的内存使用量后面使用括号，表示该算子在内存资源充足下的自动扩展内存上限。</li>
+<li>E-width:每个算子输出元祖的估算宽度</li>
+<li>E-costs:每个算子估算的执行代价</li>
+</ul>
+</li>
+<li>performance选项下打印执行信息中，和verbose相比，新增的相关信息：<ul>
+<li>A-time：算子实际执行时间，在DN上输出由[]括起来的，由逗号分割的两个值，分别表示算子在不同DN上执行的最短时间和最长时间。</li>
+<li>A-row：算子实际输出元祖数，是各个DN上算子输出元祖数总和。</li>
+<li>Peak memory：算子消耗内存峰值，在DN上输出由[]括起来的，由逗号分割的两个值，分别表示算子在不同DN上执行的最小内存消耗和最大内存消耗。</li>
+<li>A-width：算子每行元祖实际宽度，仅涉及重内存使用算子。</li>
+</ul>
+</li>
+<li>performance选项打印执行中的相关信息：<ul>
+<li>plan information:以表格形式显示整个执行过程中每个算子的执行概要信息。</li>
+<li>SQL Diagnostic information:SQL自诊断信息<ul>
+<li>verbose可诊断：统计信息未收集、分区不剪枝、SQL不下推</li>
+<li>performance可诊断：统计信息未收集、分区不剪枝、SQL不下推、HashJoin中大表做内表、大表等值连接使用Nestloop、大表Broadcast、数据倾斜、索引不合理。</li>
+</ul>
+</li>
+<li>predicate information:算子计算信息，如scan的filter条件，join的join条件</li>
+<li>Datanode information:算子在每个DN上执行的详细信息，包括执行时间、CPU、Buffer的使用情况。<ul>
+<li>执行时间（actual time）:如果这个值在各DN上存在较大差异，可初步判断存在计算倾斜（各DN上承担计算量差异过大）</li>
+<li>输出元祖数（rows）:结合执行时间进一步佐证是否存在计算倾斜。</li>
+<li>CPU执行cycle:在算子执行期间，执行所消耗的CPU cycle</li>
+<li>Buffer命中率（hit）:针对Scan算子做数据扫描时。从性能角度看，buffer命中率越高越好，这需要增大集群的shared_buffers(行存)、cstore_buffers(列存)的配置参数。</li>
+</ul>
+</li>
+<li>User Define information:性能profile信息，算子执行过程中的，关键动作性能打桩信息。</li>
+<li>Memory information:算子执行过程中的内存消耗信息。包括内存信息和下盘信息。</li>
+<li>Query Summary:query执行的概要信息。这部分打印总的执行时间和网络流量，包括各DN上初始化和结束阶段的最大最小执行时间、CN上的初始化、执行、结束阶段的时间、以及当前语句执行时系统可用内存、语句估算内存等信息。</li>
+</ul>
+</li>
+<li>性能分析主要关注Plan information&#x2F;SQL diagnostic ioformation&#x2F;predicate information&#x2F;Datanode information这4部分信息。在大集群下，对复杂SQL，建议使用explain analyze 打印概要的实际执行信息，避免打印各个节点信息太多导致执行计划过长</li>
+<li>执行计划类型：3种<ul>
+<li>FQS计划（fast query shipping）<ul>
+<li>CN直接将原语句下发的DN,各个DN单独执行，并将执行结果在CN上汇总。</li>
+</ul>
+</li>
+<li>Stream计划：<ul>
+<li>算子形态：GATHER&#x2F;REDISTRIBUTE&#x2F;BROADCAST</li>
+<li>CN根据原语句先生成执行计划，再将计划下发到DN执行，各DN执行过程中使用Stream算子进行数据交互。</li>
+</ul>
+</li>
+<li>Remote Query计划<ul>
+<li>CN生成执行计划后，将部分原语句下发到DN,各DN单独执行，执行后将结果发送给CN，CN执行剩余计划。</li>
+</ul>
+</li>
+<li>Explain执行计划:<ul>
+<li>ANALYZE | ANALYSE :显示实际运行时间和其他统计数据</li>
+<li>VERBOSE:显示有关计划的额外信息，例如输出列信息。</li>
+<li>COST: 包括每个规划节点的估计总成本，以及估计的行数和每行的宽度。</li>
+<li>CPU: 打印CPU的使用情况信息。</li>
+<li>DETAIL:打印DN上的信息。</li>
+<li>NODES:打印query执行的节点信息</li>
+<li>NUM_NODES:打印执行中的节点个数信息</li>
+<li>BUFFERS:包括缓冲区的使用情况信息</li>
+<li>TIMING:包括实际的启动时间和花费在输出节点上的时间信息。</li>
+<li>PLAN:是否将执行计划存储在plan_table中。</li>
+<li>FORMAT:指定输出格式</li>
+<li>GENERIC:显示将语句中的常数替换为参数后生成的generic计划</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TopSQL：<ul>
+<li>定义：将SQL的排队信息、运行信息（耗时、CPU、内存、IO、网络、空间）记录到一张系统表中，即作业级监控。</li>
+<li>功能：<ul>
+<li>确定影响数据库性能资源最密集的SQL查询</li>
+<li>监控和跟踪SQL查询，随时间推演的性能变化</li>
+<li>分析查询执行计划，以确定潜在的优化</li>
+</ul>
+</li>
+<li>分类:实时&#x2F;历史, 当前CN&#x2F;全部CN,级别都是query<ul>
+<li>实时当前CN:GS_WLM_SESSION_STATISTCS</li>
+<li>实时全部CN:PGXC_WLM_SESSIOIN_STATISTICS</li>
+<li>历史当前CN:GS_WLM_SESSION_INFO</li>
+<li>历史全部CN:PGXC_WLM_SESSION_INFO</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>历史TopSQL：<ul>
+<li>Topsql主要是通过视图进行承载，按照级别分为query&#x2F;perf&#x2F;operator</li>
+<li>query:SQL语句的计划信息，类似于explain输出信息，记录到Topsql中。</li>
+<li>perf:包含实际执行时间和执行行数的计划信息，类似于explain analyze输出信息，记录到Topsql中。</li>
+<li>operator:不仅会把包含实际执行时间和执行行数的信息记录到TopSql中，还会把算子级别执行信息，记录到Topsql中.</li>
+</ul>
+</li>
+<li>历史TopSQL视图记录了作业运行结束时的资源使用情况、运行状态信息和性能告警信息。<ul>
+<li>分类：级别（query&#x2F;perf+operator）+当前CN&#x2F;全部CN</li>
+<li>query&#x2F;perf级别当前CN: GS_WLM_SESSION_INFO</li>
+<li>query&#x2F;perf级别全部CN: PGXC_WLM_SESSION_INFO</li>
+<li>operator级别当前CN:GS_WLM_OPERATOR_INFO</li>
+<li>operator级别全部CN:PGXC_WLM_OPERATOR_INFO</li>
+</ul>
+</li>
+<li>TopSQL配置GUC参数：<ul>
+<li>实时TopSQL参数：运行中的语句记录<ul>
+<li>enable_resource_track(ON):资源实时监控开启，实时TopSQL总开关，关闭后实时TopSQL不再记录，不会出现在历史TopSQL中。</li>
+<li>resource_track_cost(0):执行代价阈值，对当前会话语句进行资源监控的，最小执行代码。</li>
+<li>resource_track_level(query):资源监控等级，当前会话的资源监控等级，默认为query级别。</li>
+</ul>
+</li>
+<li>历史TopSQL参数：运行完成的语句记录<ul>
+<li>enable_resource_record(on):资源监控记录归档，开启后，执行结束的记录会分布归档到相应INFO视图，CN和DN都需要设置上。</li>
+<li>resource_track_duration(60s):作业运行时间阈值，实时TopSQL中记录的语句执行结束后，进行历史转存的最小执行时间，其判断包含排队时间和运行时间，当排队时间+运行时间&gt;resource_track_duration时，Topsql历史视图会记录作业信息。当执行完成的作业，其执行时间不小于此参数值时，作业信息会从实时视图（statistics为后缀的视图）转存到相应的历史视图。</li>
+<li>topsql_retention_time(30天):历史数据老化周期，历史TopSQL当前CN视图（GS_WLM_SESSION_INFO、GS_WLM_OPERATOR_INFO）中数据保持时间，单位为天。</li>
+</ul>
+</li>
+<li>数据流转过程：作业运行-&gt;运行信息记录实时Topsql-&gt;作业运行结束-&gt;执行信息记录历史Topsql-&gt;结束。</li>
 </ul>
 </li>
 </ol>
-<h2 id="业务架构"><a href="#业务架构" class="headerlink" title="业务架构"></a>业务架构</h2><p>业务下发的SQL信息是如何在GaussDB(DWS)中的各个组件运行的。CN-&gt;DN-&gt;CN</p>
-<ol>
-<li>业务的查询信息先下发SQL到CN节点，其中的SQL信息可以是对数据的增删改查。</li>
-<li>CN通过优化器生成执行计划，DN按照执行计划处理数据</li>
-<li>在分布式存储中，数据处理的DN和数据存储DN不同，数据处理过程中需要从其他DN获取数据，通过stream流（广播流、聚合流和重分布流）降低数据在DN节点间的流动。</li>
-<li>DN返回数据处理结果给CN，CN汇总结果。</li>
-<li>CN将汇总结果返回给业务。</li>
+<h3 id="SQL调优"><a href="#SQL调优" class="headerlink" title="SQL调优"></a>SQL调优</h3><ol>
+<li>调优原则：也是唯一原则，资源利用最大化原则.其中资源包括CPU、内存、磁盘IO、网络IO,SQL语句应当尽量高效、节省资源开销，即以最优的执行方式实现功能。SQL语句应当充分利用资源，实现性能极致。</li>
+<li>调优分类和流程：先静态调优，再动态调优<ul>
+<li>静态调优：根据硬件资源和客户的业务特征，确定集群部署方案和表定义。集群部署方案和表定义一旦确定，后续改动的代价会比较大。</li>
+<li>动态调优：根据SQL语句执行的实际情况，采取针对性干预SQL执行计划的方式，提升性能。采取的手段包括：SQL改写，GUC参数干预，Plan Hint</li>
+</ul>
+</li>
+<li>静态调优手段(5种):表定义、存储类型、分布列、局部聚簇、分区表<ul>
+<li>表定义的目的：<ul>
+<li>表数据均匀分布在各个DN，选择合适分布列避免数据分布倾斜，防止单个DN数据过多导致集群有效容量下降。</li>
+<li>表Scan压力均匀分布在各个DN,避免单DN的scan压力过大，形成scan的单节点瓶颈。避免把基表上的等值filter中的列作为分布列。</li>
+</ul>
+</li>
+<li>存储类型：<ul>
+<li>用途：客户业务属性决定表的存储类型；存储类型决定存储格式，进而影响I&#x2F;O操作行为。</li>
+</ul>
+</li>
+<li>分类：<ul>
+<li>行存：适合点查询（返回记录少，基于索引的简单查询），增删改比较多的场景</li>
+<li>列存：统计分析类查询（group, join 多的场景），即席查询（查询条件列不确定，行存无法确定索引）</li>
+</ul>
+</li>
+<li>分布列：<ul>
+<li>分布列选择原则：列值应比较分撒，以便数据能够均匀分布都各个DN上。尽量不要选择存在常量等值过滤条件的列，避免DN剪枝后Scan集中到一个DN上。选择查询中的连接条件为分布列，以便join任务能够下推到DN中执行，而且可以减少DN间的通信数据量，建议选择join-condition或者group by 列为分布列。根据以上原则尽量根据业务特征选择hash分布方式，无法确定时可以选择roundrobin分布：</li>
+</ul>
+</li>
+<li>分布方式：复制（Replication）、哈希（Hash）、轮询（RoundRobin）<ul>
+<li>复制Replication:在集群中的每个DN实例上都有一份全量表数据。存在数据冗余。适用于小表、维表。join操作可减少重分布造成的网络开销。</li>
+<li>哈希（Hash）：数据通过hash方式散列到集群的所有DN实例上。适用于数据量大的表。读写数据可充分利用各个节点IO资源，提升读写速度。</li>
+<li>轮询（RoundRobin）：数据通过轮询方式发放到集群内所有DN实例上。适用于数据量大的表，而且各列都有严重倾斜的表。读写数据可充分利用各个节点IO资源，提升读写速度。</li>
+<li>分布方式分析和调整<ul>
+<li>判断数据是否存在存储倾斜：table_distribution()，不同DN的数据量，相差5%以上即可视为倾斜，相差10%以上，建议调整分布列。</li>
+<li>在线判断数据列是否存在倾斜：table_skewness()，</li>
+<li>调整分布列语法：<code> bash alter table table_name distribution by hash()/replication/roundrobin;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>局部聚簇（Partial Cluster Key，简称PCK）：<ul>
+<li>定义：列存储下的，一种通过min&#x2F;max稀疏索引，实现基表快速扫描的，一种索引技术。</li>
+<li>优化原理：入库时进行局部排序，来换取查询性能</li>
+<li>使用约束:列存表，一个列存表只能创建一个PCK。适用数据类型包括整型、时间类型和字符串类型。对于字符串数据类型，如果当前库的collate不为C，则只对表达式col &#x3D; Const起大加速查询的效果</li>
+<li>使用场景：<br>  -业务特征：大表大批量数据导入，每次导入数据量远大于DN数*6W。<br>  -基表存在大量形如col op Const约束，其中col为列名，const为常量值，op为操作符&#x3D;，&lt;, &gt; ,&lt;&#x3D;, &gt;&#x3D;<br>  -选择选择度比较高的简单表达式的列，建立PCK</li>
+<li>使用方法：在创建表的时候，指定PCK约束。在alter table语法中添加PCK约束（只对后续导入数据生效）</li>
+</ul>
+</li>
+<li>分区表<ul>
+<li>定义：把逻辑上的大表按照某种策略划分为几块物理块进行存储，逻辑上的大表成为分区表，每个物理块为一个分区。</li>
+<li>原理：在查询时，通过分区剪枝技术来尽可能减少底层数据扫描。</li>
+<li>适用场景：数据规模上的大表，业务特征为通过剪枝缩小查询范围。</li>
+<li>优势：改善查询性能、增强可用性、方便维护。</li>
+<li>分区键选择：将数据可以均匀映射到各个分区的列，常见分区键为时间列。</li>
+<li>分类：range分区和list分区</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>执行计划：<ul>
+<li>执行计划三要素：统计信息、优化器、配置参数<ul>
+<li>统计信息（表的数据特征）：包括表的元祖数，字段宽度、null记录比率，distinct值，MCV值（most common value）、hb值（直方图，数据分布概览区间）</li>
+<li>优化器（Cost-Based Optimization,CBO，基于代价的优化）：数据库根据大量的表数据特征，结合代价计算模型，通过代价估算，输出估算后的最优执行计划。其中统计信息是查询优化的核心输入，准确的统计信息可以帮助优化器选择最合适的查询计划。</li>
+<li>配置参数：GUC参数和HINT信息。配置参数直接干预优化器的路径选择。</li>
+<li>统计信息收集：使用analyze语法来收集整个表或者表的若干列统计信息。</li>
+<li>操作：大批量数据导入、更新、删除之后，及时analyze.</li>
+</ul>
+</li>
+<li>执行计划流程：<ul>
+<li>词法&amp;语法解析：按照约定SQL语句规则，输入SQL语句从字符串转化为格式化结构（Stmt）</li>
+<li>语义解析: 格式化结构转化为数据库可识别对象</li>
+<li>查询重写：根据规则，将语义解析的输出，等价转化为执行上更为优化的结构。</li>
+<li>查询优化：根据“查询重写”的输出和数据库内部的统计信息，规划SQL语句的具体执行方式。</li>
+<li>查询执行：根据“查询优化”规划的执行路径，执行SQL查询语句。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>动态调优：即执行态调优<ul>
+<li>定义：先跑query，判断性能是否满足客户需求，如果不满足，则进一步分析性能瓶颈点，进行针对性优化，重新试跑，一直到满足性能目标为止。</li>
+<li>步骤：<ul>
+<li>判断查询相关表是否已收集统计信息</li>
+<li>判断查询语句是否下推</li>
+<li>收集perfromance信息进行性能分析，并做针对性优化</li>
+<li>SQL改写优化</li>
+</ul>
+</li>
+<li><strong>统计信息收集</strong>：对统计信息前后的执行计划，做对比分析<ul>
+<li>E-rows：在没有收集统计信息的执行计划中，估计值E-row会比实际值小</li>
+<li>执行计划：在没有收集统计信息的执行计划中，出现两个低效的Nest loop算子。</li>
+</ul>
+</li>
+<li><strong>查询语句下推</strong>：<ul>
+<li>执行计划类型：并行计算能力是DWS数据库的性能优势</li>
+<li>优化器在分布式框架下有三种执行规划策略：<ul>
+<li>下推语句计划：CN发送查询语句到DN直接执行，执行结果返回给CN.计划特征：<em>REMOTE_FQS_QUERY</em></li>
+<li>分布式计划：CN先生成计划树，再发送计划树给DN执行，DN执行完成后，执行结果返回给CN.计划特征：Streaming(type: GATHER)</li>
+<li>不下推计划：CN承担大量计算任务，导致性能劣化。优化器先将部分查询（多为基表扫描语句）下推的DN中执行，将中间结果返回给CN,CN再执行执行计划剩下的部分。执行计划特征：REMOTE_XXX + Coordinator quals</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>不下推分析</strong>：<ul>
+<li>常见不下推原因：含有shippable属性且为false的函数语句不下推。</li>
+<li>问题定位手段：<ul>
+<li>Explain performance&#x2F;Explain verbose：对正在执行的SQL，使用explain performance&#x2F;explain verbose,在输出的自诊断信息（SQL Diagostic information）中会提示具体的不下推原因。</li>
+<li>TopSQL：历史执行信息会记录到系统表中，使用postgres库中的查询视图（历史全部DN的perf级）pgxc_wlm_session_info，获取历史SQL的执行信息，此表中的warning字段会记录对应的SQL语句不下推原因。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>performance分析</strong><ul>
+<li>explain performance优化：收集query执行信息，分析可能的性能问题，针对性优化</li>
+<li>重点关注信息：<ul>
+<li>算子：耗时占整体执行时间高的算子</li>
+<li>执行信息：DataNode information、Memory information、Targetlist information</li>
+</ul>
+</li>
+<li>算子瓶颈和优化策略：<ul>
+<li>Scan性能瓶颈：基表扫描元组数过多场景：增加索引，使用PCK， 使用分区</li>
+</ul>
+</li>
+<li>性能提升策略：<ul>
+<li>减少实际IO：针对点查询场景：增加索引，使用PCK(列存表)；针对范围查询场景：使用分区（优化IO）</li>
+<li>数据在各个DN分布不均衡场景：调整分布列方式。把Scan压力分散到各个DN上：是指数据倾斜，IO压力分布不均衡，performance信息中各DN扫描时间存在明显差异，优化策略是修改分布列</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Join性能瓶颈：<ul>
+<li>join方式选择不当场景：使用plan hint，增加索引</li>
+<li>join内外表选择不当场景：使用plan hint，改写SQL</li>
+<li>join类型：<ul>
+<li>定义：表链接join，根据特定规则从两个其他表（真实表或者生成表）中派生出的结果集。</li>
+<li>类型：在语法层，内连接（inner join）、外连接（outer join）、交叉连接（笛卡尔积， cross join）。inner是缺省的，left、right、full都是外连接，连接条件在on或using子句中指定。在内置实现支持：半连接（Semi join，in约束转化生成， 匹配上即命中）、反半连接（Anti Join, NOT IN约束转化生成，匹配上即排除）</li>
+</ul>
+</li>
+<li>join性能提升策略：<ul>
+<li>选择高效的join方式：通常情况下，hashjoin较为高效。改写SQL实现hashjoin,可以尝试将不等值join条件转化等值join条件。在部分特定场景下，nestloop+indexScan性能更好</li>
+<li>选择合适的内外表：hashjoin：内表小，外表大，执行更高效。或者使用plan hint 调整内外表顺序。</li>
+</ul>
+</li>
+</ul>
+</li>
 </ol>
-<h2 id="分布式架构优点"><a href="#分布式架构优点" class="headerlink" title="分布式架构优点"></a>分布式架构优点</h2><ol>
-<li>支持按需扩展，支持2048节点的超大规模，100PB级的数据容量.</li>
-<li>通过多层级的并行计算引擎，基于鲲鹏CPU的优化，软硬协同，性能相比于X86提升30%。</li>
-<li>通过支持事务ACID,实现全场景数据的一致性数据保障，支持双集群容灾，全组件HA设计，来实现高可用。</li>
-<li>兼容标准SQL 2003、JDBC和ODBC接口，全图形化的运维管理和开发工具，来实现高兼容性。</li>
-</ol>
-<h2 id="高性能"><a href="#高性能" class="headerlink" title="高性能"></a>高性能</h2><p>高斯数据库实现高性能的技术：全并行架构+分布式优化+行列混合引擎</p>
-<ol>
-<li>全并行架构：目的是解决如何利用x86的多核计算资源，如何解决鲲鹏众核的资源利用问题。解决方法：从大到小<ul>
-<li>MPP(节点并行)：在集群内并行，通过使用分布式执行框架，支持1000以上的服务器，万级CPU的并行计算 </li>
-<li>SMP(算子并行)：在查询内并行，通过多线程并行算法，从而实现在核心算子内的并行执行。众核支持，和NUMA架构优化。</li>
-<li>SIMD(指令级并行)：操作数归并，通过SIMD和向量化引擎    ，实现一个指令执行一批数据的操作，指令可以是x86或者鲲鹏指令.</li>
-<li>LLVM(动态编译)：指令数减少，通过将热点函数预编译成机器码，实现减少SQL执行指令数，从而提升性能。</li>
+<h3 id="plan-hint"><a href="#plan-hint" class="headerlink" title="plan hint"></a>plan hint</h3><ol>
+<li>定义：可直接影响执行计划生成的手段，目的是通过对执行计划的调优，提升查询性能。</li>
+<li>常见hint调优手段：<ul>
+<li>指定scan方法</li>
+<li>指定join方法、join顺序和join时的stream策略</li>
+<li>指定估算行数</li>
+<li>指定重分布过程中的倾斜信息</li>
+<li>配置参数的hint</li>
 </ul>
 </li>
-<li>分布式优化：用于分布式架构下最优执行计划的生成。<ul>
-<li>分布式查询重写:<ul>
-<li>解决问题：单机SQL逻辑无法实现分布式执行的问题</li>
-<li>解决方法：利用分布式查询重写技术，在分布式下消除NestLoop和子查询等查询瓶颈。</li>
+<li>使用要求：<ul>
+<li>plan hint仅支持在select关键字后面通过如下形式指定。</li>
+<li>可以同时指定多个hint，不同hint信息使用空格分隔。</li>
+<li>配置参数之外的hint 只能hint当前层的计划，对于子查询计划中的hint，需要在子查询的select关键字后面指定hint信息。</li>
+<li>在视图定义时指定hint， 该视图每次被调用时都会使用该hint信息。</li>
+<li>在视图定义时指定hint， 该视图每次被调用时都会使用该hint信息。表只能用单个字符串表示，不能带schema；表如果存在别名，需要优先使用别名来表示该表。</li>
 </ul>
 </li>
-<li>分布式计划生成：<ul>
-<li>解决问题：单机统计信息不能全面反应分布式数据特征</li>
-<li>解决方案：基于Poisson估算模型，单点和全局cost估算模型，local和Global结合数据处理估算模型，实现单机+全局的自动统计信息收集。</li>
+<li>语法格式：<ul>
+<li>在视图定义时指定hint， 该视图每次被调用时都会使用该hint信息。指定scan方法：[no] tablescan|indexscan|indexonlyscan(table [index]): no表示hint的scan方式不使用。table表示hint指定的表，只能指定一个表，如果表存在别名，应该优先使用别名进行hint。index表示使用indexscan或者indexonlyscan的hint时，指定的索引名称，当前只能指定一个。</li>
+<li>在视图定义时指定hint， 该视图每次被调用时都会使用该hint信息。指定join方法：[no] nestloop|hashjoin|mergejoin(table_list):no表示hint的join方式不使用。table_list是hint表集合的字符串，中间不允许出现括号指定join的优先级。<ul>
+<li>仅指定join顺序，不指定内外表顺序：leading(join_table_list)</li>
+<li>同时指定join顺序和内外表顺序，内外表顺序仅在最外层生效：leading((join_table_list))</li>
 </ul>
 </li>
-<li>分布式倾斜处理：<ul>
-<li>解决问题：数据倾斜导致的分布式执行出现木桶效应.</li>
-<li>解决方案：针对静态模型，使用分布式倾斜估算模型；针对动态模型，使用动态倾斜处理方案RLBT（Runtime Load Balance Technology）</li>
+<li>在视图定义时指定hint， 该视图每次被调用时都会使用该hint信息。指定估算行数：rows(table_list #|+|-|* const):<ul>
+<li>支持#，+，-，*四种操作符，#表示直接使用后面的行数，替换优化器中的估算行数，+、-、*表示对原来估算的行数进行加减乘操作。</li>
+<li>运算后的行数最小值为1行。table_list为hint对应的单表或者多表join结果集，与join的hint中的table_list相同。</li>
+<li>const可以是任意非负数，支持科学计数法</li>
+<li>支持绝对值和相对值的hint，常用于多表的join时，中间结果集估算表不准的场景。</li>
 </ul>
 </li>
+<li>在视图定义时指定hint， 该视图每次被调用时都会使用该hint信息。join顺序和join时的stream策略：[no] broadcast|redistribute(table_list):no表示hint的stream方式不使用。table为进行stream操作的单表或者多表join结果集。<ul>
+<li>stream hint 和join hint配合使用，先hint明确join顺序，然后hint明确中间结果集的数据流动方式。</li>
 </ul>
 </li>
-<li>行列混合引擎：分为查询引擎和存储引擎。查询引擎分为行存+列存<ul>
-<li>行存：适合高并发+短事务场景，例如点查询、数据更新、实时数据接入、并发增删改。</li>
-<li>列存：适合分析AP场景，例如分析统计分组聚合、统计分析、批量加载、访问大量行少数列。</li>
-<li>Delta列存：适合实时分析场景，例如实时分析同时进行实时插入和更新、实时插入更新进入行存Delta、实时分析基于列存+行存Delta<br>注意：Delta表是列存表附带的行存表，若创建列存表同时开启Delta表,插入列存表的数据也会以行存的形式保存。</li>
-</ul>
-</li>
-</ol>
-<h2 id="高扩展"><a href="#高扩展" class="headerlink" title="高扩展"></a>高扩展</h2><p>逻辑集群+异构扩展</p>
-<ol>
-<li>逻辑集群实现如下功能：通过使用CN+DN<ul>
-<li>逻辑统一+业务隔离：用逻辑集群实现DN层的计算存储资源隔离，从而实现业务隔离。</li>
-<li>数据共享：将不同逻辑集群的公共数据放到同一个逻辑集群中</li>
-<li>计算弹性：可以利用空闲集群的计算资源用于其他业务的作业。</li>
-</ul>
-</li>
-<li>异构扩展：用于冷数据的低成本管理<ul>
-<li>功能：用本地盘做性能加速，用OBS做冷数据区，实现数据存储异构，自动冷热数据迁移（2年以上冷数据）。<br>结果：分层存储+成本最优：按需选择存储和计算引擎，实现冷热数据的动态切换。</li>
 </ul>
 </li>
 </ol>
-<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p>主备从HA技术+多租户资源管理+可信安全+多层次多类型备份</p>
-<h3 id="主备从HA技术"><a href="#主备从HA技术" class="headerlink" title="主备从HA技术"></a>主备从HA技术</h3><p>功能：数据三重保护（主+备+从备）+容忍单副本故障+两副本提供HA保障。<br>主备流程：<br>正常情况：主机和备机通过日志+数据页流复制实现强同步，主机和从备仅保持连接，从备不占用额外存储资源<br>主机故障：集群管理器感知并仲裁备机升为主机，升级后的备机和从备进行主从强同步。<br>备机故障：主机自动感知，主机的未同步日志和数据发送给从备，实现主从强同步，主备同步利用内核底层实现主从同步切换，事务层不感知</p>
-<h3 id="多租户资源管理"><a href="#多租户资源管理" class="headerlink" title="多租户资源管理"></a>多租户资源管理</h3><p>和企业组织结构匹配+管理租户资源（计算+存储）+租户资源隔离（容器技术）+租户资源监控</p>
-<h3 id="多层级多类型备份"><a href="#多层级多类型备份" class="headerlink" title="多层级多类型备份"></a>多层级多类型备份</h3><p>多种介质：云备份推荐使用OBS备份，支持OBS&#x2F;NBU&#x2F;华为数据一体机<br>全量+增量备份：全量物理备份、差异增量、累积增量等类型备份<br>完全在线：备份期间不加锁，业务SQL无影响<br>全局一致性：备份全局一致性快照<br>细颗粒备份恢复：支持集群+schema级+表级备份恢复，支持就地集群恢复。<br>安全：加密传输。</p>
-<h2 id="融合分析"><a href="#融合分析" class="headerlink" title="融合分析"></a>融合分析</h2><p>支持直接读写HDFS&#x2F;OBS&#x2F;PostGIS数据：<br>数据源互通：可以读取Oracle&#x2F;Spark&#x2F;Hive数据库<br>外表机制：支持HDFS&#x2F;OBS&#x2F;MPP外表，读取HDFS&#x2F;OBS数据。<br>兼容性：兼容SQL2003、JDBC&#x2F;ODBC、SQL2003访问HDFS和OBS</p>
-<h2 id="智能运维"><a href="#智能运维" class="headerlink" title="智能运维"></a>智能运维</h2><p>适应场景：支持扩容加节点+扩容重分布+空间回收Vacuum full<br>快照策略：手动快照+自动快照<br>存储介质选择：OBS + NBU</p>
-<p>学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
+<h3 id="SQL改写"><a href="#SQL改写" class="headerlink" title="SQL改写"></a>SQL改写</h3><ol>
+<li>相关子链接改写：<ul>
+<li>场景：子查询和子链接性能较差。大部分场景，可提升为join进行优化；小部分场景，需要用户改写SQL进行优化。</li>
+<li>改写策略：在语义等价前提下，将子链接和子查询的查询语句，提升到外层查询进行关联查询。</li>
+</ul>
+</li>
+<li>join条件改写：等值join条件的join列增加非空过滤条件<ul>
+<li>场景：等值join，而且join列存在大量的null</li>
+<li>优化原理：null值和任何值比较的结果都是null，而且通过给关联列添加is not null，降低基表扫描输出的数据量，从而减少参与join运算的数据量</li>
+</ul>
+</li>
+<li>not in改写：not in 转为not exists<ul>
+<li>场景：子链接输出列上不存在null值，或者逻辑判断语义上不需要比较null值。</li>
+<li>优化原理：只输出where条件为true的结果。null 和任何值的比较操作都是null。null和bool类型的逻辑运算。</li>
+</ul>
+</li>
+</ol>
+<p>基于公开来源信息, 学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
 
                 
             </div>
@@ -554,7 +791,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/</a>
+                    <a href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AF%87/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -669,24 +906,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/">
+                <a href="/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-数据库管理篇">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-湖仓一体篇">
                         
-                        <span class="card-title">GaussDB(DWS)数据库-数据库管理篇</span>
+                        <span class="card-title">GaussDB(DWS)数据库-湖仓一体篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            GaussDB(DWS)数据库-数据库管理篇，主要介绍DWS数据仓库服务、引擎、表类型、事务、表、分区设计、索引、视图、序列、数据脱敏、审计日志等。
+                            GaussDB(DWS)数据库-湖仓一体，主要介绍数据湖、湖格式和元数据服务。
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-04
                         </span>
                         <span class="publish-author">
                             
@@ -730,31 +967,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/04/25/hello-world/">
+                <a href="/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-集群管理篇">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">GaussDB(DWS)数据库-集群管理篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
+                            GaussDB(DWS)数据库-集群管理篇，主要介绍集群创建与删除、集群监控管理、集群备份恢复管理、集群容灾管理、集群弹性伸缩管理、集群资源管理、智能运维等方面。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-04
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%B5%8B%E8%AF%95/" class="post-category">
-                                    测试
+                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    数据
                                 </a>
                             
                             
@@ -764,12 +1001,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Typora/">
-                        <span class="chip bg-color">Typora</span>
+                    <a href="/tags/GaussDB-DWS/">
+                        <span class="chip bg-color">GaussDB(DWS)</span>
                     </a>
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                        <span class="chip bg-color">数据仓库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                        <span class="chip bg-color">数据</span>
                     </a>
                     
                 </div>

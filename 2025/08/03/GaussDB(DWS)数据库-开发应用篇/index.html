@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="GaussDB(DWS)数据库-基础篇, Amnematchinensis">
-    <meta name="description" content="GaussDB(DWS)数据库-基础篇，主要介绍DWS数据仓库的基本概念和基础知识。">
+    <meta name="keywords" content="GaussDB(DWS)数据库-开发应用篇, Amnematchinensis">
+    <meta name="description" content="GaussDB(DWS)数据库-开发应用篇，主要介绍DWS驱动及ODBC/JDBC开发、SQL编辑器、数据集成工具、数据调度工具等。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GaussDB(DWS)数据库-基础篇 | Amnematchinensis</title>
+    <title>GaussDB(DWS)数据库-开发应用篇 | Amnematchinensis</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -333,12 +333,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-基础篇</h1>
+                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-开发应用篇</h1>
                 </div>
             </div>
         </div>
@@ -406,21 +406,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-08-03
+                    2025-08-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    3.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    11 分
                 </div>
                 
 
@@ -440,94 +440,169 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h2><p>软件架构：分为存算分离型和存算一体型，二者的区别在于DN和存储（Local-Disk）是否绑定在一起，绑定在一起为存算一体，否则为存算分离。</p>
-<h2 id="数据组件-7种类型"><a href="#数据组件-7种类型" class="headerlink" title="数据组件(7种类型)"></a>数据组件(7种类型)</h2><ol>
-<li>OM(运维管理模块、主备)：提供日常运维和配置管理功能，每个节点都部署</li>
-<li>CM(集群管理模块、主备)：自动化集群管理和监控各单元的物理资源使用情况，每个节点都部署。</li>
-<li>GTM(全局事务控制器，主备)：主要负责生成并维护全局事务ID、事务快照、时间戳等需要全局唯一的信息。DWS集群部署2个，一主一备，分布在不同节点上。</li>
-<li>WLM(工作负载管理)：控制资源分配，防止过载对系统冲击导致的业务拥塞和系统崩溃。内置在CN和DN实例中。</li>
-<li>CN(Coordinator Node,协调节点，多主)：主要处理请求分解、调度、结果返回。负责SQL解析和优化。决定对外业务访问能力，默认部署2个，最大支持5个。</li>
-<li>DN(Data Node,数据节点，主备从)：负责存储业务数据（支持行存、列存、混合存储）、执行数据查询任务以及向CN返回执行结果。决定对外业务处理能力。根据节点规格，每个节点部署2-4个，最大支持1024个。</li>
-<li>GDS Loader(多实例)：负责批量数据加载和并行加速。</li>
-</ol>
-<p>物理集群由3到多个节点组成，最大支持1024个，节点为ECS&#x2F;BMS.<br>数据组件分布：以最简的ECS+EVS结构为例。ECS负责计算资源（CPU+内存+DWS实例（CN+DN等））。EVS负责存储资源，每个DN挂载EVS盘。</p>
-<h2 id="DWS资源分配"><a href="#DWS资源分配" class="headerlink" title="DWS资源分配"></a>DWS资源分配</h2><ol>
-<li>CPU资源：20%+60%+20%：20%CPU资源用于系统运维，20%CPU资源用于数据接入入库业务，60%CPU资源用于数据分析业务,入库业务和分析业务资源隔离，互不影响。</li>
-<li>内存资源：默认GaussDB(DWS)使用内存占主机Linux系统可用内存的80%。GaussDB 200 默认关闭操作系统的虚拟内存。</li>
-<li>内存参数：<ul>
-<li>max_process_memory ：一个数据库节点（DN&#x2F;CN）可用的最大物理内存</li>
-<li>视图pv_total_memory_detail：查看一个数据库节点总的内存分配情况。</li>
+                <h3 id="DWS驱动及ODBC-JDBC开发"><a href="#DWS驱动及ODBC-JDBC开发" class="headerlink" title="DWS驱动及ODBC&#x2F;JDBC开发"></a>DWS驱动及ODBC&#x2F;JDBC开发</h3><ol>
+<li>DWS驱动：<ul>
+<li>驱动概念：数据库驱动是应用程序和数据库存储之间的一种接口，数据库厂商为某一开发语言环境，能够实现数据库调用而开发的类似“翻译员”功能的程序，将复杂的数据库操作和通讯抽象成为当前开发语言的访问接口。</li>
+</ul>
+</li>
+<li>支持驱动类型：JDBC、ODBC等，如果同时拥有不同版本的集群或者当前没有集群，单击“下载”时下载的依然是与现有集群版本相匹配的。</li>
+<li>驱动支持平台：JDBC没有平台限制，ODBC有支持平台限制（平台：X86、鲲鹏）</li>
+<li>JDBC应用程序开发：<ul>
+<li>JDBC整体架构（4层）：应用程序-&gt;JDBC Driver Interface-&gt;JDBC驱动-&gt;数据库。JAVA本身具有良好的平台移植性，这也直接导致JDBC的平台移植性比ODBC强很多。</li>
+<li>JDBC安全配置：配置JDBC包-&gt;加载驱动-&gt;连接数据库<ul>
+<li>gsjdbc4.jar:与PostgreSQL保持兼容的驱动包，其中类名、类结构与PostgreSQL驱动完全一致，曾经运行于PostgreSQL的应用程序可以直接移植到当前系统使用。主类名为“org.postgresql.Driver”，数据库连接的URL前缀为“jdbc:postgresql”</li>
+<li>gsjdbc200.jar:如果同一JVM进程内需要同时访问PostgreSQL及GaussDB(DWS)，请使用此驱动包。主类名为“com.huawei.gauss200.jdbc.Driver”,数据库连接的URL前缀为“jdbc:guassdb”，其余与gsjdbc4.jar相同。</li>
+</ul>
+</li>
+<li>配置注意事项：<ul>
+<li>连接参数：第三方工具通过JDBC连接DWS时，jdbc向DWS发起连接请求，会默认添加以下配置参数，详见jdbc代码ConnectionFactoryImpl类的实现。这些参数可能会导致JDBC客户端的行为与gsql客户端的行为不一致。如果实际期望和这些配置不符，建议在Java连接设置代码中显示设定这些参数。</li>
+<li>fetchsize:在应用程序中，如果需要使用fetchsize，必须关闭autocommit。开启autocommit，会令fetchsize失效。</li>
+<li>autocommit:在jdbc向DWS申请连接的代码中，建议显示打开autocommit开关。如果基于性能或者其他方面考虑，需要关闭autocommit时，需要应用程序自己来保证事务的提交。例如，在指定的业务SQL执行完之后做显式提交，特别是客户端退出之前务必保证所有的事务已经提交。</li>
+<li>CopyManager:在不使用ETL工具，数据入库实时性要求又比较高的情况下，建议在开发应用程序时，使用dws的jdbc驱动的CopyManager接口进行微批导入。</li>
+<li>释放连接：推荐使用连接池来限制应用程序的连接数。每执行一条SQL就连接一次数据库，是一种不好的SQL编写习惯。在应用程序完成作业任务之后，应当及时断开和dws的连接，释放资源。建议在任务中设置session超时时间参数。</li>
+<li>使用jdbc连接池，在将连接释放给连接池前，需要执行以下操作，重置会话环境。否则，可能会因为历史会话信息导致的对象冲突。如果在连接中设置了GUC参数，那么在将连接归还连接池之前，必须使用“SET SESSION AUTHORIZATION DEFAULT;RESET ALL;”将连接的状态清空。如果使用了临时表，那么在将连接归还连接池之前，必须将临时表删除。（常见报错：relation “xxx_tmp” already exists）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ODBC应用程序开发：<ul>
+<li>ODBC整体架构（5层）：应用程序-&gt;标准接口（ODBC API）-&gt; 驱动程序管理器（ODBC Driver Manager）-&gt;ODBC驱动-&gt;数据库</li>
+<li>数据源配置：Linux、windows</li>
+<li>Linux-ODBC数据源配置：<ul>
+<li>步骤（4个）：<ul>
+<li>安装ODBC驱动管理器：获取UnixODBC源码包，编译安装驱动管理器。备注：驱动默认安装在“&#x2F;usr&#x2F;local”目录下，生成数据源文件到“&#x2F;usr&#x2F;local&#x2F;etc”目录下，库文件生成在“&#x2F;usr&#x2F;local&#x2F;lib”目录下</li>
+<li>配置驱动</li>
+<li>安全组配置</li>
+<li>测试连接：使用isql -v GaussODBC(数据源名称)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>windows-ODBC数据源配置：<ul>
+<li>步骤<ul>
+<li>配置服务器：与Linux相同</li>
+<li>配置数据源（Windows自带驱动管理器，无需额外安装）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>应用程序调试：<ul>
+<li>ODBC应用程序调试需要在前面配置正确可用的环境下进行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>客户端连接管理<ul>
+<li>功能描述：JDBC和ODBC驱动在连接成功后会设置session级GUC参数connection_info.该参数包含连接数据库的驱动类型、驱动版本号、当前驱动的部署路径和进程属主用户，使用json格式记录。默认只显示driver_name和driver_version，driver_path和os_user的显示由用户控制，控制连接参数为ConnectionExtraInfo.connetion_info可以在pg_stat_activity和pgxc_stat_activity中查看。</li>
+<li>连接配置示例：<ul>
+<li>JDBC连接：在连接URL中增加connectionExtraInfo参数。</li>
+<li>ODBC连接：在“&#x2F;usr&#x2F;local&#x2F;etc&#x2F;odbc.ini”文件中追加ConnectionExtraInfo设置。</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
-<h2 id="业务架构"><a href="#业务架构" class="headerlink" title="业务架构"></a>业务架构</h2><p>业务下发的SQL信息是如何在GaussDB(DWS)中的各个组件运行的。CN-&gt;DN-&gt;CN</p>
-<ol>
-<li>业务的查询信息先下发SQL到CN节点，其中的SQL信息可以是对数据的增删改查。</li>
-<li>CN通过优化器生成执行计划，DN按照执行计划处理数据</li>
-<li>在分布式存储中，数据处理的DN和数据存储DN不同，数据处理过程中需要从其他DN获取数据，通过stream流（广播流、聚合流和重分布流）降低数据在DN节点间的流动。</li>
-<li>DN返回数据处理结果给CN，CN汇总结果。</li>
-<li>CN将汇总结果返回给业务。</li>
-</ol>
-<h2 id="分布式架构优点"><a href="#分布式架构优点" class="headerlink" title="分布式架构优点"></a>分布式架构优点</h2><ol>
-<li>支持按需扩展，支持2048节点的超大规模，100PB级的数据容量.</li>
-<li>通过多层级的并行计算引擎，基于鲲鹏CPU的优化，软硬协同，性能相比于X86提升30%。</li>
-<li>通过支持事务ACID,实现全场景数据的一致性数据保障，支持双集群容灾，全组件HA设计，来实现高可用。</li>
-<li>兼容标准SQL 2003、JDBC和ODBC接口，全图形化的运维管理和开发工具，来实现高兼容性。</li>
-</ol>
-<h2 id="高性能"><a href="#高性能" class="headerlink" title="高性能"></a>高性能</h2><p>高斯数据库实现高性能的技术：全并行架构+分布式优化+行列混合引擎</p>
-<ol>
-<li>全并行架构：目的是解决如何利用x86的多核计算资源，如何解决鲲鹏众核的资源利用问题。解决方法：从大到小<ul>
-<li>MPP(节点并行)：在集群内并行，通过使用分布式执行框架，支持1000以上的服务器，万级CPU的并行计算 </li>
-<li>SMP(算子并行)：在查询内并行，通过多线程并行算法，从而实现在核心算子内的并行执行。众核支持，和NUMA架构优化。</li>
-<li>SIMD(指令级并行)：操作数归并，通过SIMD和向量化引擎    ，实现一个指令执行一批数据的操作，指令可以是x86或者鲲鹏指令.</li>
-<li>LLVM(动态编译)：指令数减少，通过将热点函数预编译成机器码，实现减少SQL执行指令数，从而提升性能。</li>
-</ul>
-</li>
-<li>分布式优化：用于分布式架构下最优执行计划的生成。<ul>
-<li>分布式查询重写:<ul>
-<li>解决问题：单机SQL逻辑无法实现分布式执行的问题</li>
-<li>解决方法：利用分布式查询重写技术，在分布式下消除NestLoop和子查询等查询瓶颈。</li>
-</ul>
-</li>
-<li>分布式计划生成：<ul>
-<li>解决问题：单机统计信息不能全面反应分布式数据特征</li>
-<li>解决方案：基于Poisson估算模型，单点和全局cost估算模型，local和Global结合数据处理估算模型，实现单机+全局的自动统计信息收集。</li>
-</ul>
-</li>
-<li>分布式倾斜处理：<ul>
-<li>解决问题：数据倾斜导致的分布式执行出现木桶效应.</li>
-<li>解决方案：针对静态模型，使用分布式倾斜估算模型；针对动态模型，使用动态倾斜处理方案RLBT（Runtime Load Balance Technology）</li>
+<h3 id="SQL编辑器"><a href="#SQL编辑器" class="headerlink" title="SQL编辑器"></a>SQL编辑器</h3><ol>
+<li>SQL登录：IAM用户一键登录、自定义数据源登录<ul>
+<li>IAM用户一键登录：<ul>
+<li>用户可以直接使用IAM账号登录集群数据库，免除填写账号密码操作</li>
+<li>提供集群列表树展示当前用户拥有的所有集群，可以选择某一个集群直接双击打开集群。</li>
+<li>当前连接是用户的IAM账号直接登录，一键登录集群后，用户可以对账号进行赋权。</li>
+<li>登录后，就可以对集群数据库做一些开发运维等操作。</li>
+<li>限制要求：<ul>
+<li>使用IAM账号登录，首先需要有DWS Database Access角色权限，以及当前用户必须是子账号。</li>
+<li>对于集群版本有一些要求，集群版本要高于8.3.1.330.</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>行列混合引擎：分为查询引擎和存储引擎。查询引擎分为行存+列存<ul>
-<li>行存：适合高并发+短事务场景，例如点查询、数据更新、实时数据接入、并发增删改。</li>
-<li>列存：适合分析AP场景，例如分析统计分组聚合、统计分析、批量加载、访问大量行少数列。</li>
-<li>Delta列存：适合实时分析场景，例如实时分析同时进行实时插入和更新、实时插入更新进入行存Delta、实时分析基于列存+行存Delta<br>注意：Delta表是列存表附带的行存表，若创建列存表同时开启Delta表,插入列存表的数据也会以行存的形式保存。</li>
+<li>自定义数据源登录：<ul>
+<li>自定义数据源和传递连接方式类似，用户选择集群后，需要填用户名密码登录</li>
+<li>在创建连接之前会先提示测试连接，测试正常后可以正常保存。</li>
+<li>限制要求：<ul>
+<li>自定义连接对集群版本没有限制，有的只是一些语法上的兼容性，需要用户自定义根据集群版本来编写SQL</li>
+<li>数据源名称如果不填写，会根据集群名（用户名）来创建，注意一个用户下名称不可以重复</li>
 </ul>
 </li>
-</ol>
-<h2 id="高扩展"><a href="#高扩展" class="headerlink" title="高扩展"></a>高扩展</h2><p>逻辑集群+异构扩展</p>
-<ol>
-<li>逻辑集群实现如下功能：通过使用CN+DN<ul>
-<li>逻辑统一+业务隔离：用逻辑集群实现DN层的计算存储资源隔离，从而实现业务隔离。</li>
-<li>数据共享：将不同逻辑集群的公共数据放到同一个逻辑集群中</li>
-<li>计算弹性：可以利用空闲集群的计算资源用于其他业务的作业。</li>
 </ul>
 </li>
-<li>异构扩展：用于冷数据的低成本管理<ul>
-<li>功能：用本地盘做性能加速，用OBS做冷数据区，实现数据存储异构，自动冷热数据迁移（2年以上冷数据）。<br>结果：分层存储+成本最优：按需选择存储和计算引擎，实现冷热数据的动态切换。</li>
+</ul>
+</li>
+<li>元数据管理：<ul>
+<li>提供了库、模式、表等图形化界面管理，而且以树形方式来层级查看。</li>
+<li>提供树形结构来展现库、模式、表、索引等元数据列表，可以层级打开查看。</li>
+<li>每层节点也提供右键菜单做新增、修改、删除等操作。</li>
+<li>表提供批量操作列，索引，分区，约束信息。</li>
+<li>表，分区，视图支持直接打开数据操作，支持根据SQL条件过滤，表和分区还支持单条数据插入，修改和新增。</li>
+</ul>
+</li>
+<li>SQL分析执行：<ul>
+<li>SQL诊断军规，SQL拦截规则：<ul>
+<li>NULL校验：NULL值的比较只能使用IS [NOT] NULL方式，其他任何形式的逻辑判断都返回NULL。例如NULL &lt;&gt; NULL,NULL &#x3D; NULL和NULL &lt;&gt; 1 返回结果都是NULL.</li>
+<li>COUNT(col)：count(1) 会统计NULL值（真实行数），而count（col）不会统计。</li>
+<li>LIMIT和ORDER BY : DWS的分布式操作会导致数据跨节点流动，不带ORDER BY 的LIMIT 操作的，会导致输出结果随机。因此除非不关注结果集的稳定性，否则禁止不带ORDER BY 的LIMIT操作。</li>
+<li>不稳定函数：子查询中不能出现uuid_generate_v1(), sys_guid(),nextval等不稳定函数，会造成结果集的不稳定。</li>
+<li>NOT IN 校验：not in 子查询逻辑执行计划，走的是nestloop嵌套循环，在数据量大的情况下，非常容易出现性能问题；通过改写not exists之后，执行计划可以使用hashjoin哈希关联，性能能够得到极大的提升。</li>
+<li>join 代替exists: join 相比exists和in 具有更好的代码阅读性，SQL优化器相对更容易找到更精确的执行计划。</li>
+<li>select * : 不建议使用“select * ”这种写法，请明确指定列。</li>
+<li>ORDER BY: 子查询中禁止使用order by </li>
+<li>RETURNING: returning会导致语句不下推</li>
+<li>DISTINCT ON: distinct on 会导致语句不下推</li>
+<li>表关联数量：优化器是基于代价的优化器，表数据量越多，估算的偏差就越大，产生性能差的执行计划的风险就越大，所以每条SQL语句中关联的表个数不超过16个</li>
+<li>schema: 访问表需要加schema。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>脚本管理<ul>
+<li>目录：支持使用目录来管理SQL脚本，最多支持二级目录，每级目录支持创建10个文件夹，用户只能看到自己创建的目录和脚本。</li>
+<li>脚本：脚本保存到OBS桶中，可以在基础设置中设置默认桶地址，可选择目录进行管理，目录地址也会默认带到桶地址中。</li>
 </ul>
 </li>
 </ol>
-<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p>主备从HA技术+多租户资源管理+可信安全+多层次多类型备份</p>
-<h3 id="主备从HA技术"><a href="#主备从HA技术" class="headerlink" title="主备从HA技术"></a>主备从HA技术</h3><p>功能：数据三重保护（主+备+从备）+容忍单副本故障+两副本提供HA保障。<br>主备流程：<br>正常情况：主机和备机通过日志+数据页流复制实现强同步，主机和从备仅保持连接，从备不占用额外存储资源<br>主机故障：集群管理器感知并仲裁备机升为主机，升级后的备机和从备进行主从强同步。<br>备机故障：主机自动感知，主机的未同步日志和数据发送给从备，实现主从强同步，主备同步利用内核底层实现主从同步切换，事务层不感知</p>
-<h3 id="多租户资源管理"><a href="#多租户资源管理" class="headerlink" title="多租户资源管理"></a>多租户资源管理</h3><p>和企业组织结构匹配+管理租户资源（计算+存储）+租户资源隔离（容器技术）+租户资源监控</p>
-<h3 id="多层级多类型备份"><a href="#多层级多类型备份" class="headerlink" title="多层级多类型备份"></a>多层级多类型备份</h3><p>多种介质：云备份推荐使用OBS备份，支持OBS&#x2F;NBU&#x2F;华为数据一体机<br>全量+增量备份：全量物理备份、差异增量、累积增量等类型备份<br>完全在线：备份期间不加锁，业务SQL无影响<br>全局一致性：备份全局一致性快照<br>细颗粒备份恢复：支持集群+schema级+表级备份恢复，支持就地集群恢复。<br>安全：加密传输。</p>
-<h2 id="融合分析"><a href="#融合分析" class="headerlink" title="融合分析"></a>融合分析</h2><p>支持直接读写HDFS&#x2F;OBS&#x2F;PostGIS数据：<br>数据源互通：可以读取Oracle&#x2F;Spark&#x2F;Hive数据库<br>外表机制：支持HDFS&#x2F;OBS&#x2F;MPP外表，读取HDFS&#x2F;OBS数据。<br>兼容性：兼容SQL2003、JDBC&#x2F;ODBC、SQL2003访问HDFS和OBS</p>
-<h2 id="智能运维"><a href="#智能运维" class="headerlink" title="智能运维"></a>智能运维</h2><p>适应场景：支持扩容加节点+扩容重分布+空间回收Vacuum full<br>快照策略：手动快照+自动快照<br>存储介质选择：OBS + NBU</p>
-<p>学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
+<h3 id="数据集成工具"><a href="#数据集成工具" class="headerlink" title="数据集成工具"></a>数据集成工具</h3><ol>
+<li>实时同步服务：<ul>
+<li>定义： 实时同步服务是DWS 团队根据特性孵化出的，一个简便易用、高性能的、从Kafka同步数据到DWS的服务化工具。其入库时可采用DWS内部协议，以减少对DWS集群的资源消耗，同步提升入库性能。</li>
+</ul>
+</li>
+<li>创建实时同步服务实例：<ul>
+<li>创建时填写对应参数，然后点击立即购买，等待创建完成后，就会按需在后台创建好一个资源池，后续运行的作业将会从资源池中分配一定资源供作业运行；资源池统一使用CU分配资源，规格中的CPU数量即为CU数量，内存不可直接控制，他们会按照CPU内存比按照比例分配，例如创建的实例规格为4U16GB,创建时选择3节点，那么总资源 &#x3D; 4 CU * 3 &#x3D; 12CU,每个CU内存大学4GB.</li>
+</ul>
+</li>
+<li>实时同步服务连接配置：<ul>
+<li>连接配置用于配置Kafka、DWS的连接信息，一份配置所有作业均可使用，以便于后面在提交作业时可以直接使用，不用每个作业都配置一份。</li>
+<li>当前支持Kafka和dws两种类型的连接，连接名称只用于业务区分，无实际含义，Kafka的服务地址需要是带端口的连接串，并且保证是VPC能访问的IP;dws的连接地址是一个包含协议的完整JDBC连接串，同时也需要是能在VPC内能访问的IP.</li>
+</ul>
+</li>
+</ol>
+<h3 id="数据调度工具"><a href="#数据调度工具" class="headerlink" title="数据调度工具"></a>数据调度工具</h3><ol>
+<li>Airflow基础：<ul>
+<li>定义：Apache Airflow是一个开源平台，用于开发、调度和监控，面向批处理的工作流程。</li>
+<li>是可扩展Python框架，主要特点是所有工作流都用Python代码定义，有如下优点：<ul>
+<li>动态：Airflow管道配置为Python代码，允许动态管道生成。</li>
+<li>可扩展：Airflow框架包含可连接多种技术的运算符。所有Airflow组件都可扩展，可轻松适应运行环境。</li>
+<li>灵活：利用Jinja模板引擎，内置工作流参数化。</li>
+</ul>
+</li>
+<li>架构组件（5）：分布式架构<ul>
+<li>Worker: 执行分配的任务</li>
+<li>Scheduler: 负责将必要的任务添加到队列中</li>
+<li>Web Server: HTTP服务器，提供对DAG&#x2F;任务状态等信息的访问</li>
+<li>Database: 存储有关任务、DAG、变量、连接等状态的信息</li>
+<li>Celery: Broker、Result backend</li>
+<li>Broker: 存储要执行的任务。</li>
+<li>Result backend : 存储已完成任务的状态。</li>
+</ul>
+</li>
+<li>Airflow删除：当用户不需要使用某个集群时，可以删除该集群。删除的集群无法恢复，同时集群中的用户数据，已执行任务的历史记录，也会自动删除，而且无法再访问。删除集群时，不会删除集群使用的DAG文件。</li>
+</ul>
+</li>
+<li>注意要点：<ul>
+<li>访问DWS时，建议在Airflow中新建连接，通过base_hook获取连接ID，获取对应数仓的连接信息。避免在DAG文件中，硬编码数仓密码。</li>
+</ul>
+</li>
+</ol>
+<p>基于公开来源信息, 学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
 
                 
             </div>
@@ -554,7 +629,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/</a>
+                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%AF%87/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -669,19 +744,19 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/">
+                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-数据库管理篇">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-导入导出篇">
                         
-                        <span class="card-title">GaussDB(DWS)数据库-数据库管理篇</span>
+                        <span class="card-title">GaussDB(DWS)数据库-导入导出篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            GaussDB(DWS)数据库-数据库管理篇，主要介绍DWS数据仓库服务、引擎、表类型、事务、表、分区设计、索引、视图、序列、数据脱敏、审计日志等。
+                            GaussDB(DWS)数据库-导入导出篇，主要介绍DWS数据仓库的主要的入库和出库的方式：外表、GDS、Flink。同时说明了DWS如何利用Flink来构建实时数仓，进而实现实时增量读和实时入库。
                         
                     </div>
                     <div class="publish-info">
@@ -730,31 +805,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/04/25/hello-world/">
+                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-数据库管理篇">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">GaussDB(DWS)数据库-数据库管理篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
+                            GaussDB(DWS)数据库-数据库管理篇，主要介绍DWS数据仓库服务、引擎、表类型、事务、表、分区设计、索引、视图、序列、数据脱敏、审计日志等。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%B5%8B%E8%AF%95/" class="post-category">
-                                    测试
+                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    数据
                                 </a>
                             
                             
@@ -764,12 +839,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Typora/">
-                        <span class="chip bg-color">Typora</span>
+                    <a href="/tags/GaussDB-DWS/">
+                        <span class="chip bg-color">GaussDB(DWS)</span>
                     </a>
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                        <span class="chip bg-color">数据仓库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                        <span class="chip bg-color">数据</span>
                     </a>
                     
                 </div>

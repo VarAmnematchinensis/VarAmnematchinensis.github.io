@@ -6,7 +6,7 @@
   <link href="https://varamnematchinensis.github.io/atom.xml" rel="self"/>
   
   <link href="https://varamnematchinensis.github.io/"/>
-  <updated>2025-08-03T14:12:29.683Z</updated>
+  <updated>2025-08-04T13:50:40.110Z</updated>
   <id>https://varamnematchinensis.github.io/</id>
   
   <author>
@@ -15,6 +15,134 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GaussDB(DWS)数据库-巡检运维篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A1%E6%A3%80%E8%BF%90%E7%BB%B4%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A1%E6%A3%80%E8%BF%90%E7%BB%B4%E7%AF%87/</id>
+    <published>2025-08-04T12:22:00.000Z</published>
+    <updated>2025-08-04T13:50:40.110Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;基本运维动作&quot;&gt;&lt;a href=&quot;#基本运维动作&quot; class=&quot;headerlink&quot; title=&quot;基本运维动作&quot;&gt;&lt;/a&gt;基本运维动作&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;常用运维命令：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查看集群状态或单个主机的状态：cm_ctl</summary>
+        
+      
+    
+    
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GaussDB(DWS)数据库-湖仓一体篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93/"/>
+    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93/</id>
+    <published>2025-08-04T12:22:00.000Z</published>
+    <updated>2025-08-04T13:25:33.283Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;hr&gt;
+&lt;h2 id=&quot;湖仓一体&quot;&gt;&lt;a href=&quot;#湖仓一体&quot; class=&quot;headerlink&quot; title=&quot;湖仓一体&quot;&gt;&lt;/a&gt;湖仓一体&lt;/h2&gt;&lt;p&gt;湖仓一体：lake</summary>
+        
+      
+    
+    
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GaussDB(DWS)数据库-性能调优和开发实践篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AF%87/</id>
+    <published>2025-08-04T12:22:00.000Z</published>
+    <updated>2025-08-04T15:08:21.066Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;性能调优&quot;&gt;&lt;a href=&quot;#性能调优&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GaussDB(DWS)数据库-集群管理篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E7%AF%87/</id>
+    <published>2025-08-04T12:22:00.000Z</published>
+    <updated>2025-08-04T13:27:31.230Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;集群创建与删除&quot;&gt;&lt;a href=&quot;#集群创建与删除&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
   
   <entry>
     <title>GaussDB(DWS)数据库-导入导出篇</title>
@@ -29,6 +157,68 @@
         
         
     <summary type="html">&lt;h2 id=&quot;DWS外表&quot;&gt;&lt;a href=&quot;#DWS外表&quot; class=&quot;headerlink&quot; title=&quot;DWS外表&quot;&gt;&lt;/a&gt;DWS外表&lt;/h2&gt;&lt;p&gt;外表定义(Foregin</summary>
+        
+      
+    
+    
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GaussDB(DWS)数据库-开发应用篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%AF%87/</id>
+    <published>2025-08-03T13:34:00.000Z</published>
+    <updated>2025-08-04T14:23:42.876Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;DWS驱动及ODBC-JDBC开发&quot;&gt;&lt;a href=&quot;#DWS驱动及ODBC-JDBC开发&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
+    
+    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GaussDB(DWS)数据库-数据库管理篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/</id>
+    <published>2025-08-03T13:34:00.000Z</published>
+    <updated>2025-08-04T15:10:03.091Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;DWS数据仓库服务：&quot;&gt;&lt;a href=&quot;#DWS数据仓库服务：&quot; class=&quot;headerlink&quot;</summary>
         
       
     

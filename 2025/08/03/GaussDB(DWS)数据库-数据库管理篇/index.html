@@ -1,0 +1,1777 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="GaussDB(DWS)数据库-数据库管理篇, Amnematchinensis">
+    <meta name="description" content="GaussDB(DWS)数据库-数据库管理篇，主要介绍DWS数据仓库服务、引擎、表类型、事务、表、分区设计、索引、视图、序列、数据脱敏、审计日志等。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>GaussDB(DWS)数据库-数据库管理篇 | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-数据库管理篇</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/GaussDB-DWS/">
+                                <span class="chip bg-color">GaussDB(DWS)</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                                <span class="chip bg-color">数据库</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                                <span class="chip bg-color">数据仓库</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                                <span class="chip bg-color">数据</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
+                                数据
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-08-03
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-08-04
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    9.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    34 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="DWS数据仓库服务："><a href="#DWS数据仓库服务：" class="headerlink" title="DWS数据仓库服务："></a>DWS数据仓库服务：</h3><ol>
+<li>特点：在线数据分析处理、即开即用、可扩展、完全托管、分析型数据库</li>
+<li>兼容性：兼容SQL92、SQL99、SQL2003语法、兼容PostgreSQL&#x2F;Oracle&#x2F;Teradata&#x2F;Mysql等数据库生态。</li>
+</ol>
+<h3 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h3><ol>
+<li>用途：组织和管理数据存储</li>
+<li>使用：SQL语句从客户端发到SQL引擎，先进行语法分析，经过SQL引擎的优化器生成执行计划，SQL引擎的执行器和存储引擎交互，存储引擎支持行存和列存（普通列存表和HStore&#x2F;HStore OPT表），并分别提供存储访问接口。</li>
+</ol>
+<h3 id="行存储引擎"><a href="#行存储引擎" class="headerlink" title="行存储引擎"></a>行存储引擎</h3><ol>
+<li>行存表page页面组件：页头（page header）+空闲时间（free space）+数据（heap tuple）</li>
+<li>页头（page header）各字段存储信息如下：<ul>
+<li>tuple:一行数据为一个tuple</li>
+<li>free space:行指针的末尾与最新元祖起始位置之间的空余空间。</li>
+<li>heap tuple:存储实际数据的地方。</li>
+</ul>
+</li>
+</ol>
+<h3 id="列存储引擎"><a href="#列存储引擎" class="headerlink" title="列存储引擎"></a>列存储引擎</h3><ol>
+<li>列存储引擎的最小存储单元是CU(Compression Unit,压缩单元)，一个CU是由表中某一列的一部分数据组成的压缩数据块，可以通过CU_ID,COL_ID标识一个CU.</li>
+<li>列存储引擎架构：辅助表+场景</li>
+<li>辅助表用途：行存表，辅助列存储的实现，用于记录存储的元信息，或者用于提升存储效率。</li>
+<li>辅助表分类：<ul>
+<li>CUDesc表：用于记录CU的事务时间戳、CU大小、存储位置、magic校验码、min&#x2F;max等信息。</li>
+<li>delta表：由表级参数enable_delta来控制是否开启。表主要用于缓存列存表的入库数据，等攒批后再刷到CU中。</li>
+<li>查询：可以通过查询pg_class得到列存储引擎辅助表信息。</li>
+</ul>
+</li>
+<li>适用场景：<ul>
+<li>实时场景（性能）：<ul>
+<li>Hstore表：可用于增强实时场景下的小批量DML性能，兼容列存2.0.可以切换。</li>
+<li>Hstore opt表：与Hstore相比，增强入库和查询能力，但是不兼容老数据。</li>
+</ul>
+</li>
+<li>海量数据场景（数据）：<ul>
+<li>冷热表：自动将冷数据放到OBS服务中存储，从而降低数据存储成本，保障热数据性能。</li>
+<li>存算分离表：将数据完全存放到OBS存储中，并根据性能和存储可以选择相应的规格。</li>
+</ul>
+</li>
+<li>兼容性：Hstore表、Hstore opt表、列存2.0都可以兼容冷热表和存算分离表。</li>
+</ul>
+</li>
+</ol>
+<h3 id="表类型（6种）"><a href="#表类型（6种）" class="headerlink" title="表类型（6种）"></a>表类型（6种）</h3><p>行存表+列存表+Hstore+Hstore opt+冷热表+存算分离表</p>
+<ol>
+<li>行存表：<ul>
+<li>直接使用create table建立的表，默认为行存表，使用B-Tree索引。</li>
+<li>B-Tree索引特点：<ul>
+<li>索引结构：B-Tree（平衡树）是一种有序树，每个节点包含多个键，并且子节点的键值范围是确定的。</li>
+<li>索引优势：高效支持范围查询、等值查询、排序操作。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>列存表：<ul>
+<li>建表时指定参数orientation &#x3D; column，建立列存表。</li>
+<li>列存参数：<ul>
+<li>compress_level: 指定压缩级别（low, middle, high）</li>
+<li>max_batchrows:CU内最大行数，默认6w行。</li>
+<li>column_version:1.0&#x2F;2.0&#x2F;3.0(存算分离)</li>
+</ul>
+</li>
+<li>列索引：<ul>
+<li>Gin索引：基于B-tree树结构的倒排索引，用于存储被索引字段的value或者value的元素，适应于数组过滤、全文检索的场景。</li>
+<li>Gist索引：通用索引接口，用于不同类型支持不同索引方式，适用于位置索引。</li>
+<li>PSort索引：用于对该列进行聚簇排序，目的是提升查询过滤性能。</li>
+<li>CBTree索引：列存表的B-Tree索引，原理和行存相同。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Hstore表：<ul>
+<li>建表：with参数enable_hstore指定为开启，则开启Hstore表，或者通过alter修改为普遍列存表。是实时数仓中设计的表类型，用于将insert&#x2F;update&#x2F;upsert等操作实时快速入库。</li>
+<li>功能：<ul>
+<li>支持异步排序：当指定Psort后，对存量未排序数据在后台排序，风险是在压力大时会造成Delta膨胀。</li>
+<li>支持小CU合并：将小CU在后台合并为一个新CU，提升实时能力。</li>
+<li>单条或者小批量IUD(insert&#x2F;update&#x2F;delete)操作高并发实时入库，支持大批量定期入库。</li>
+<li>支持冷热数据管理。</li>
+</ul>
+</li>
+<li>适配场景：实时入库和实时查询强诉求场景，同时拥有处理传统TP场景事务能力。版本：8.2.0.100及以上集群版本支持</li>
+<li>与普通列存表的差异：主要的辅助表Delta表的差异：<ul>
+<li>Hstoreb表的delta表：表结构上和主表定义不一致，功能上用于持久化存储update&#x2F;delete&#x2F;insert信息。缺点是依赖后台常驻autovacuum来执行merge操作。</li>
+<li>列存表的delta表：表结构上和列存主表定义一致，功能上用于暂存小批量insert数据，达到阈值后统一merge到主表，避免直接insert到主表产生大量CU,缺点是如果来不及merge，会导致delta表膨胀，进而影响查询性能，同时无法解决并发update的锁冲突问题。</li>
+</ul>
+</li>
+<li>注意要点：<ul>
+<li>表级参数enable_dalta和enable_hstore不能同时开启，原因是enable_delta用于普通列存表的delta表开启，与enable_hstore冲突。</li>
+<li>Hstore表只支持col_version 2.0版本。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Hstroe opt表：<ul>
+<li>建表:前提是列存表，在with参数enable_hstore_opt指定为开启。或者和enable_hstore同时指定。当hstore_opt开启时，不能通过alter关闭。opt会默认打开turbo属性，除非手动关闭。</li>
+<li>功能：<ul>
+<li>支持异步排序和小CU合并：和Hstore表相同，但是没有delta表膨胀的问题。</li>
+<li>支持Bitmap columns索引：使用bitmap_columns &#x3D; “列名1，列名2”指定。此索引只针对varchar&#x2F;text类型，并且字符长度不能大于127，只正对基数特征比较明显的列。在低基数时，内部会使用bitmap配合字典压缩存储数据，在高基数时，通过bloomfilter生成hash的bit列加速过滤。</li>
+</ul>
+</li>
+<li>Hstore OPT表和Hstore表在辅助表方面的差异：<ul>
+<li>CUDesc辅助表:</li>
+<li>Hstore OPT表结构的cudesc和hstore不一致，支持二级分区等特性。</li>
+<li>Hstore表结构的cudesc和列存一致，因此可以切换。</li>
+<li>Delta辅助表：</li>
+<li>Hstore opt表结构的delta表定义和hstore一致，cudesc和hstore不一致。</li>
+<li>而Hstore的表结构的delta表定义和列存不一致。cudesc和列存一致。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>冷热表：<ul>
+<li>定义：在时间场景，数据按照时间可划分为：热数据和冷数据。</li>
+<li>热数据Hot:被频繁查询或更新，对访问的响应时间要求高的数据。</li>
+<li>冷数据Cold:不允许更新，偶尔查询，对访问的响应时间要求不高的数据。</li>
+<li>通过定义冷热表，将符合规则的冷数据切换到OBS上存储，按照分区自动进行冷热数据判断和迁移。</li>
+<li>切换策略模式：<ul>
+<li>LMT(Last Modify Time，最后修改时间)：根据分区的最后更新时间进行切换，切换数据为切换[day]天前的分区数据为冷数据，迁移到OBS表空间，其中[day]范围：0到36500天。</li>
+<li>HPN(Hot Partition Number，热分区数量)：保留指定数量的热分区。分区顺序根据分区的序列ID（Sequence id）确定，ID由分区边界值大小生成，切换时，将数据迁移到OBS表空间。HPN范围；0到1600。</li>
+</ul>
+</li>
+<li>建表：<ul>
+<li>创建OBS tablespace，指定OBS路径</li>
+<li>建表，选项中指定orientation &#x3D; column, cold_tablespace &#x3D;’’, storage_policy。cold_tablespace表空间为必选项，storage_policy冷热数据切换规则，必选项。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>存算分离表：<ul>
+<li>背景：用于实现计算层和存储层独立增加节点并行互不打扰。</li>
+<li>建表：<ul>
+<li>先建立OBS tablespace 表空间，和冷热表一致。</li>
+<li>创建逻辑集群</li>
+<li>创建表，指定col_version &#x3D; 3.0，即可创建存算分离表。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不同表的优劣：<ul>
+<li>行存表：适合少量数据，对实时性要求较高的场景。</li>
+<li>列存表1.0&#x2F;2.0: 并发能力弱于Hstore表,不推荐</li>
+<li>Hstore:维批copy，无更新入库场景，性能要求要的情况下使用。</li>
+<li>Hstore opt:对列式存储有实时场景需求，当前推荐版本。</li>
+<li>冷热表：在业务系统中，用户对不同时期数据，有不同使用需求时使用，可以和Hstore OPT同时使用。</li>
+<li>存算分离表：云原生环境下，需要分别增减计算和储存节点的场景下使用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><ol>
+<li>定义：是数据库系统执行过程中的一个逻辑单位，由一组有限数据库操作序列构成，包括对数据库的读写操作。</li>
+<li>要点：<ul>
+<li>若事务被提交后，数据库需要确保事务中的所有操作成功完成，并且结构永久保持。</li>
+<li>若事务中有操作没成功完成，则所有操作全部回滚，恢复事务执行前的状态。</li>
+<li>每个事务对其他事务无影响。</li>
+<li>并非任意对数据库操作的序列都是数据库事务，事务要满足ACID特性。</li>
+<li>在进行多个相关更改时，一个事务内执行多个语句有助于保证一致性；在所有相关更改完成前，其他会话不能看见中间状态。</li>
+</ul>
+</li>
+<li>事务分类：显性事务+自动提交事务<ul>
+<li>显性事务：begin开始事务块，所有begin命令后的所有语句都在一个事务中执行，直到给出一个显示的commit或者rollback.</li>
+<li>自动提交事务：默认情况下，数据自动提交模式中执行事务（没有begin块）。每个语句都在自己的事务中执行并且在语句结束时隐式执行一次提交，若失败会完成一次回滚。</li>
+</ul>
+</li>
+<li>事务性质ACID:<ul>
+<li>原子性（Atomicity）:一个事务要么全做，要么全不做。</li>
+<li>一致性（Consistency）:事务执行前后，数据都是正确的，不存在矛盾。</li>
+<li>隔离性（Isolation）:不同事务之间不会相互影响。</li>
+<li>持久性（Durability）:事务提交后，对数据库的改变不会消失。</li>
+</ul>
+</li>
+<li>ACID实现原理：</li>
+<li>原则性（Atomicity）:<ul>
+<li>通过分配的唯一标识事务号（XID）区分不同事务，是单调递增数据，用于事务提交和回滚。事务在修改（insert&#x2F;update&#x2F;delete）前先获取事务号，采用64位bit的XID；通过txid_current（）查询事务号。</li>
+<li>事务提交日志（Commit Log,CLog）:用于记录事务执行结果的状态。事务提交，CLog中记录commit;事务回滚，CLog中记录abort.</li>
+<li>用途：查询事务修改是否有效，只需要查询事务对应的CLog状态。</li>
+</ul>
+</li>
+<li>查询函数:<ul>
+<li>pgxc_is_committed():查询事务状态</li>
+<li>pgxc_xacts_iscommitted():查询各节点事务状态。</li>
+<li>注意要点：CLog日志记录了事务的提交和回滚的状态，不得随意删除或者移动。</li>
+</ul>
+</li>
+<li>一致性Consistency和隔离性Isolation：任何事务都感受不到有其他事务在系统中并发地执行。<ul>
+<li>典型读取问题<ul>
+<li>脏读：一个事务读取另一个未提交事务写入的数据。</li>
+<li>不可重复读：一个事务重新读取之前读取过的数据，发现该数据已经被其他已提交事务修改。</li>
+<li>幻读：一个事务重新执行一个查询，返回符合查询结果的行，发现这些行由于其他最近提交的事务而发生改变（行的增加、减少或者更新）</li>
+</ul>
+</li>
+<li>隔离级别和容易出现的问题：<ul>
+<li>未提交读（read uncommitted）:脏读+不可重复读+幻读</li>
+<li>已提交读（read committed）：不可重复读+幻读</li>
+<li>可重复读（rapeatable read）:幻读</li>
+</ul>
+</li>
+<li>快照：<ul>
+<li>定义：当前时刻所有活跃事务号的集合。</li>
+<li>特点：扫描数据时，每个事务看到的只是获取快照那一刻的数据，而不是数据的当前最新状态，从而避免一个事务看到其他并发事务的更新而导致的不一致数据。</li>
+<li>可见性：针对某条数据对当前查询中是否可见。</li>
+<li>可见情况如下：<ul>
+<li>快照中活跃事务的修改不可见</li>
+<li>事务启动前提交的事务，其修改可见</li>
+<li>事务启动后提交的事务，其修改不可见。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>注意要点：DWS默认隔离级别为已提交读（read committed).保证隔离级别下的数据一致性。</li>
+</ul>
+</li>
+<li>持久性（Durability）:<ul>
+<li>方法：重做日志（Redo Log）,Redo Log&#x2F;WAL日志&#x2F;xlog，记录数据修改操作，用于数据恢复和持久化。</li>
+<li>产生方法：数据修改过程中会产生redo log，默认单文件大小16M,保存在pg_xlog目录中。主要用途：归档、节点重启恢复、备份恢复、容灾。</li>
+<li>注意要点：xlog记录数据库发生的各种事务信息，不得随意删除或者移动日志文件，否则数据库会有无法恢复的风险。</li>
+<li>FPW(full page writes)会产生大量xlog.带索引导入会产生大量xlog，主要因为带索引导入会使数据使用xlog进行主备复制，而不带索引导入时会使用页复制进行同步。带索引导入推荐做饭：导入前先删除索引，导入完成后重建索引。</li>
+<li>典型函数：<ul>
+<li>pg_current_xlog_location:获取当前重做日志写入位置。</li>
+<li>pg_xlogfile_name:获取当前写入重做日志文件名：</li>
+<li>pg_xlogfile_name_offset:获取当前写入重做日志文件名并返回其在文件中的字节偏移量。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>分布式事务：<ul>
+<li>特点：分布式事务中，事务由不同服务器不同节点共同完成，所有节点事务要么全部成功，要么全部失败。</li>
+<li>DWS通过GTM(全局事务控制器)实现分布式事务强一致性。</li>
+<li>DWS实施方式：两阶段提交法（2PC）<ul>
+<li>事务协调者要求所有涉及事务的节点预提交操作，并反馈是否可以提交。</li>
+<li>事务协调者要求每个数据库提交数据，或者回滚数据。</li>
+</ul>
+</li>
+<li>2PC流程分类：按照涉及节点不同<ul>
+<li>单节点DML：根据数据分布实际情况，在一个事务中，DML操作只涉及某一个DN节点，只需要该DN以及发起事务的CN参与事务，其他节点不参与本次事务。</li>
+<li>跨节点DML：根据数据分布实际情况，在一个事务中，DML操作涉及多个DN节点。需要多个DN以及发起事务的CN都参与事务，其他CN节点不参与事务。</li>
+<li>DDL:分布式DDL,更新所有实例上的元数据信息。由于元数据信息是存储在所有实例上的，所以更新元数据信息需要在所有CN和DN上都更新一遍，即所有CN和DN都参与事务。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="表"><a href="#表" class="headerlink" title="表"></a>表</h3><ol>
+<li>表要素：字段类型+存储方式+分布方式+分区方式+约束+表操作</li>
+<li>定义：关系型数据库中二维数组集合，代码存储对象之间的关系</li>
+<li>记录：每一行为一个记录，也称元祖，由若干字段组成。</li>
+<li>字段：域或属性，每一列为一个字段，包含两个属性：列名和数据类型。</li>
+<li>字段数据类型：基本数据类型：数值类型+字符类型+日期时间类型<ul>
+<li>用户自定义类型：create type</li>
+</ul>
+</li>
+<li>存储方式：<ul>
+<li>行存：orientation &#x3D; row</li>
+<li>列存：orientatioin &#x3D; column</li>
+</ul>
+</li>
+<li>分布方式：复制+哈希+轮询<ul>
+<li>复制（replication）：每个节点拥有完整表数据</li>
+<li>哈希（hash）:对表中的列进行哈希，根据哈希值映射到指定数据节点</li>
+<li>轮询（roundrobin）:默认创建方式，修改默认使用参数default_distribution_mode，轮番选择数据节点保存数据。</li>
+</ul>
+</li>
+<li>分区方式：range+list<ul>
+<li>设置：partition by range&#x2F;list(字段)</li>
+<li>其他类型分类：非日志表+临时表</li>
+<li>非日志表（unlogged）:不记录redo 日志，通过日志量的减少提高数据写性能，没有redo日志后，出现故障数据库重启无法恢复，适合于可靠性要求不高的非核心数据。</li>
+<li>临时表：分为会话级和事务级临时表，用来保存会话或者事务中的、临时性的、过程性的数据。表定义和数据仅当前会话可见。</li>
+</ul>
+</li>
+<li>约束：<ul>
+<li>定义方法：列约束&#x2F;表约束</li>
+<li>约束类型：主键约束+唯一约束+非空约束+default约束</li>
+<li>检查约束（仅支持行存表）</li>
+<li>partial cluster key(仅支持列存表)</li>
+</ul>
+</li>
+<li>表操作：建表+修改+删除+查询<ul>
+<li>建表方式：create table as :分区表不能采用此方式创建，可根据查询结果创建，表字段和select查询字段和数据类型相关，指定with no data时，不填充数据。create table like：自动从like指定来源表中，继承所有字段、数据类型和非空约束。使用includeing&#x2F;excluding继承或不继承来源表的某些属性。</li>
+<li>修改方式：alter table</li>
+<li>增加字段：add column column_name data_type</li>
+<li>修改字段类型：modify column_name data_type</li>
+<li>修改分布方式：distribute by repliction&#x2F;roundrobin&#x2F;hash(column_name)</li>
+<li>删除列：drop column column_name</li>
+<li>删除方式：drop table</li>
+<li>可以添加cascade 进行级联删除</li>
+<li>查询命令：<ul>
+<li>元命令：\d</li>
+<li>系统视图：pg_tables&#x2F;xxx_part_tables&#x2F;xxx_tab_partitions</li>
+<li>系统表：pg_class&#x2F;pg_partition</li>
+<li>系统函数：pg_get_tabledef</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="分区设计"><a href="#分区设计" class="headerlink" title="分区设计"></a>分区设计</h3><ol>
+<li>分区策略：<ul>
+<li>表数据量比较大：小表扫描耗时不大，分区表性能收益不明显，只建议对大表采取分区方式。在列存储下，每个列都是单独文件存储，最小存储单元CU可储存6w行数据，对列分区表，建议每个分区数据不小于DN数*6w。</li>
+<li>数据有明显区间特征字段：需要根据有明显区间性字段做表分区，时间字段最常见。</li>
+<li>业务查询有明显区间范围特征：查询数据可落在区间范围指定分区内，才能通过分区剪枝扫描查询需要的分区，提升数据扫描效率，降低数据扫描IO开销。</li>
+</ul>
+</li>
+<li>分区类型：<ul>
+<li>range:基于数值型范围划分数据，数据范围由建表时指定的分区键决定。间隔分区表在发现记录映射不到任何分区时，会根据间隔条件（interval）自动创建分区。 </li>
+<li>list：基于值列表划分数据，仅8.1.3及以上版本支持。</li>
+</ul>
+</li>
+<li>分区优势：改善查询性能+增强可用性+方便维护+均衡I&#x2F;O</li>
+<li>分区要点：<ul>
+<li>针对已存在的表进行分区，最好将数据迁移完后再建索引。</li>
+<li>若数据表已存在，建议先建立分区表，然后使用非堵塞式迁移接口。</li>
+<li>要充分发挥分区表查询优势，必须使用分区时的字段作为过滤字段。分区键条件查询，效率高</li>
+<li>分区后没有全局唯一性，各个分区之间有重复uuid</li>
+<li>分区字段必须是非空的，类似于案件的立案日期和结案日期就不能作为分区字段</li>
+<li>vacuum 或者 analyze 只对主表有作用，要分析分区表，需要分析每个分区。</li>
+<li>分区备份可单独备份各个分区，若要备份所有分区只能备份整个schema。</li>
+<li>数据迁移到分区表后建议禁用主键，因为若主表没有执行vaccuum操作，则执行计划会全表扫描主表，耗时长。</li>
+</ul>
+</li>
+</ol>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><ol>
+<li>索引分类：<ul>
+<li>按照数据组织方式：Gin索引+Gist索引+Post索引+Btree索引<ul>
+<li>GIN索引：倒排索引，可处理包含多个键的</li>
+<li>Gist索引：适用于几何和地理等多维数据类型和集合数据</li>
+<li>Psort索引：列存表的局部排序索引。</li>
+<li>Btree索引：适用类似B+树结构来存储数据的键值。</li>
+</ul>
+</li>
+<li>支持情况：<ul>
+<li>行存表：btree(默认)+gin+gist</li>
+<li>列存表：psort(默认)+bree+gin</li>
+</ul>
+</li>
+<li>按照索引方式：唯一+多字段+部分+表达式<ul>
+<li>唯一索引：唯一索引会在每次添加数据时检查表中是否有重复值，行存表Btree索引和列存表btree索引支持唯一索引，主键约束和唯一约束都在自动创建唯一索引</li>
+<li>多字段索引：索引键值多于一个字段的索引，最多声明32个字段</li>
+<li>部分索引：只包含表一部分数据的索引，常用于分布不一致的表，只索引其中频率高的key</li>
+<li>表达式索引：基于表中一个或多个字段的表达式索引。</li>
+</ul>
+</li>
+<li>按照基表类型分类：<ul>
+<li>全局索引：非分区表创建的索引</li>
+<li>索引分区：分区表创建的索引，不支持创建部分索引。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>重建索引：<ul>
+<li>重建索引条件：<ul>
+<li>索引崩溃，并且不在包含有效数据；</li>
+<li>索引臃肿，包含大量空页或者接近空页</li>
+<li>为索引更改存储参数，并且要求更改生效。</li>
+</ul>
+</li>
+<li>重建方式：reindex+alter index name rebuild</li>
+<li>索引使用：哪些列可以创建索引<ul>
+<li>经常需要搜索查询的列</li>
+<li>经常需要根据范围进行搜索的列</li>
+<li>经常需要排序的列</li>
+<li>经常使用where子句的列</li>
+<li>经常出现在关键字order by&#x2F;group by &#x2F;distinct后面的字段。</li>
+</ul>
+</li>
+<li>索引优缺点：<ul>
+<li>优点如下：点查询提速显著，直接定位到需要的位置，减少无效IO。多条件组合查询，过滤大量数据，缩小扫描范围。利用倒排索引加速全文检索。利用等值条件索引查询速度快的优势，结合nestloop提高多表join效率。提供主键和唯一性索引，满足业务需要。利用btree索引天然有序的特点，优化查询计划。</li>
+<li>缺点如下：索引页面占用额外空间，导致磁盘膨胀。每次导入数据同时更新索引，影响导入性能。索引需要记录xlog,增加日志量。索引页面没有可见性，存在垃圾数据，需要定期清理。每个索引至少一个文件，增加备份恢复、扩容等操作代价。索引索引扫描的性能不一定比顺序扫描性能好，特别是优化器判断错误，导致查询性能劣化的情况下。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h3><ol>
+<li>虚表：只存放视图定义，不存放视图数据，数据仍然在基本表中，若基表数据发生变化，视图数据也变化。</li>
+<li>视图管理：创建+修改+删除<ul>
+<li>create view：创建视图</li>
+<li>create or replace view: 替换同名视图或创建新视图</li>
+<li>create temp view ：创建会话级临时视图</li>
+<li>alter view：修改视图</li>
+<li>alter view rebuild：在视图解耦下，可使用已保留的原始语句重建视图，恢复依赖关系。</li>
+<li>drop view :删除视图。</li>
+</ul>
+</li>
+<li>可更新视图：<ul>
+<li>背景：在使用视图过程中，为确保权限问题，需要在表上都封装一层视图，对表中数据的IUDS(insert&#x2F;update&#x2F;delete&#x2F;select)通过对应视图操作完成。</li>
+<li>更新机制：视图相当于子查询，子查询中的实际表作为需要更新的表，对该表做merge into&#x2F;insert&#x2F;update&#x2F;delete操作。</li>
+<li>注意要点：可更新视图定义中包含where，则该条件会限制update和delete语句修改基础表上的行。</li>
+<li>使用限制：<ul>
+<li>视图定义的From语句中只能有一个普通表，不能是系统表、外表、DFS表、delta表、toast表、错误表。</li>
+<li>视图中包含可更新的列，这些列是对基础表可更新列的简单引用。</li>
+<li>视图定义中不能包含with、distinct、group by、order by、FOR update 、FOR share 、HAVING、tablesample、limit、offset子句。</li>
+<li>视图定义中不能包含union、intersect、excep集合操作。</li>
+<li>视图定义的选择列表不能包含聚集函数、窗口函数、返回集合的函数。</li>
+<li>视图上不能有触发时机为instead of的触发器。</li>
+<li>视图定义不能包含子链接。</li>
+<li>视图定义不能包含属性为volatile的函数（函数值可以在一次表扫描内改变的函数）</li>
+<li>视图定义不能对表的分布键所在列起别名，或将普通列起别名为分布键列名。</li>
+<li>视图更新操作中包含returning子句时，视图定义中的列只能来自于基础表。</li>
+<li>视图定义包含where条件，则该条件将会限制update和delete语句修改基础表上的行。如果update语句更新行后不再满足where条件，更新后通过视图将无法查询到。</li>
+<li>在视图上执行插入、更新或删除的用户必须在视图和表上具有相应的插入。更新或删除权限。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>视图解耦：<ul>
+<li>背景：一般情况下，删除视图依赖对象，使用cascade级联将删除视图。重建视图依赖对象后，如果视图量大，使用create view重建视图工作量大。</li>
+<li>解耦机制：删除对象时，不删除依赖对象的视图和其定义，仅删除依赖信息，实现不指定cascade也可删除对象的效果（临时表和临时视图除外）。视图依赖对象重建后，根据依赖对象重建前后差异，可分为自动重建、通过alter view rebuild重建或者drop view + create view重建</li>
+<li>视图解耦设置：<ul>
+<li>参数view_independent &#x3D; on，支持视图解耦和视图重建。</li>
+</ul>
+</li>
+<li>视图重建：<ul>
+<li>自动重建：视图引用的列名在重建后依赖对象中存在，则视图在查询时自动重建。</li>
+<li>alter view rebuild：视图引用的列名在重建后依赖对象中存在，可执行命令重建。</li>
+<li>drop view+create view:视图依赖表中的列被删除或重命名，通过该方式重建。</li>
+</ul>
+</li>
+<li>视图建立原则：<ul>
+<li>业务逻辑：经常使用的数据定义为视图，简化SQL编写，在逻辑上屏蔽真实表结构的变化带来的影响。</li>
+<li>安全逻辑：视图封装只希望业务看到的数据。通过复杂视图，用户不能通过视图修改基表数据。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="序列（sequence）"><a href="#序列（sequence）" class="headerlink" title="序列（sequence）"></a>序列（sequence）</h3><ol>
+<li>自增整数序列：按照一定规则自增的整数，取值不重复，具有唯一标识性，常被用作主键。<br>  序列管理：</li>
+<li>创建：create sequence</li>
+<li>创建唯一标识自动方法：<ul>
+<li>声明字段类型为序列整型来定义唯一标识符字段：在建表时，将唯一标识符字段类型定义为serial,数据库后台会自动创建一个对应的序列sequence。</li>
+<li>创建自定义sequence并指定字段默认值：使用create sequence自定义序列，使用nextval(‘sequence_name’)函数读取的序列值，指定为某一字段默认值。好处是更灵活，可以为序列定义cache,一次预申请多个序列值，减少和GTM交互次数，来提高性能。</li>
+</ul>
+</li>
+<li>创建注意事项：<ul>
+<li>不建议同时定义cache和maxvalue或者minvalue.因为定义cache后不能保证sequence的连续性，可能产生空洞，造成sequence号段浪费。</li>
+<li>建议cache值不要设置过大，否则会出现缓存序列号时耗时过长的问题；建议cache的值小于10000 0000（1亿）。实际使用时应根据业务设置合理的cache值，既保证快速访问，又不会浪费序列号。</li>
+<li>通过owner by 创建的sequence不建议用于其他表，若希望多表共享sequence，则该sequence不应该从属于特定表。</li>
+<li>为序列sequence指定关联列后u，该列删除时，对应的sequence也会被删除。虽然数据库并不限制序列只能为一列产生默认值，但是最好不要多列共用同一个序列。</li>
+<li>当前版本只支持在定义表的时候指定自增列，或者指定某列的默认值为nextval(“sequence_name”),不支持在已有表中增加自增列或者增加默认值为nextval(“sequence_name”)的列。</li>
+</ul>
+</li>
+<li>修改：alter sequence，alter sequence 语句能够更改现有的sequence的属性，包括修改拥有者、归属列和最大值。将序列和表的指定字段进行关联，在删除字段或者器所在表的的红时候会自动删除已关联的序列。</li>
+<li>修改注意事项：<ul>
+<li>使用alter sequence的用户必须是该序列的所有者</li>
+<li>当前版本仅支持修改拥有者、归属列和最大值。若要修改其他参数，可以删除重建，并用setval函数恢复当前值。</li>
+<li>alter sequence maxvalue 不支持在事务、函数和存储过程中使用。</li>
+<li>修改序列的最大值后，会清空该序列在所有会话中的cache</li>
+<li>alter sequence 会阻塞nextval、currval、lastval、setval的调用。</li>
+</ul>
+</li>
+<li>删除：drop sequence<ul>
+<li>用于从当前数据库里删除序列，只有序列的所有者或者系统管理员才能删除。</li>
+</ul>
+</li>
+<li>序列函数：nextval+currval+lastval+setval<ul>
+<li>nextval():用于递增序列并返回新值，返回类型为bight</li>
+<li>注意事项：<ul>
+<li>为避免从同一序列获取值的并发事务被阻塞，nextval操作不回滚。这种情况将在指定值的顺序中留下未使用的“空洞”。因此,Gauss(DWS)序列对象不能用于获得“无间隙”序列。</li>
+<li>当nextval被下推到DN上时，各DN会自动连接GTM，请求next values值，由于GTM上有最大连接数为8192的限制，这类下推会消耗过多的GTM连接数，因此对于这类语句的并发数目限制为7000&#x2F;集群DN数目。</li>
+</ul>
+</li>
+<li>currval():用于返回当前会话里，最近一次nextval返回的，指定的sequence数值。</li>
+<li>注意事项：<ul>
+<li>如果当前会话没调用过指定sequence的nextval,调用currval报错。</li>
+<li>currval函数默认不支持，如果要使用，需要修改参数enable_beta_featuresw&#x3D; true,并且设置后，nextval函数将不支持下推，返回类型为bight.</li>
+</ul>
+</li>
+<li>lastval():用于放回当前会话里，最近一次nextval返回的值。等效于currval.</li>
+<li>注意事项：<ul>
+<li>如果当前会话没有调度过nextval,调用lastval会报错。</li>
+<li>astval函数默认不支持，如果要使用，需要修改参数enable_beta_features或者lastval_supported &#x3D; true.并且设置后，nextval函数不支持下推，返回类型为bight.</li>
+</ul>
+</li>
+<li>setval():用于设置序列当前值和is_called标识，放回类型为bight</li>
+<li>注意事项：<ul>
+<li>setval使用后，会在当前会话和GTM上立刻生效。但是如果其他会话有缓存的序列值，需要等缓存值耗尽才能感知setval的作用。由于序列的非事务的，setval造成的改变不会由于事务的回滚而撤销。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>序列注意事项：<ul>
+<li>新sequence序列值产生依靠GTM维护，默认情况下，每申请一个sequence值都要向GTM发送一次申请，GTM在当前值基础上加上步长值，作为新值放回给调度者。</li>
+<li>GTM是全局唯一节点，是性能瓶颈，对大量频繁产生序列号操作，不推荐产生默认序列值。</li>
+<li>序列函数nextval、setval等不支持回滚。setval设置新值，会被当前会话nextval立即生效，但对于其他会话，若定义cache不会立即生效，必须在用尽所有缓存值后，其变动才能被其他会话感知。为避免产生重复值，使用setval设置的新值不能是已经产生的值或者在缓存中的值。</li>
+<li>不要在bulkload的场景中产生默认序列值。如果必须要在bulkload场景下产生默认序列值，则一定要为newSeq1定义足够大的cache，并且不要定义maxvalue或者minvalue。</li>
+<li>sequence创建后，在每个节点都维护一张单行表，存储序列定义和当前值，但此当前值非GTM上当前值，只是保存本节点和GTM交互后的状态。如果其他节点向GTM申请新值，或调用setval修改序列状态，则不刷新本节点的单行表，由于每次申请序列值都是向GTM申请，所以对序列正确性无影响。</li>
+</ul>
+</li>
+<li>序列典型问题：<ul>
+<li>如何确定sequence和哪个表有关联：先在pg_class查找目标sequence的oid, 然后在pg_depend根据oid查依赖该sequence的对象。</li>
+<li>如何查询sequence的当前最新值：通过currval函数可以查询sequence的当前最新值。</li>
+<li>如何解决sequence取值超出范围的问题：可以通过创建sequence时设置cycle字段，从而使得序列达到maxvalue或者minvalue后可循环并继续下去。但是需要注意，如果定义序列为cycle，则不能保证序列的唯一性。或者通过调用setval(regclass, bight)函数对序列取值进行重置。</li>
+</ul>
+</li>
+</ol>
+<h3 id="数据脱敏-对敏感数据进行屏蔽"><a href="#数据脱敏-对敏感数据进行屏蔽" class="headerlink" title="数据脱敏(对敏感数据进行屏蔽)"></a>数据脱敏(对敏感数据进行屏蔽)</h3><ol>
+<li>敏感数据定义：指任何泄露后可能会给社会或个人带来严重危害的数据都属于常见的敏感数据</li>
+<li>敏感数据举例：个人身份信息、企业不适合公开信息、设备信息、银行卡号、受保护的健康信息、知识产权等属于敏感信息。</li>
+<li>数据脱敏原因：对敏感信息通过脱敏规则进行数据变形，实现敏感数据可靠保护。常见脱敏规则为：替换、重排、加密、截断、掩码等。用户可以根据期望的脱敏算法自定义脱敏规则。</li>
+<li>数据脱敏原则：<ul>
+<li>尽可能为脱敏后的应用，保留脱敏前有意义信息</li>
+<li>最大程度防止黑客破解</li>
+</ul>
+</li>
+<li>数据脱敏分类：动态脱敏+静态脱敏<ul>
+<li>动态脱敏：在访问敏感数据时，实时脱敏。优势如下：<ul>
+<li>策略可配置。可结合自身业务场景识别敏感数据，并对业务表的指定列灵活预置脱敏策略</li>
+<li>策略可扩展。内置脱敏函数，可涵盖大部分常见脱敏效果，支持自定义脱敏函数</li>
+<li>敏感数据可算不可见。原始敏感数据参与运算，仅在出库时刻，返回结果时才做脱敏处理</li>
+<li>数据访问受控。脱敏策略生效条件的用户，均对原始敏感数据不可见。</li>
+<li>全场景数据不泄露。底座交互，可减少敏感数据传输链路潜在的泄露风险，安全可靠，而且充分识别各种恶意套取潜在场景，有效防护。</li>
+</ul>
+</li>
+<li>静态脱敏：数据的“搬迁仿真替换”，是将数据抽取并进行脱敏后，下发到下游环节，可随意取用和读写，脱敏后数据和生产数据隔离，从而满足业务需求的同时保障生产数据库安全。</li>
+</ul>
+</li>
+<li>数据脱敏管理：<ul>
+<li>创建：create redaction policy </li>
+<li>修改：alter redaction policy</li>
+<li>删除：drop redaction policy<ul>
+<li>查看脱敏信息：系统视图redaction_policies和redaction_columns.</li>
+</ul>
+</li>
+<li>函数：内置型+扩展型<ul>
+<li>内置型脱敏函数：优先推荐<ul>
+<li>mask_full():全脱敏成固定值，用于实现替代。是可覆盖任何数据类型的全脱敏函数，只关注表达式返回值类型，可保证脱敏数据不泄露，但会导致脱敏结</li>
+<li>mask_partial():针对数值类型&#x2F;字符类型&#x2F;日期或时间类型的部分脱敏，用于实现数值变换&#x2F;截断&#x2F;遮挡</li>
+</ul>
+</li>
+<li>扩展型脱敏函数：可使用pl&#x2F;pgsql语言自定义脱敏函数，遵从要求如下：<ul>
+<li>返回值和脱敏列，类型一致</li>
+<li>函数必须定位为可下推的</li>
+<li>参数列表除脱敏格式外，只能包含一个脱敏列</li>
+<li>函数仅实现针对特定数据类型的格式化改写。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可算不可见：<ul>
+<li>背景：在使用数据脱敏功能时，存在先对敏感数据加工计算，再输出的情况。</li>
+<li>功能：在数据库内使用原始敏感数据参与加工计算，只在出库时对敏感数据进行脱敏。</li>
+<li>使用条件：需要设置参数enable_redactcol_computable &#x3D; on</li>
+<li>脱敏策略继承：<ul>
+<li>对insert&#x2F;update&#x2F;merge into&#x2F;create table as 语句，当子查询对某个敏感字段投影时，会触发脱敏继承，从而实现包含脱敏信息的新表和源表使用相同的脱敏策略，进而避免敏感数据在新表中数据泄露的问题。</li>
+<li>内置创建的脱敏策略，统一命名为“inherted_rp”</li>
+<li>脱敏策略冲突处理原则：保护用户任何敏感数据不致泄露，优先于数据脱敏效果不具有原始特征，当遇到脱敏效果冲突，都提升为通用脱敏效果mask_full.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>防护恶意套取：<ul>
+<li>恶意套取定义：通过已知常量值和等值&#x2F;类等值判断表达式来进行套取用户隐私数据的行为。借助等值判断形式表达式的过滤条件或投影操作试探性匹配敏感信息。</li>
+<li>恶意套取定义：通过已知常量值和等值&#x2F;类等值判断表达式来进行套取用户隐私数据的行为。借助等值判断形式表达式的过滤条件或投影操作试探性匹配敏感信息。应对策略：数据脱敏功能采用“悲观主义”模式，任何常量等值判断都有可能存在恶意套取的风险，都应当禁止。</li>
+<li>恶意套取定义：通过已知常量值和等值&#x2F;类等值判断表达式来进行套取用户隐私数据的行为。借助等值判断形式表达式的过滤条件或投影操作试探性匹配敏感信息。禁止使用常量恶意套取场景总结：<ul>
+<li>脱敏字段的常量等值判断表达式、复合表达式、等价表达式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="审计日志"><a href="#审计日志" class="headerlink" title="审计日志"></a>审计日志</h3><ol>
+<li>功能：用于监视并记录在数据库系统中用户的操作行为，将操作行为的结果记录到审计日志中。</li>
+<li>作用：提高数据库安全级别，识别安全威胁。对用户访问数据库的行为进行记录和分析。可以对事故进行追溯，防止抵赖。支持对数据库操作细粒度的筛选</li>
+<li>管理：支持语句类型和操作类型两种方式设置审计粒度。</li>
+<li>审计日志前提条件：<ul>
+<li>需要审计的审计项开关已开启</li>
+<li>数据库正常运行，并且对数据库执行增删改查操作，保证在查询时段内有审计结果产生。</li>
+<li>数据库各个节点审计日志单独记录，如果使用LVS负载管理机制，需要根据LVS日志追溯到具体的执行节点，并且直接连接该节点查询相关审计日志。</li>
+<li>只有拥有auditadmin属性的用户才可以查看审计记录。</li>
+</ul>
+</li>
+<li>审计日志使用：<ul>
+<li>审计查询命令：使用数据库提供的SQL函数 pg_query_audit</li>
+<li>查询所有CN节点审计日志：pgxc_query_audit()</li>
+<li>查询单个CN节点，也可查询所有CN节点审计日志：pg_query_audit_details()</li>
+</ul>
+</li>
+</ol>
+<p>基于公开来源信息, 学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/GaussDB-DWS/">
+                                    <span class="chip bg-color">GaussDB(DWS)</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                                    <span class="chip bg-color">数据库</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                                    <span class="chip bg-color">数据仓库</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                                    <span class="chip bg-color">数据</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-开发应用篇">
+                        
+                        <span class="card-title">GaussDB(DWS)数据库-开发应用篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            GaussDB(DWS)数据库-开发应用篇，主要介绍DWS驱动及ODBC/JDBC开发、SQL编辑器、数据集成工具、数据调度工具等。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/GaussDB-DWS/">
+                        <span class="chip bg-color">GaussDB(DWS)</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                        <span class="chip bg-color">数据仓库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                        <span class="chip bg-color">数据</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-基础篇">
+                        
+                        <span class="card-title">GaussDB(DWS)数据库-基础篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            GaussDB(DWS)数据库-基础篇，主要介绍DWS数据仓库的基本概念和基础知识。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/GaussDB-DWS/">
+                        <span class="chip bg-color">GaussDB(DWS)</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                        <span class="chip bg-color">数据仓库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                        <span class="chip bg-color">数据</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">37.2k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>

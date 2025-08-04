@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="GaussDB(DWS)数据库-基础篇, Amnematchinensis">
-    <meta name="description" content="GaussDB(DWS)数据库-基础篇，主要介绍DWS数据仓库的基本概念和基础知识。">
+    <meta name="keywords" content="GaussDB(DWS)数据库-集群管理篇, Amnematchinensis">
+    <meta name="description" content="GaussDB(DWS)数据库-集群管理篇，主要介绍集群创建与删除、集群监控管理、集群备份恢复管理、集群容灾管理、集群弹性伸缩管理、集群资源管理、智能运维等方面。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GaussDB(DWS)数据库-基础篇 | Amnematchinensis</title>
+    <title>GaussDB(DWS)数据库-集群管理篇 | Amnematchinensis</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -333,12 +333,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-基础篇</h1>
+                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-集群管理篇</h1>
                 </div>
             </div>
         </div>
@@ -399,28 +399,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-08-03
+                    2025-08-04
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-08-03
+                    2025-08-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    5.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    18 分
                 </div>
                 
 
@@ -440,94 +440,207 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h2><p>软件架构：分为存算分离型和存算一体型，二者的区别在于DN和存储（Local-Disk）是否绑定在一起，绑定在一起为存算一体，否则为存算分离。</p>
-<h2 id="数据组件-7种类型"><a href="#数据组件-7种类型" class="headerlink" title="数据组件(7种类型)"></a>数据组件(7种类型)</h2><ol>
-<li>OM(运维管理模块、主备)：提供日常运维和配置管理功能，每个节点都部署</li>
-<li>CM(集群管理模块、主备)：自动化集群管理和监控各单元的物理资源使用情况，每个节点都部署。</li>
-<li>GTM(全局事务控制器，主备)：主要负责生成并维护全局事务ID、事务快照、时间戳等需要全局唯一的信息。DWS集群部署2个，一主一备，分布在不同节点上。</li>
-<li>WLM(工作负载管理)：控制资源分配，防止过载对系统冲击导致的业务拥塞和系统崩溃。内置在CN和DN实例中。</li>
-<li>CN(Coordinator Node,协调节点，多主)：主要处理请求分解、调度、结果返回。负责SQL解析和优化。决定对外业务访问能力，默认部署2个，最大支持5个。</li>
-<li>DN(Data Node,数据节点，主备从)：负责存储业务数据（支持行存、列存、混合存储）、执行数据查询任务以及向CN返回执行结果。决定对外业务处理能力。根据节点规格，每个节点部署2-4个，最大支持1024个。</li>
-<li>GDS Loader(多实例)：负责批量数据加载和并行加速。</li>
-</ol>
-<p>物理集群由3到多个节点组成，最大支持1024个，节点为ECS&#x2F;BMS.<br>数据组件分布：以最简的ECS+EVS结构为例。ECS负责计算资源（CPU+内存+DWS实例（CN+DN等））。EVS负责存储资源，每个DN挂载EVS盘。</p>
-<h2 id="DWS资源分配"><a href="#DWS资源分配" class="headerlink" title="DWS资源分配"></a>DWS资源分配</h2><ol>
-<li>CPU资源：20%+60%+20%：20%CPU资源用于系统运维，20%CPU资源用于数据接入入库业务，60%CPU资源用于数据分析业务,入库业务和分析业务资源隔离，互不影响。</li>
-<li>内存资源：默认GaussDB(DWS)使用内存占主机Linux系统可用内存的80%。GaussDB 200 默认关闭操作系统的虚拟内存。</li>
-<li>内存参数：<ul>
-<li>max_process_memory ：一个数据库节点（DN&#x2F;CN）可用的最大物理内存</li>
-<li>视图pv_total_memory_detail：查看一个数据库节点总的内存分配情况。</li>
+                <h3 id="集群创建与删除"><a href="#集群创建与删除" class="headerlink" title="集群创建与删除"></a>集群创建与删除</h3><ol>
+<li>集群选型<ul>
+<li>产品类型：云数仓、标准数仓、IoT数仓、实时数仓<ul>
+<li>云数仓： 高性价比，支持冷热数据分析，存储、计算弹性伸缩，并按需、按量计价。适用于“库、仓、市、湖”一体化的融合分析业务，适合50节点以内的中小型数据仓库。</li>
+<li>标准数仓：高性能、高扩展、高可用、易运维的企业级数据仓库，支持2048节点、20PB级超大规模数据分析能力。适用于大型企业数仓，上云后体验不变。</li>
+<li>IoT数仓：在标准数仓基础上，提供高效的时序计算和IoT分析能力，支持实时和历史数据关联。适用于物联网、IoT等实时分析场景。</li>
+<li>实时数仓：在大规模数据查询和分析能力基础上，提供高并发、高性能、低时延的事务处理能力。适用于HTAP混合负载场景，“一库两用，生产即分析”，支持单机部署和集群部署两种部署方式。</li>
+</ul>
+</li>
+<li>选择好产品类型后，用户可以根据数据量、业务负载以及性能需求，选择能够支撑业务应用的集群规格和节点数量，CPU数和内存越大，数量越多，存储与计算能力越强。</li>
+<li>刚开始使用DWS服务时，用户也可以先创建一个规格较小的集群，今后随着数据量和业务负载的变化，再自由扩展而不中断业务。</li>
+</ul>
+</li>
+<li>增删CN:<ul>
+<li>当用户的集群创建后，实际需要的CN数量会随着业务需求而发生变化，因此管理CN节点功能的实现，使用户可以根据实际需求动态调整集群的CN数量</li>
+<li>集群创建时默认的CN数量为3，用户可以根据实际发放节点数量，调整CN数量，范围为2~20</li>
+</ul>
+</li>
+<li>删除集群：<ul>
+<li>当用户不再需要使用某个集群时，可以删除该集群。删除的集群无法恢复，同时集群中的用户数据、自动快照也会自动删除，而且无法再访问。删除集群时不会删除手动快照。</li>
+<li>如果集群绑定了弹性IP，建议用户勾选“释放与集群绑定的弹性IP”,将待删除集群的弹性IP资源释放。如果选择不释放，弹性IP将保留，用户可以将该弹性IP绑定到其他DWS集群或者云资源上使用，该弹性IP将仍然按照虚拟私有云（VPC）服务的弹性公网IP计费规则进行计费。</li>
 </ul>
 </li>
 </ol>
-<h2 id="业务架构"><a href="#业务架构" class="headerlink" title="业务架构"></a>业务架构</h2><p>业务下发的SQL信息是如何在GaussDB(DWS)中的各个组件运行的。CN-&gt;DN-&gt;CN</p>
-<ol>
-<li>业务的查询信息先下发SQL到CN节点，其中的SQL信息可以是对数据的增删改查。</li>
-<li>CN通过优化器生成执行计划，DN按照执行计划处理数据</li>
-<li>在分布式存储中，数据处理的DN和数据存储DN不同，数据处理过程中需要从其他DN获取数据，通过stream流（广播流、聚合流和重分布流）降低数据在DN节点间的流动。</li>
-<li>DN返回数据处理结果给CN，CN汇总结果。</li>
-<li>CN将汇总结果返回给业务。</li>
+<h3 id="集群监控管理"><a href="#集群监控管理" class="headerlink" title="集群监控管理"></a>集群监控管理</h3><ol>
+<li>节点监控：提供针对当前DWS中所有节点的资源使用情况明细<ul>
+<li>概览：包含节点资源一览图<ul>
+<li>内容：cpu资源使用率，内存资源使用率，数据盘的平均资源使用率，磁盘IO，TCP协议重传率，网络IO</li>
+</ul>
+</li>
+<li>磁盘分页：提供细粒度的磁盘使用情况，说明节点各个磁盘及对应功能（数据盘，日志盘，系统盘）<ul>
+<li>内容：磁盘容量，读速率，写速率，磁盘IO等待时间，磁盘IO服务时间，磁盘IOPS指标。</li>
+</ul>
+</li>
+<li>网络分页：提供节点网卡的详细信息<ul>
+<li>内容：展示名称，网卡状态，接收丢包数，接收速率，发送速率</li>
+</ul>
+</li>
+<li>节点所有页面都可以通过“监控”列查看过去1小时，3小时，12小时，24小时，7天，15天的各个指标变化。</li>
+</ul>
+</li>
+<li>性能监控：提供集群，数据库，节点三个维度相关指标过去一个月的变化趋势，并提供了监控面板供指标集中展示。<ul>
+<li>集群维度的监控指标，包括CPU，内存，磁盘IO，网络IO，集群状态，集群中异常CN数量，SQL堆积数量。</li>
+<li>数据库维度提供了活跃会话数，插入行数，删除行数，修改行数。</li>
+<li>节点维度提供了所有节点相关资源使用情况，并支持对比不同节点的变化趋势。</li>
+<li>集群监控支持查看时间： 过去1小时、3小时、12小时、24小时，7天查看时间，支持自定义时间范围。</li>
+<li>数据库监控支持查看时间：过去1小时，3小时，12小时，24小时。</li>
+</ul>
+</li>
+<li>实时查询：提供了当前系统中的会话和SQL执行情况，并提供了针对会话和查询的查杀功能。<ul>
+<li>实时会话支持查看会话的执行时间，对应的应用名称，接入CN，锁持有状态，锁定对象可以用来排查系统中的长会话或者锁争抢问题。</li>
+<li>实时查询提供了细粒度的查询相关资源使用情况，比如CPU，内存，IO，资源池，查询的排队状态等</li>
+<li>会话和查询都支持根据某一条件查杀问题会话或查询。</li>
+<li>会话：<ul>
+<li>实时会话可以根据多条件过滤查看，当前系统中存在的锁持有的会话，当出现锁争抢是可以根据锁定对象，快速排查相关的执行SQL</li>
+<li>实时会话主要是根据pg_stat_activity和pg_locks信息汇聚上报获取。实时会话默认是启用状态。</li>
+</ul>
+</li>
+<li>查询：<ul>
+<li>实时查询当前仅支持8.1.2以上集群使用，默认不打开，打开需要配置guc参数：enable_resource_track 需要配置为on，resource_track_cost需要根据需求配置，如果配置为0，对所有语句进行监控。</li>
+<li>实时查询主要的是根据pg_session_wlmstat和gs_wlm_session_statistics信息汇聚上报获取。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>资源池监控：主要反应集群资源池信息，包括CPU使用率，磁盘使用率，内存，语句并发等，可以实时反应集群资源池运行情况。</li>
+<li>SQL诊断：<ul>
+<li>针对已经执行完成的查询中，存在告警信息的SQL进行集中展示。</li>
+<li>SQL诊断对于异常的查询会同步提供SQL语句和执行计划，还有语句的资源使用情况。</li>
+<li>SQL诊断依赖历史查询功能，默认不打开，打开需要配置GUC参数。</li>
+<li>历史查询功能主要是根据pgxc_wlm_session_info信息采集上报获取。</li>
+</ul>
+</li>
+<li>SQL探针<ul>
+<li>SQL探针工具，支持一键执行和定时执行两种探针任务等功能，并可以针对超时的探针SQL提供告警上报信息。</li>
+</ul>
+</li>
+<li>表诊断：提供了集群中数据表，关键运行状态的统计数据和诊断工具。包括：<ul>
+<li>表倾斜率：对于集群中数据表统计信息进行监控分析，展示倾斜率高于5%并且表大小TOP 50的表信息。<ul>
+<li>造成表倾斜率高的原因为不合理的分布列选择，将引发算子计算&#x2F;数据下盘倾斜严重，导致不同的DN的处理压力不同，影响业务性能，并容易造成单DN磁盘使用率过高。</li>
+<li>用户可以通过查询表倾斜率，根据表的大小和倾斜率，对倾斜严重的表重新选择分布列，其中8.1.0及以上集群版本，可以直接通过alter table 语法进行调整表。</li>
+</ul>
+</li>
+<li>表脏页率：对于集群中数据表统计信息进行监控分析，展示脏页率高于50%并且表大小TOP 50的表信息。<ul>
+<li>对于数据表的DML操作将影响数据表数据，导致存在无用的脏数据，过多的脏数据将占据磁盘空间，影响集群可用容量。用户可以通过查询表的脏页率，根据表的大小和脏页率，对较大表和脏页率过高的表进行处理。</li>
+<li>对于脏页率高的表，可以通过手动执行vacuum full操作回收表空间，或者通过“智能运维”操作时执行vacuum full操作。</li>
+</ul>
+</li>
+<li>DDL审核：DDL审核是SQL审核范畴，为了避免不合理的DDL设计影响实际业务运行，该工具会对DDL元数据进行规范性检测，方便用户对潜在的表定义问题提前感知，其结果也可作为性能问题定位的参考数据之一。<ul>
+<li>DDL审核对于审核不通过的数据表，可以通过详情页面查看问题。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>告警管理<ul>
+<li>包含:查看告警规则，告警规则配置，告警信息订阅功能</li>
+<li>告警规则可以提供过去一周的告警信息统计和告警信息明细，方便用户自行查看租户下的告警。该特性除了以默认值的形式提供一套DWS告警最近实践外，还允许用户根据自己的业务特点，个性化修改告警阈值。</li>
+<li>告警管理通过消息通知服务（Simple Message Notification，SMN）发送DWS告警通知，用户可订阅告警启用通知。</li>
+<li>告警规则配置：<ul>
+<li>当前支持11种告警规则的配置。告警支持启停，只对部分集群生效。当前告警规则是诊断整个租户的告警规则生效。资源类有CPU,磁盘innode,磁盘使用率，磁盘I&#x2F;O时延。业务类有语句堆积告警，语句下盘量过大告警，vacuum full 执行过长告警，资源池队列阻塞告警。工具类有SQL探针执行耗时超阈值。</li>
+</ul>
+</li>
+<li>dws监控系统使用典型场景：<ul>
+<li>磁盘使用率高：配置节点数据盘使用率告警，根据实际需要配置阈值，如果发现该告警上报，则进一步排查系统的磁盘使用情况。</li>
+<li>磁盘只读问题：当发现数据盘使用率高，先查看“工具&#x2F;表诊断&#x2F;表脏页率”，对于脏页率较高的表数据，可以通过vacuum full做清理。如果清理之后可以解决，则可以通过配置智能运维，定位执行vacuum full。如果清理之后磁盘使用率还是较高，则需要重新评估当前系统的规格是否符合业务要求。</li>
+</ul>
+</li>
+</ul>
+</li>
 </ol>
-<h2 id="分布式架构优点"><a href="#分布式架构优点" class="headerlink" title="分布式架构优点"></a>分布式架构优点</h2><ol>
-<li>支持按需扩展，支持2048节点的超大规模，100PB级的数据容量.</li>
-<li>通过多层级的并行计算引擎，基于鲲鹏CPU的优化，软硬协同，性能相比于X86提升30%。</li>
-<li>通过支持事务ACID,实现全场景数据的一致性数据保障，支持双集群容灾，全组件HA设计，来实现高可用。</li>
-<li>兼容标准SQL 2003、JDBC和ODBC接口，全图形化的运维管理和开发工具，来实现高兼容性。</li>
-</ol>
-<h2 id="高性能"><a href="#高性能" class="headerlink" title="高性能"></a>高性能</h2><p>高斯数据库实现高性能的技术：全并行架构+分布式优化+行列混合引擎</p>
-<ol>
-<li>全并行架构：目的是解决如何利用x86的多核计算资源，如何解决鲲鹏众核的资源利用问题。解决方法：从大到小<ul>
-<li>MPP(节点并行)：在集群内并行，通过使用分布式执行框架，支持1000以上的服务器，万级CPU的并行计算 </li>
-<li>SMP(算子并行)：在查询内并行，通过多线程并行算法，从而实现在核心算子内的并行执行。众核支持，和NUMA架构优化。</li>
-<li>SIMD(指令级并行)：操作数归并，通过SIMD和向量化引擎    ，实现一个指令执行一批数据的操作，指令可以是x86或者鲲鹏指令.</li>
-<li>LLVM(动态编译)：指令数减少，通过将热点函数预编译成机器码，实现减少SQL执行指令数，从而提升性能。</li>
+<h3 id="集群备份恢复管理"><a href="#集群备份恢复管理" class="headerlink" title="集群备份恢复管理"></a>集群备份恢复管理</h3><ol>
+<li>快照：<ul>
+<li>定义：快照是对DWS集群在某一时间点的一次全量数据和增量数据的备份，记录了当前数据库的数据以及集群的相关信息，其中包括节点数量、节点规格和管理员用户名称等。快照创建方式包括手动创建快照和自动创建快照。</li>
+<li>备份：创建快照会将生成的备份文件存储到指定的备份介质中。华为云支持备份介质包括OBS(Object Storage Service)、SFS(Scalable File Service)</li>
+<li>DWS提供免费的快照存储空间，免费容量等于集群储存空间，当快照数据存储空间超过免费空间大小时，超过部分按照OBS的计费规则进行计费。</li>
+<li>手动快照要点：<ul>
+<li>手动快照支持集群级全量快照和schema级快照</li>
+<li>快照级别支持“cluster”和“schema”。schema级别快照依赖版本细粒度备份的特性开关。</li>
+<li>集群名称可选择一个指定集群，只能选择可用状态的集群。</li>
+<li>手动快照创建成功后会一直保存，直到从控制台中将其删除（即使集群删除，手动快照也不会删除。）</li>
 </ul>
 </li>
-<li>分布式优化：用于分布式架构下最优执行计划的生成。<ul>
-<li>分布式查询重写:<ul>
-<li>解决问题：单机SQL逻辑无法实现分布式执行的问题</li>
-<li>解决方法：利用分布式查询重写技术，在分布式下消除NestLoop和子查询等查询瓶颈。</li>
+<li>自动快照：<ul>
+<li>集群级自动快照采用差异增量备份，第一次创建自动快照为全量备份，以后每间隔一段时间就会做一次全量备份，全量备份作为基础版本。两次全量备份之间都是做增量备份，增量备份记录基于前一次备份所发现的更改。</li>
+<li>集群创建时，自动快照默认处于启用状态。自动增量快照默认为每8小时一次，全量快照每周日执行一次，快照保留期可设置为1-31天，默认为3天。用户也可以根据自身需求设置自动快照策略。</li>
+<li>在策略列表中自动快照开关默认为开启状态，保留天数默认为3天。</li>
+<li>关闭自动快照后，自动删除历史自动快照。</li>
+<li>快照类型设置为全量快照时，快照策略可选一次性和周期性</li>
+<li>快照策略时间需要设置为UTC，同时需要考虑业务所在时区的时差</li>
 </ul>
 </li>
-<li>分布式计划生成：<ul>
-<li>解决问题：单机统计信息不能全面反应分布式数据特征</li>
-<li>解决方案：基于Poisson估算模型，单点和全局cost估算模型，local和Global结合数据处理估算模型，实现单机+全局的自动统计信息收集。</li>
+<li>快照恢复：<ul>
+<li>使用增量快照恢复时，DWS会将最近一次的全量备份到本次快照之间的所有快照，一起用于恢复集群。</li>
+<li>恢复快照到新集群时，恢复时长是由快照备份的数据量所决定的。</li>
+<li>恢复快照时，参数支持重新定义。其他默认参数默认与快照中的备份信息保持一致。</li>
+<li>规格确认无误后，便可执行恢复。待新集群状态变为“可用”，表示快照已恢复成功。</li>
+<li>集群级恢复支持恢复到当前集群。</li>
+<li>细粒度表级恢复：支持恢复单表和多表操作，依赖细粒度备份和细粒度恢复的特性白名单</li>
 </ul>
 </li>
-<li>分布式倾斜处理：<ul>
-<li>解决问题：数据倾斜导致的分布式执行出现木桶效应.</li>
-<li>解决方案：针对静态模型，使用分布式倾斜估算模型；针对动态模型，使用动态倾斜处理方案RLBT（Runtime Load Balance Technology）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>行列混合引擎：分为查询引擎和存储引擎。查询引擎分为行存+列存<ul>
-<li>行存：适合高并发+短事务场景，例如点查询、数据更新、实时数据接入、并发增删改。</li>
-<li>列存：适合分析AP场景，例如分析统计分组聚合、统计分析、批量加载、访问大量行少数列。</li>
-<li>Delta列存：适合实时分析场景，例如实时分析同时进行实时插入和更新、实时插入更新进入行存Delta、实时分析基于列存+行存Delta<br>注意：Delta表是列存表附带的行存表，若创建列存表同时开启Delta表,插入列存表的数据也会以行存的形式保存。</li>
 </ul>
 </li>
 </ol>
-<h2 id="高扩展"><a href="#高扩展" class="headerlink" title="高扩展"></a>高扩展</h2><p>逻辑集群+异构扩展</p>
-<ol>
-<li>逻辑集群实现如下功能：通过使用CN+DN<ul>
-<li>逻辑统一+业务隔离：用逻辑集群实现DN层的计算存储资源隔离，从而实现业务隔离。</li>
-<li>数据共享：将不同逻辑集群的公共数据放到同一个逻辑集群中</li>
-<li>计算弹性：可以利用空闲集群的计算资源用于其他业务的作业。</li>
+<h3 id="集群容灾管理"><a href="#集群容灾管理" class="headerlink" title="集群容灾管理"></a>集群容灾管理</h3><ol>
+<li>概述：广义上，容灾是一个系统工程，包括所有与业务连续性相关的内容。对于IT而言，容灾是提供一个能防止用户业务系统遭受各种灾难影响破坏的计算机系统。狭义的容灾是指建立两套或多套功能相同的IT系统，互相之间可以进行健康状态监视和功能切换，当主要站点因为意外（如火灾、地震、城市供电中断等）停止工作时，整个应用系统可以利用辅助站点快速恢复，并继续工作。</li>
+<li>容灾目的：容灾的主要目的是，当自然或人为的原因，导致生产系统发生灾难时，能够尽可能地保证业务的连续性。</li>
+<li>容灾和备份的区别 ：<ul>
+<li>容灾主要针对火灾、地震等重大自然灾害，因此生产站点和容灾站点之间，必须保证一定的安全距离；备份主要针对人为误操作、病毒感染、逻辑错误等因素，用于业务系统的数据恢复，数据备份一般是在同一数据中心进行。</li>
+<li>容灾系统不仅保护数据，更重要的目的在于业务的连续性；而数据备份系统只保护不同时间点版本数据的可恢复。一般首次备份为全量备份，所需的备份时间会比较长，而后续增量备份则在较短时间内就可完成。</li>
+<li>容灾的最高等级可实现RPO&#x3D;0;备份可设置一天最多24个不同时间点的自动备份策略，后续可将数据恢复至不同的备份点。</li>
+<li>故障情况下（例如地震、火灾），容灾系统的切换时间可降低至几分钟；而备份系统的恢复时间可能几小时到几十小时。</li>
 </ul>
 </li>
-<li>异构扩展：用于冷数据的低成本管理<ul>
-<li>功能：用本地盘做性能加速，用OBS做冷数据区，实现数据存储异构，自动冷热数据迁移（2年以上冷数据）。<br>结果：分层存储+成本最优：按需选择存储和计算引擎，实现冷热数据的动态切换。</li>
+<li>RPO和RTO:<ul>
+<li>RPO(Recovery Point Objective):即数据恢复点目标，主要指的是业务系统所能容忍的数据丢失量</li>
+<li>RTO(Recovery Time Objective):即恢复时间目标，主要指的是所能容忍的业务停止服务的最长时间，也就是从灾难发生到业务系统恢复服务功能，所需要的最短时间周期。</li>
+</ul>
+</li>
+<li>双集群容灾：<ul>
+<li>容灾原理：<ul>
+<li>生产集群（原集群）周期性做Roach备份，备份文件被同步scp到灾备集群。灾备集群（新集群）周期性做Roach恢复，灾备集群执行恢复操作期间，需要停止集群，其余时间可对外提供查询服务。生产集群故障后，通过switchover&#x2F;failover命令将灾备集群升主，业务由灾备集群接管。</li>
+</ul>
+</li>
+<li>容灾能力：GaussDB内核已具备该能力，DWS管控面已集成该能力</li>
+<li>方案限制：<ul>
+<li>两套集群节点数可以不同，但实例逻辑拓扑要一致，主要指总DN个数需要相同。</li>
+<li>当前支持集群级别的数据同步，也支持细粒度的容灾，但是细粒度容灾受限于白名单使用。</li>
+<li>要求灾备集群具有足够的磁盘空间，存放完整的全量备份集（通常要求是集群数据量的两倍以上）</li>
+</ul>
+</li>
+<li>性能说明：<ul>
+<li>RPO和RTO主要取决于增量数据同步的性能，以及增量同步的周期间隔。对于典型的主、备集群部署场景（物理机、SAS盘、集群内万兆网卡、集群间千兆网卡），在1T&#x2F;天的数据增速下（集群节点数在30个以上时），最小可达RPO 1小时，最小可达RTO 1小时。带宽不是瓶颈的情况下，增量数据同步的性能至少在 30 MB&#x2F;S&#x2F;DN.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
-<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p>主备从HA技术+多租户资源管理+可信安全+多层次多类型备份</p>
-<h3 id="主备从HA技术"><a href="#主备从HA技术" class="headerlink" title="主备从HA技术"></a>主备从HA技术</h3><p>功能：数据三重保护（主+备+从备）+容忍单副本故障+两副本提供HA保障。<br>主备流程：<br>正常情况：主机和备机通过日志+数据页流复制实现强同步，主机和从备仅保持连接，从备不占用额外存储资源<br>主机故障：集群管理器感知并仲裁备机升为主机，升级后的备机和从备进行主从强同步。<br>备机故障：主机自动感知，主机的未同步日志和数据发送给从备，实现主从强同步，主备同步利用内核底层实现主从同步切换，事务层不感知</p>
-<h3 id="多租户资源管理"><a href="#多租户资源管理" class="headerlink" title="多租户资源管理"></a>多租户资源管理</h3><p>和企业组织结构匹配+管理租户资源（计算+存储）+租户资源隔离（容器技术）+租户资源监控</p>
-<h3 id="多层级多类型备份"><a href="#多层级多类型备份" class="headerlink" title="多层级多类型备份"></a>多层级多类型备份</h3><p>多种介质：云备份推荐使用OBS备份，支持OBS&#x2F;NBU&#x2F;华为数据一体机<br>全量+增量备份：全量物理备份、差异增量、累积增量等类型备份<br>完全在线：备份期间不加锁，业务SQL无影响<br>全局一致性：备份全局一致性快照<br>细颗粒备份恢复：支持集群+schema级+表级备份恢复，支持就地集群恢复。<br>安全：加密传输。</p>
-<h2 id="融合分析"><a href="#融合分析" class="headerlink" title="融合分析"></a>融合分析</h2><p>支持直接读写HDFS&#x2F;OBS&#x2F;PostGIS数据：<br>数据源互通：可以读取Oracle&#x2F;Spark&#x2F;Hive数据库<br>外表机制：支持HDFS&#x2F;OBS&#x2F;MPP外表，读取HDFS&#x2F;OBS数据。<br>兼容性：兼容SQL2003、JDBC&#x2F;ODBC、SQL2003访问HDFS和OBS</p>
-<h2 id="智能运维"><a href="#智能运维" class="headerlink" title="智能运维"></a>智能运维</h2><p>适应场景：支持扩容加节点+扩容重分布+空间回收Vacuum full<br>快照策略：手动快照+自动快照<br>存储介质选择：OBS + NBU</p>
-<p>学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
+<h3 id="集群弹性伸缩管理"><a href="#集群弹性伸缩管理" class="headerlink" title="集群弹性伸缩管理"></a>集群弹性伸缩管理</h3><ol>
+<li>节点扩容：<ul>
+<li>集群磁盘容量使用超过70%时进行扩容。</li>
+<li>在扩容配置中，默认配置将不使用在线扩容，并在扩容后自动进行离线重分布。</li>
+<li>如果使用在线扩容，默认将在扩容之后进行在线重分布操作。</li>
+<li>在线扩容以及在线重分布，相比离线模式对业务影响较小。在线重分布期间，用户可以对表执行插入、更新、删除，但重分布过程仍然会短时间阻塞用户的数据更新操作，会影响用户语句的执行性能。</li>
+<li>扩容重分布过程会消耗大量的CPU和IO资源，因此也会对用户作业性能影响较大，用户应该尽可能在停止业务情况下或业务轻载的情况下，执行扩容重分布。</li>
+</ul>
+</li>
+<li>如果用户的集群是EVS盘的云数仓类型，并且只是磁盘空间出现瓶颈，计算资源比较充足，用户可以通过磁盘扩容快速缓解存储资源不足的问题，磁盘扩容过程中无需暂停业务，并且不会造成CPU、内存等资源浪费。</li>
+<li>节点缩容：当用户的计算或者存储资源冗余，超出业务需求时，可在控制台对已有集群进行缩容操作，以便节省成本。集群缩容时只能以安全环为单位减少集群节点的个数，比如用户的集群有9个节点，每3个节点为一个安全环，那么只能选择缩3个节点和6个节点。</li>
+</ol>
+<h3 id="集群资源管理"><a href="#集群资源管理" class="headerlink" title="集群资源管理"></a>集群资源管理</h3><ol>
+<li>为解决用户资源隔离，以实现业务优先级，避免复杂业务阻塞资源，引入了资源池，每个资源池指定可以使用的CPU，内存、磁盘等大小，然后将用户与资源池关联，用户在使用时就只能使用该资源池可以使用的资源，以达到资源限制的目的。</li>
+<li>创建资源池：<br>  用户可以对资源池进行创建、删除、修改（配置，异常规则，关联用户）等操作，队列的参数表示对该资源池的限制，其中CPU有配额和限额两个维度限制。配额：当多个资源池同时在一个CPU上执行时，各自使用时间比例。限额：限定该资源池可以运行的CPU数量。</li>
+<li>创建资源管理计划：<br>  资源管理计划用于自动化的、周期性的对资产池中的资源进行变更，以便实现灵活的资源管理，如果有多个计划，只能生效一个。</li>
+<li>schema空间管控:<br>  模式空间管理，用于对模式空间大小的限额。</li>
+</ol>
+<h3 id="智能运维"><a href="#智能运维" class="headerlink" title="智能运维"></a>智能运维</h3><ol>
+<li>概念:<br>  智能运维是DWS的常驻运维工具，可以帮助用户智能执行运维任务。智能运维会通过集群负载情况，选择合理时间窗、并发度完成用户指定的任务，在运维任务执行过程中，智能运维将时刻关注用户业务的变化，及时调整运维任务执行策略，以减轻对用户业务的影响。智能运维支持周期型和单次型任务的创建，执行时间窗可按照不同用户业务负载定制化。智能运维具备一定的高可用性，在集群异常的情况下，智能运维将重新执行失败的运维任务，若由于集群异常导致运维任务部分步骤无法完成，智能运维将尝试跳过失败的步骤，以节省用户运维时间窗的开销。</li>
+<li>运维计划：<br>  用户可以对运维任务进行创建、删除和修改等操作。调度模式支持自动、指定目标和优先级模式。运维任务可支持单次型和周期型。周期时间窗时间设置为默认为本地时间，请您根据业务所在时区结合时差设置该项。同一天的时间段请不要重叠。</li>
+<li>运维状态：<br>  在运维详情部分切换至运维状态模块。可查看运维任务运行的详细信息，状态包括：Waiting、Running、Finished和Canceled</li>
+</ol>
+<p>基于公开来源信息, 学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
 
                 
             </div>
@@ -554,7 +667,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%9F%BA%E7%A1%80%E7%AF%87/</a>
+                    <a href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E7%AF%87/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -669,24 +782,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/">
+                <a href="/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-数据库管理篇">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-性能调优和开发实践篇">
                         
-                        <span class="card-title">GaussDB(DWS)数据库-数据库管理篇</span>
+                        <span class="card-title">GaussDB(DWS)数据库-性能调优和开发实践篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            GaussDB(DWS)数据库-数据库管理篇，主要介绍DWS数据仓库服务、引擎、表类型、事务、表、分区设计、索引、视图、序列、数据脱敏、审计日志等。
+                            GaussDB(DWS)数据库-性能调优和开发实践篇，主要介绍性能调优、SQL调优、plan hint、SQL改写等方面。
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-04
                         </span>
                         <span class="publish-author">
                             
@@ -730,31 +843,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/04/25/hello-world/">
+                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-导入导出篇">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">GaussDB(DWS)数据库-导入导出篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
+                            GaussDB(DWS)数据库-导入导出篇，主要介绍DWS数据仓库的主要的入库和出库的方式：外表、GDS、Flink。同时说明了DWS如何利用Flink来构建实时数仓，进而实现实时增量读和实时入库。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%B5%8B%E8%AF%95/" class="post-category">
-                                    测试
+                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    数据
                                 </a>
                             
                             
@@ -764,12 +877,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Typora/">
-                        <span class="chip bg-color">Typora</span>
+                    <a href="/tags/GaussDB-DWS/">
+                        <span class="chip bg-color">GaussDB(DWS)</span>
                     </a>
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
+                        <span class="chip bg-color">数据仓库</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
+                        <span class="chip bg-color">数据</span>
                     </a>
                     
                 </div>
