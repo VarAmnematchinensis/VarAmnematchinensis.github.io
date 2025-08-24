@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="GaussDB(DWS)数据库-开发应用篇, Amnematchinensis">
-    <meta name="description" content="GaussDB(DWS)数据库-开发应用篇，主要介绍DWS驱动及ODBC/JDBC开发、SQL编辑器、数据集成工具、数据调度工具等。">
+    <meta name="keywords" content="PyTorch基础教程及注意事项-数据和模型篇, Amnematchinensis">
+    <meta name="description" content="PyTorch基础教程及注意事项-数据和模型篇，主要介绍PyTorch的数据ETL(提取、转换、加载)、模型保存、转换、加载和部署，以及分布式模型训练框架和工具等方法工具。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GaussDB(DWS)数据库-开发应用篇 | Amnematchinensis</title>
+    <title>PyTorch基础教程及注意事项-数据和模型篇 | Amnematchinensis</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -333,12 +333,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GaussDB(DWS)数据库-开发应用篇</h1>
+                    <h1 class="description center-align post-title">PyTorch基础教程及注意事项-数据和模型篇</h1>
                 </div>
             </div>
         </div>
@@ -362,20 +362,24 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/GaussDB-DWS/">
-                                <span class="chip bg-color">GaussDB(DWS)</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-                                <span class="chip bg-color">数据库</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
-                                <span class="chip bg-color">数据仓库</span>
-                            </a>
-                        
                             <a href="/tags/%E6%95%B0%E6%8D%AE/">
                                 <span class="chip bg-color">数据</span>
+                            </a>
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">深度学习</span>
+                            </a>
+                        
+                            <a href="/tags/PyTorch/">
+                                <span class="chip bg-color">PyTorch</span>
                             </a>
                         
                     </div>
@@ -386,8 +390,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
-                                数据
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
                             </a>
                         
                     </div>
@@ -399,28 +403,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-08-03
+                    2025-08-25
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-08-04
+                    2025-08-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.1k
+                    2.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    10 分
                 </div>
                 
 
@@ -440,169 +444,322 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="DWS驱动及ODBC-JDBC开发"><a href="#DWS驱动及ODBC-JDBC开发" class="headerlink" title="DWS驱动及ODBC&#x2F;JDBC开发"></a>DWS驱动及ODBC&#x2F;JDBC开发</h3><ol>
-<li>DWS驱动：<ul>
-<li>驱动概念：数据库驱动是应用程序和数据库存储之间的一种接口，数据库厂商为某一开发语言环境，能够实现数据库调用而开发的类似“翻译员”功能的程序，将复杂的数据库操作和通讯抽象成为当前开发语言的访问接口。</li>
-</ul>
-</li>
-<li>支持驱动类型：JDBC、ODBC等，如果同时拥有不同版本的集群或者当前没有集群，单击“下载”时下载的依然是与现有集群版本相匹配的。</li>
-<li>驱动支持平台：JDBC没有平台限制，ODBC有支持平台限制（平台：X86、鲲鹏）</li>
-<li>JDBC应用程序开发：<ul>
-<li>JDBC整体架构（4层）：应用程序-&gt;JDBC Driver Interface-&gt;JDBC驱动-&gt;数据库。JAVA本身具有良好的平台移植性，这也直接导致JDBC的平台移植性比ODBC强很多。</li>
-<li>JDBC安全配置：配置JDBC包-&gt;加载驱动-&gt;连接数据库<ul>
-<li>gsjdbc4.jar:与PostgreSQL保持兼容的驱动包，其中类名、类结构与PostgreSQL驱动完全一致，曾经运行于PostgreSQL的应用程序可以直接移植到当前系统使用。主类名为“org.postgresql.Driver”，数据库连接的URL前缀为“jdbc:postgresql”</li>
-<li>gsjdbc200.jar:如果同一JVM进程内需要同时访问PostgreSQL及GaussDB(DWS)，请使用此驱动包。主类名为“com.huawei.gauss200.jdbc.Driver”,数据库连接的URL前缀为“jdbc:guassdb”，其余与gsjdbc4.jar相同。</li>
-</ul>
-</li>
-<li>配置注意事项：<ul>
-<li>连接参数：第三方工具通过JDBC连接DWS时，jdbc向DWS发起连接请求，会默认添加以下配置参数，详见jdbc代码ConnectionFactoryImpl类的实现。这些参数可能会导致JDBC客户端的行为与gsql客户端的行为不一致。如果实际期望和这些配置不符，建议在Java连接设置代码中显示设定这些参数。</li>
-<li>fetchsize:在应用程序中，如果需要使用fetchsize，必须关闭autocommit。开启autocommit，会令fetchsize失效。</li>
-<li>autocommit:在jdbc向DWS申请连接的代码中，建议显示打开autocommit开关。如果基于性能或者其他方面考虑，需要关闭autocommit时，需要应用程序自己来保证事务的提交。例如，在指定的业务SQL执行完之后做显式提交，特别是客户端退出之前务必保证所有的事务已经提交。</li>
-<li>CopyManager:在不使用ETL工具，数据入库实时性要求又比较高的情况下，建议在开发应用程序时，使用dws的jdbc驱动的CopyManager接口进行微批导入。</li>
-<li>释放连接：推荐使用连接池来限制应用程序的连接数。每执行一条SQL就连接一次数据库，是一种不好的SQL编写习惯。在应用程序完成作业任务之后，应当及时断开和dws的连接，释放资源。建议在任务中设置session超时时间参数。</li>
-<li>使用jdbc连接池，在将连接释放给连接池前，需要执行以下操作，重置会话环境。否则，可能会因为历史会话信息导致的对象冲突。如果在连接中设置了GUC参数，那么在将连接归还连接池之前，必须使用“SET SESSION AUTHORIZATION DEFAULT;RESET ALL;”将连接的状态清空。如果使用了临时表，那么在将连接归还连接池之前，必须将临时表删除。（常见报错：relation “xxx_tmp” already exists）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>ODBC应用程序开发：<ul>
-<li>ODBC整体架构（5层）：应用程序-&gt;标准接口（ODBC API）-&gt; 驱动程序管理器（ODBC Driver Manager）-&gt;ODBC驱动-&gt;数据库</li>
-<li>数据源配置：Linux、windows</li>
-<li>Linux-ODBC数据源配置：<ul>
-<li>步骤（4个）：<ul>
-<li>安装ODBC驱动管理器：获取UnixODBC源码包，编译安装驱动管理器。备注：驱动默认安装在“&#x2F;usr&#x2F;local”目录下，生成数据源文件到“&#x2F;usr&#x2F;local&#x2F;etc”目录下，库文件生成在“&#x2F;usr&#x2F;local&#x2F;lib”目录下</li>
-<li>配置驱动</li>
-<li>安全组配置</li>
-<li>测试连接：使用isql -v GaussODBC(数据源名称)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>windows-ODBC数据源配置：<ul>
-<li>步骤<ul>
-<li>配置服务器：与Linux相同</li>
-<li>配置数据源（Windows自带驱动管理器，无需额外安装）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>应用程序调试：<ul>
-<li>ODBC应用程序调试需要在前面配置正确可用的环境下进行。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>客户端连接管理<ul>
-<li>功能描述：JDBC和ODBC驱动在连接成功后会设置session级GUC参数connection_info.该参数包含连接数据库的驱动类型、驱动版本号、当前驱动的部署路径和进程属主用户，使用json格式记录。默认只显示driver_name和driver_version，driver_path和os_user的显示由用户控制，控制连接参数为ConnectionExtraInfo.connetion_info可以在pg_stat_activity和pgxc_stat_activity中查看。</li>
-<li>连接配置示例：<ul>
-<li>JDBC连接：在连接URL中增加connectionExtraInfo参数。</li>
-<li>ODBC连接：在“&#x2F;usr&#x2F;local&#x2F;etc&#x2F;odbc.ini”文件中追加ConnectionExtraInfo设置。</li>
-</ul>
-</li>
-</ul>
-</li>
+                <h2 id="数据ETL-提取、转换、加载"><a href="#数据ETL-提取、转换、加载" class="headerlink" title="数据ETL(提取、转换、加载)"></a>数据ETL(提取、转换、加载)</h2><p>数据集：  </p>
+<ol>
+<li>内置数据集：<br>  定义： PyTorch生态系统（专业库）中内置的常用数据集<br>  <a target="_blank" rel="noopener" href="https://docs.pytorch.org/vision/stable/index.html">torchvision</a>:用于计算机视觉常用数据集<br>  torchvision.datasets 内部常用数据集</li>
 </ol>
-<h3 id="SQL编辑器"><a href="#SQL编辑器" class="headerlink" title="SQL编辑器"></a>SQL编辑器</h3><ol>
-<li>SQL登录：IAM用户一键登录、自定义数据源登录<ul>
-<li>IAM用户一键登录：<ul>
-<li>用户可以直接使用IAM账号登录集群数据库，免除填写账号密码操作</li>
-<li>提供集群列表树展示当前用户拥有的所有集群，可以选择某一个集群直接双击打开集群。</li>
-<li>当前连接是用户的IAM账号直接登录，一键登录集群后，用户可以对账号进行赋权。</li>
-<li>登录后，就可以对集群数据库做一些开发运维等操作。</li>
-<li>限制要求：<ul>
-<li>使用IAM账号登录，首先需要有DWS Database Access角色权限，以及当前用户必须是子账号。</li>
-<li>对于集群版本有一些要求，集群版本要高于8.3.1.330.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>自定义数据源登录：<ul>
-<li>自定义数据源和传递连接方式类似，用户选择集群后，需要填用户名密码登录</li>
-<li>在创建连接之前会先提示测试连接，测试正常后可以正常保存。</li>
-<li>限制要求：<ul>
-<li>自定义连接对集群版本没有限制，有的只是一些语法上的兼容性，需要用户自定义根据集群版本来编写SQL</li>
-<li>数据源名称如果不填写，会根据集群名（用户名）来创建，注意一个用户下名称不可以重复</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>元数据管理：<ul>
-<li>提供了库、模式、表等图形化界面管理，而且以树形方式来层级查看。</li>
-<li>提供树形结构来展现库、模式、表、索引等元数据列表，可以层级打开查看。</li>
-<li>每层节点也提供右键菜单做新增、修改、删除等操作。</li>
-<li>表提供批量操作列，索引，分区，约束信息。</li>
-<li>表，分区，视图支持直接打开数据操作，支持根据SQL条件过滤，表和分区还支持单条数据插入，修改和新增。</li>
-</ul>
-</li>
-<li>SQL分析执行：<ul>
-<li>SQL诊断军规，SQL拦截规则：<ul>
-<li>NULL校验：NULL值的比较只能使用IS [NOT] NULL方式，其他任何形式的逻辑判断都返回NULL。例如NULL &lt;&gt; NULL,NULL &#x3D; NULL和NULL &lt;&gt; 1 返回结果都是NULL.</li>
-<li>COUNT(col)：count(1) 会统计NULL值（真实行数），而count（col）不会统计。</li>
-<li>LIMIT和ORDER BY : DWS的分布式操作会导致数据跨节点流动，不带ORDER BY 的LIMIT 操作的，会导致输出结果随机。因此除非不关注结果集的稳定性，否则禁止不带ORDER BY 的LIMIT操作。</li>
-<li>不稳定函数：子查询中不能出现uuid_generate_v1(), sys_guid(),nextval等不稳定函数，会造成结果集的不稳定。</li>
-<li>NOT IN 校验：not in 子查询逻辑执行计划，走的是nestloop嵌套循环，在数据量大的情况下，非常容易出现性能问题；通过改写not exists之后，执行计划可以使用hashjoin哈希关联，性能能够得到极大的提升。</li>
-<li>join 代替exists: join 相比exists和in 具有更好的代码阅读性，SQL优化器相对更容易找到更精确的执行计划。</li>
-<li>select * : 不建议使用“select * ”这种写法，请明确指定列。</li>
-<li>ORDER BY: 子查询中禁止使用order by </li>
-<li>RETURNING: returning会导致语句不下推</li>
-<li>DISTINCT ON: distinct on 会导致语句不下推</li>
-<li>表关联数量：优化器是基于代价的优化器，表数据量越多，估算的偏差就越大，产生性能差的执行计划的风险就越大，所以每条SQL语句中关联的表个数不超过16个</li>
-<li>schema: 访问表需要加schema。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>脚本管理<ul>
-<li>目录：支持使用目录来管理SQL脚本，最多支持二级目录，每级目录支持创建10个文件夹，用户只能看到自己创建的目录和脚本。</li>
-<li>脚本：脚本保存到OBS桶中，可以在基础设置中设置默认桶地址，可选择目录进行管理，目录地址也会默认带到桶地址中。</li>
-</ul>
-</li>
+<table>
+<thead>
+<tr>
+<th>数据集</th>
+<th>名称</th>
+<th>下载加载命令</th>
+<th>数据量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MNIST</td>
+<td>手写数字图像数据集</td>
+<td>torchvision.datasets.MNIST(root, train, download, transform)</td>
+<td>7万张手写数字0-9的灰度图像，其中，6万张用于训练，1万张用于测试。每张图像的大小为28×28像素</td>
+<td>图像分类</td>
+</tr>
+<tr>
+<td>CIFAR-10</td>
+<td>彩色图像数据集</td>
+<td>torchvision.datasets.CIFAR10(root, train, download, transform)</td>
+<td>10个类别、每个类别有6000张图像，总共有5万张训练图像和1万张测试图像，6万张32×32像素彩色图像</td>
+<td>图像分类</td>
+</tr>
+<tr>
+<td>COCO</td>
+<td>通用物体检测、分割、关键点检测数据集</td>
+<td>torchvision.datasets.CocoCaptions(root, anaFile, transform)</td>
+<td>33 万张图像、150 万目标实例、80 个目标类、91 个物品类以及 25 万关键点人物</td>
+<td>图像分割</td>
+</tr>
+<tr>
+<td>ImageNet</td>
+<td>经典图像数据集</td>
+<td>torchvision.datasets.ImageNet(root, split, transform, loader)</td>
+<td>120万张训练图像，5万张验证图像和10万张测试图像</td>
+<td>图像分类和物体检测</td>
+</tr>
+<tr>
+<td>STL-10</td>
+<td>彩色图像数据集</td>
+<td>torchvision.datasets.STL10(root, split, download, transform)</td>
+<td>10个类组成，总共约6000+张96*96像素图像</td>
+<td>图像识别</td>
+</tr>
+<tr>
+<td>Cityscapes</td>
+<td>城市街道场景图像</td>
+<td>torchvision.datasets.Cityscapes(root, split, mode, transform)</td>
+<td>50 个不同城市街景中记录的视频序列，其包含 20000 个弱注释帧和 5000 帧的高质量像素级</td>
+<td>城市街景语义理解</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>自定义数据集：<br>  工具：torch.utils.data.Dataset抽象类,从自己的数据源创建自定义数据集。<br>  用法：需要继承该抽象类，并实现如下方法：<strong>len</strong>(self)(返回数据集中的样本数量)，<strong>getitem</strong>(self, idx)(通过索引返回样本)</li>
+<li>外置数据集：一般是外部数据库，可以使用<a target="_blank" rel="noopener" href="https://www.psycopg.org/docs/">psycopg2</a>等模块</li>
 </ol>
-<h3 id="数据集成工具"><a href="#数据集成工具" class="headerlink" title="数据集成工具"></a>数据集成工具</h3><ol>
-<li>实时同步服务：<ul>
-<li>定义： 实时同步服务是DWS 团队根据特性孵化出的，一个简便易用、高性能的、从Kafka同步数据到DWS的服务化工具。其入库时可采用DWS内部协议，以减少对DWS集群的资源消耗，同步提升入库性能。</li>
-</ul>
-</li>
-<li>创建实时同步服务实例：<ul>
-<li>创建时填写对应参数，然后点击立即购买，等待创建完成后，就会按需在后台创建好一个资源池，后续运行的作业将会从资源池中分配一定资源供作业运行；资源池统一使用CU分配资源，规格中的CPU数量即为CU数量，内存不可直接控制，他们会按照CPU内存比按照比例分配，例如创建的实例规格为4U16GB,创建时选择3节点，那么总资源 &#x3D; 4 CU * 3 &#x3D; 12CU,每个CU内存大学4GB.</li>
-</ul>
-</li>
-<li>实时同步服务连接配置：<ul>
-<li>连接配置用于配置Kafka、DWS的连接信息，一份配置所有作业均可使用，以便于后面在提交作业时可以直接使用，不用每个作业都配置一份。</li>
-<li>当前支持Kafka和dws两种类型的连接，连接名称只用于业务区分，无实际含义，Kafka的服务地址需要是带端口的连接串，并且保证是VPC能访问的IP;dws的连接地址是一个包含协议的完整JDBC连接串，同时也需要是能在VPC内能访问的IP.</li>
-</ul>
-</li>
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>模块工具</th>
+<th>数据库驱动包</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GaussDB(DWS)</td>
+<td><a target="_blank" rel="noopener" href="https://support.huaweicloud.com/mgtg-dws/dws_01_0120.html">psycopg2</a>&#x2F;<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/mgtg-dws/dws_01_0171.html">PyGreSQL</a>&#x2F;psycopg2-binary</td>
+<td>可使用开源驱动JDBC&#x2F;ODBC</td>
+</tr>
+<tr>
+<td>GaussDB</td>
+<td>psycopg2</td>
+<td><a target="_blank" rel="noopener" href="https://support.huaweicloud.com/distributed-devg-v8-gaussdb/gaussdb-12-0155.html">Psycopg</a></td>
+</tr>
+<tr>
+<td>Opengauss</td>
+<td>psycopg2</td>
+<td><a target="_blank" rel="noopener" href="https://docs.opengauss.org/zh/docs/6.0.0/docs/DeveloperGuide/%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8_Psycopg.html">Psycopg</a></td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>psycopg2&#x2F;psycopg3</td>
+<td>Python模块工具安装后，不需要再单独在pg库侧安装驱动包</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>使用注意：</li>
 </ol>
-<h3 id="数据调度工具"><a href="#数据调度工具" class="headerlink" title="数据调度工具"></a>数据调度工具</h3><ol>
-<li>Airflow基础：<ul>
-<li>定义：Apache Airflow是一个开源平台，用于开发、调度和监控，面向批处理的工作流程。</li>
-<li>是可扩展Python框架，主要特点是所有工作流都用Python代码定义，有如下优点：<ul>
-<li>动态：Airflow管道配置为Python代码，允许动态管道生成。</li>
-<li>可扩展：Airflow框架包含可连接多种技术的运算符。所有Airflow组件都可扩展，可轻松适应运行环境。</li>
-<li>灵活：利用Jinja模板引擎，内置工作流参数化。</li>
+<ul>
+<li>规格不同按需适配|使用时需要注意模块、模块接口、Python和数据库版本限制  </li>
+<li>使用时需要注意防火墙等限制，防火墙即可以阻止下载，也可以阻止连接，一般会导致连接超时报错。  </li>
+<li>账号密码和数据库配置等信息一般是单独放置，加密保存，可以使用Python模块Crypto、cryptodome或者<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zzkkk1h/p/18117606">pycryptodomex</a>库中的加解密方法，获取使用信息。  </li>
+<li>除了使用连接模块psycopg2的psycopg2.connect()连接数据库外，还可以使用<a target="_blank" rel="noopener" href="https://blog.csdn.net/xc_zhou/article/details/80893289">DBUtils.PooledDB</a>包（管理数据库连接池）连接数据库，DBUtils.PooledDB包使用的时候，需要和psycopg2或者importlib一起配合使用。</li>
 </ul>
-</li>
-<li>架构组件（5）：分布式架构<ul>
-<li>Worker: 执行分配的任务</li>
-<li>Scheduler: 负责将必要的任务添加到队列中</li>
-<li>Web Server: HTTP服务器，提供对DAG&#x2F;任务状态等信息的访问</li>
-<li>Database: 存储有关任务、DAG、变量、连接等状态的信息</li>
-<li>Celery: Broker、Result backend</li>
-<li>Broker: 存储要执行的任务。</li>
-<li>Result backend : 存储已完成任务的状态。</li>
-</ul>
-</li>
-<li>Airflow删除：当用户不需要使用某个集群时，可以删除该集群。删除的集群无法恢复，同时集群中的用户数据，已执行任务的历史记录，也会自动删除，而且无法再访问。删除集群时，不会删除集群使用的DAG文件。</li>
-</ul>
-</li>
-<li>注意要点：<ul>
-<li>访问DWS时，建议在Airflow中新建连接，通过base_hook获取连接ID，获取对应数仓的连接信息。避免在DAG文件中，硬编码数仓密码。</li>
-</ul>
-</li>
+<h2 id="数据加载、处理和转换"><a href="#数据加载、处理和转换" class="headerlink" title="数据加载、处理和转换"></a>数据加载、处理和转换</h2><ol>
+<li>数据加载器：<a target="_blank" rel="noopener" href="https://docs.pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader">torch.utils.data.DataLoader</a>，从数据集中按批次加载数据，支持多线程加载加速和数据打乱。</li>
 </ol>
-<p>基于公开来源信息, 学习资源来自<a target="_blank" rel="noopener" href="https://connect.huaweicloud.com/courses/learn/Learning/sp:cloudEdu_?courseNo=course-v1:HuaweiX+CBUCNXBC006+Self-paced&courseType=1">华为云GaussDB(DWS)数据库官网</a></p>
+<ul>
+<li>关键参数：torch.utils.data.DataLoader(dataset，batch_size, shuffle，num_workers，drop_last) <ul>
+<li>batch_size: int类型的数据， 每次加载样本的数量，如默认设置为1，那就是一行一行的喂数据给模型，效率比较慢  </li>
+<li>shuffle: bool数据类型， 是否需要对数据进行洗牌（通常用于训练时将数据打乱使用），如果数据有规律特征（顺序或倒序），则不应该设置为True.  </li>
+<li>num_workers：int类型的数据，默认为0，表示使用主进程导入数据，非负数表示使用多少子进程导入数据。  </li>
+<li>drop_last:bool数据类型, 默认为False，和batch_size配合使用，可用于数据集中不能被batch_size整除中，确认是否丢弃最后一批数据。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>多数据源加载：<a target="_blank" rel="noopener" href="https://docs.pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader">torch.utils.data.ConcatDataset</a>，自定义加载多数据源，可以将多数据源合并为一个数据集。</li>
+</ol>
+<h2 id="数据转换"><a href="#数据转换" class="headerlink" title="数据转换"></a>数据转换</h2><ol>
+<li>目的：将原始数据转换为适合模型训练的数据格式  </li>
+<li>组成：</li>
+</ol>
+<ul>
+<li>数据预处理：数据归一化，调整数据格式、大小和数据范围，使其适合模型输入。  </li>
+<li>数据增强：在训练时对数据做变换，例如随机剪裁&#x2F;翻转等，提高模型泛化能力，避免过拟合。</li>
+</ul>
+<ol start="3">
+<li>一般工具：torchvision视觉库，torchvision.transfroms工具，以下是典型数据转换和增强操作：<br>  基础数据变换操作</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>用途</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>torchvision.transfroms.Compose()</td>
+<td>多变换操作组合，按照顺序依次执行</td>
+<td></td>
+</tr>
+<tr>
+<td>torchvision.transfroms.Resize()</td>
+<td>调整图像大小，保证输入到网络的图像大小一致</td>
+<td></td>
+</tr>
+<tr>
+<td>torchvision.transfroms.ToTensor()</td>
+<td>图像转化为Tensor张量，像素数值归一化为[0,1]范围</td>
+<td></td>
+</tr>
+<tr>
+<td>torchvision.transfroms.Normalize()</td>
+<td>图像数据标准化，使数据符合特定均值和标准差</td>
+<td></td>
+</tr>
+<tr>
+<td>torchvision.transfroms.CenterCrop()</td>
+<td>从图像中心剪裁指定大小区域</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>数据增强操作</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>torchvision.transfroms.RandomHorizontalFlip()</td>
+<td>随机水平翻转图像</td>
+</tr>
+<tr>
+<td>torchvision.transfroms.RandomRotation()</td>
+<td>随机旋转图像一定角度</td>
+</tr>
+<tr>
+<td>torchvision.transfroms.ColorJitter()</td>
+<td>调整图像亮度、对比度、饱和度和色调</td>
+</tr>
+<tr>
+<td>torchvision.transfroms.RandomCrop()</td>
+<td>随机裁剪指定大小的区域</td>
+</tr>
+<tr>
+<td>torchvision.transfroms.RandomResizeCrop()</td>
+<td>随机裁剪图像并调整到指定大小</td>
+</tr>
+</tbody></table>
+<h2 id="模型保存，加载和部署"><a href="#模型保存，加载和部署" class="headerlink" title="模型保存，加载和部署"></a>模型保存，加载和部署</h2><ol>
+<li>功能：训练中断时恢复训练；在不同的训练阶段比较模型性能；方便模型部署和成员之间的模型共享；可用于迁移学习。  </li>
+<li>类型：</li>
+</ol>
+<ul>
+<li>保存整个模型：torch.save(model, path), 保存模型架构和所有参数。<br>  优势：完整保留模型结构<br>  劣势：文件体积大，对模型类的定义有依赖。  </li>
+<li>保存模型参数：torch.save(model.dict(), path), 只保留模型的状态字典信息。<br>  优势：文件小，可加载到不同模型架构中，兼容性好<br>  缺点：过程繁琐，使用前需要每次先创建相同架构的模型。</li>
+</ul>
+<ol start="3">
+<li>注意事项：</li>
+</ol>
+<ul>
+<li>保存命名：模型和参数的保存要按照架构要求和命名规范进行，要有意义。  </li>
+<li>设置定期保存命令，最好是每隔几轮训练迭代就保存一次检查点，防止训练出现问题。  </li>
+<li>在保存完成后，需要测试加载能力，确保保存的模型能正常加载使用。  </li>
+<li>训练和保存过程中，由于比较耗时，可以在此期间将模型架构、训练参数等信息做文档保存，以备查阅。  </li>
+<li>模型文件等材料放入Git&#x2F;svn&#x2F;Dbox&#x2F;代码仓的版本管理系统中，做版本管理。  </li>
+<li>如果无法加载保存旧的版本模型，可以查阅文档，确定当时使用的Pytorch版本后再加载，或者转换模型的格式。</li>
+</ul>
+<h3 id="模型加载"><a href="#模型加载" class="headerlink" title="模型加载"></a>模型加载</h3><p>跨设备模型加载：  </p>
+<ol>
+<li>CPU或GPU加载：先保存模型参数到指定路径中，设定模型使用设备（torch.device(“cpu)）,再将模型参数加载到模型中（torch.load(参数路径，map_location &#x3D; ‘cpu)）,最后将模型转移到指定的模型使用设备上。  </li>
+<li>多GPU模型加载：</li>
+</ol>
+<ul>
+<li>目的：调度GPU，实现计算加速， GPU 并行计算（DataParallel 或 torch.distributed）  </li>
+<li>GPU方法和函数清单：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>torch.cuda.is_available</td>
+<td>判断GPU是否可用</td>
+</tr>
+<tr>
+<td>torch.device()</td>
+<td>创建设备对象，可用于张量设置在GPU上</td>
+</tr>
+<tr>
+<td>torch.to(device)</td>
+<td>将张量移动到指定设备上</td>
+</tr>
+<tr>
+<td>torch.device(‘cuda’ if torch.cuda.is_available() else ‘cpu’)</td>
+<td>优先使用GPU计算，没有GPU情况下用CPU计算</td>
+</tr>
+<tr>
+<td>注意事项：</td>
+<td></td>
+</tr>
+</tbody></table>
+<ol>
+<li>在设定本次计算使用的工具时，使用torch.device(‘cpu’),cpu需要小写。  </li>
+<li>在使用GPU运算时，要求模型和数据都要在GPU或者CPU同一个设备上。  </li>
+<li>模型和输入数据使用的设备确定时，可以在模型之前设定，也可以在使用过程中设置，张量和模型必须在同一个设备上可以使用torch.to（）工具来转移。  </li>
+<li>GPU中专用GPU内存和共享GPU内存的差别:专用GPU内存我们通常称为“显存”，就是显卡上独立专门的物理内存。而共享GPU内存是指从系统内存中单独划出，供GPU使用的内存，是显存的补充。可以在CUDA中显式管理共享内存。</li>
+</ol>
+<h3 id="分布式模型训练框架和工具："><a href="#分布式模型训练框架和工具：" class="headerlink" title="分布式模型训练框架和工具："></a>分布式模型训练框架和工具：</h3><ol>
+<li>PyTorch原生分布式能力：<a target="_blank" rel="noopener" href="https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html">torch.DistributedDataParallel</a>、<a target="_blank" rel="noopener" href="https://docs.pytorch.org/docs/stable/generated/torch.nn.DataParallel.html">torch.DataParallel</a>、<a target="_blank" rel="noopener" href="https://docs.pytorch.ac.cn/docs/stable/distributed.html">torch.distributed</a>，torch.DistributedDataParallel效率更高。</li>
+</ol>
+<ul>
+<li>数据并行模式支持：PyTorch支持数据并行模式，不支持流水线、Tensor、混合和自动并行模式，其1.9.0以上版本支持ZeRO，可以用于torch.DistributedDataParallel的communicationhook调用。torch.DistributedDataParallel支持通讯优化。  </li>
+<li>计算加速支持：可以使用torch.amp实现低精度训练（1.6以上版本，FP16精度）  </li>
+<li>内存优化支持：可以使用torch.utils.checkpointing进行重计算</li>
+</ul>
+<ol start="2">
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/nemo-framework/user-guide/24.07/nemotoolkit/nlp/megatron.html">NeMo- Megatron</a>:英伟达开发的分布式训练模型开源框架，支持数据并行和模型并行。  </li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zwqjoy/article/details/130732601">DeepSpeed</a>:微软开发的分布式训练模型开源框架，可以和NeMo- Megatron兼容，是目前主要使用的分布式训练工具。<br>  大模型分布式训练并行技术：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/598714869">https://zhuanlan.zhihu.com/p/598714869</a></li>
+</ol>
+<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><ol>
+<li>版本兼容性：在<a target="_blank" rel="noopener" href="https://docs.pytorch.org/docs/stable/generated/torch.save.html">torch.save()</a>中使用_use_new_zipfile_serialization来确保好的兼容性,可以确保仍然能使用1.6版本之前的旧格式。  </li>
+<li>格式转换：可以使用torch.jit.scipt()将模型转换为TorchScript格式，再使用torch.jit.save()和torch.jit.load()加载模型。  可以解决旧版本模型加载失败的问题。  </li>
+<li>导出格式：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>使用命令</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://docs.pytorch.ac.cn/docs/stable/jit.html">TorchScript</a></td>
+<td>torch.jit.trace() torch.jit.script()</td>
+<td>Pytorch原生格式，保持动态图特性</td>
+<td>Pytorch生态内部</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.pytorch.ac.cn/docs/stable/onnx.html">ONNX</a></td>
+<td>torch.onnx.export()</td>
+<td>开发标准，跨框架兼容</td>
+<td>多框架协同环境</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://developer.nvidia.com/zh-cn/blog/accelerating-inference-up-to-6x-faster-in-pytorch-with-torch-tensorrt/">Torch-TensorRT</a></td>
+<td><a target="_blank" rel="noopener" href="https://docs.pytorch.ac.cn/TensorRT/">import torch_tensorrt</a></td>
+<td>nvidia优化格式</td>
+<td>GPU推理加速</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>注意事项：</li>
+</ol>
+<ul>
+<li>TorchScript导出前要使用model.eval()调用模型，以转换模型模式状态为评估。</li>
+</ul>
+<h3 id="模型部署"><a href="#模型部署" class="headerlink" title="模型部署"></a>模型部署</h3><ol>
+<li>目的：使用AI平台(<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/modelarts/index.html">ModelArts</a>)，通过API调用的方式，将AI能力整合到Web等系统中，供调用使用。  </li>
+<li>一般部署流程：训练模型-》模型优化-》格式转换-》部署环境选择-》服务封装-》性能监控  </li>
+<li>部署方式：</li>
+</ol>
+<ul>
+<li>本地部署：ONNX部署，使用onnxruntime模块(ONNX Runtime 是由微软维护的一个跨平台机器学习推理加速器)，使用onnxruntime.InferenceSession()加载模型，创建推理会话，再使用onnxruntime.InferenceSession().run()执行推理  </li>
+<li>云端部署（优先）：使用<a target="_blank" rel="noopener" href="https://fastapi.tiangolo.com/zh/tutorial/#_1">fastapi</a>模块构建REST API，通过API接口调用。  <a target="_blank" rel="noopener" href="https://www.runoob.com/fastapi/fastapi-install.html">fastapi</a>工具使用。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] <a target="_blank" rel="noopener" href="https://study.163.com/course/introduction/1208894818.htm">深度学习与PyTorch入门实战</a><br>[2] Zhang, A., Lipton, Z. C., Li, M., &amp; Smola, A. J. (2023). <a target="_blank" rel="noopener" href="https://zh.d2l.ai/index.html">Dive into Deep Learning</a>. Cambridge University Press. URL: <a target="_blank" rel="noopener" href="https://d2l.ai/">https://D2L.ai</a><br>[3] <a target="_blank" rel="noopener" href="https://github.com/dragen1860/Deep-Learning-with-PyTorch-book">PyTorch深度学习</a><br>[4] <a target="_blank" rel="noopener" href="https://www.runoob.com/pytorch/pytorch-tutorial.html">菜鸟教程</a><br>[5] <a target="_blank" rel="noopener" href="https://datawhalechina.github.io/thorough-pytorch/index.html#">深入浅出PyTorch</a></p>
 
                 
             </div>
@@ -629,7 +786,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%AF%87/</a>
+                    <a href="https://varamnematchinensis.github.io/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E6%95%B0%E6%8D%AE%E5%92%8C%E6%A8%A1%E5%9E%8B%E7%AF%87/">https://varamnematchinensis.github.io/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E6%95%B0%E6%8D%AE%E5%92%8C%E6%A8%A1%E5%9E%8B%E7%AF%87/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -667,20 +824,24 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/GaussDB-DWS/">
-                                    <span class="chip bg-color">GaussDB(DWS)</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-                                    <span class="chip bg-color">数据库</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
-                                    <span class="chip bg-color">数据仓库</span>
-                                </a>
-                            
                                 <a href="/tags/%E6%95%B0%E6%8D%AE/">
                                     <span class="chip bg-color">数据</span>
+                                </a>
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">深度学习</span>
+                                </a>
+                            
+                                <a href="/tags/PyTorch/">
+                                    <span class="chip bg-color">PyTorch</span>
                                 </a>
                             
                         </div>
@@ -744,31 +905,31 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/">
+                <a href="/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E5%9F%BA%E7%A1%80%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-导入导出篇">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="PyTorch基础教程及注意事项-基础篇">
                         
-                        <span class="card-title">GaussDB(DWS)数据库-导入导出篇</span>
+                        <span class="card-title">PyTorch基础教程及注意事项-基础篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            GaussDB(DWS)数据库-导入导出篇，主要介绍DWS数据仓库的主要的入库和出库的方式：外表、GDS、Flink。同时说明了DWS如何利用Flink来构建实时数仓，进而实现实时增量读和实时入库。
+                            PyTorch基础教程及注意事项-基础篇，主要介绍PyTorch的安装、环境准备、Anaconda环境配置、PyTorch结构和核心数据结构张量（Tensor）及其使用方法。
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-08-25
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
-                                    数据
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -778,20 +939,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/GaussDB-DWS/">
-                        <span class="chip bg-color">GaussDB(DWS)</span>
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-                        <span class="chip bg-color">数据库</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
-                        <span class="chip bg-color">数据仓库</span>
+                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">深度学习</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
-                        <span class="chip bg-color">数据</span>
+                    <a href="/tags/PyTorch/">
+                        <span class="chip bg-color">PyTorch</span>
                     </a>
                     
                 </div>
@@ -805,31 +966,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%AF%87/">
+                <a href="/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="GaussDB(DWS)数据库-数据库管理篇">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="PyTorch基础教程及注意事项-神经网络篇">
                         
-                        <span class="card-title">GaussDB(DWS)数据库-数据库管理篇</span>
+                        <span class="card-title">PyTorch基础教程及注意事项-神经网络篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            GaussDB(DWS)数据库-数据库管理篇，主要介绍DWS数据仓库服务、引擎、表类型、事务、表、分区设计、索引、视图、序列、数据脱敏、审计日志等。
+                            PyTorch基础教程及注意事项-神经网络篇，主要介绍神经网络模型、典型神经网络（FNN/CNN/RNN）、神经网络模型训练过程和PyTorch神经网络工具。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-08-25
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE/" class="post-category">
-                                    数据
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -839,20 +1000,24 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/GaussDB-DWS/">
-                        <span class="chip bg-color">GaussDB(DWS)</span>
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-                        <span class="chip bg-color">数据库</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/">
-                        <span class="chip bg-color">数据仓库</span>
+                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">深度学习</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE/">
-                        <span class="chip bg-color">数据</span>
+                    <a href="/tags/PyTorch/">
+                        <span class="chip bg-color">PyTorch</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+                        <span class="chip bg-color">神经网络</span>
                     </a>
                     
                 </div>
