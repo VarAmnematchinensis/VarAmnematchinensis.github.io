@@ -1,0 +1,1215 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="可解释人工智能及其研究-SHAP算法应用篇, Amnematchinensis">
+    <meta name="description" content="可解释人工智能及其研究-SHAP算法应用篇，主要介绍SHAP可解释性算法在成人人口普查数据的应用。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>可解释人工智能及其研究-SHAP算法应用篇 | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">可解释人工智能及其研究-SHAP算法应用篇</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                                <span class="chip bg-color">可解释</span>
+                            </a>
+                        
+                            <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">SHAP算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%BA%94%E7%94%A8/">
+                                <span class="chip bg-color">应用</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-09-16
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-09-16
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    10 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="SHAP算法在成人人口普查数据的应用"><a href="#SHAP算法在成人人口普查数据的应用" class="headerlink" title="SHAP算法在成人人口普查数据的应用"></a>SHAP算法在成人人口普查数据的应用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用的是shap = 0.48.0 版本</span></span><br><span class="line"><span class="comment"># 使用的是xgboost= 3.0.4 版本</span></span><br><span class="line"><span class="comment"># 使用的是numpy = 1.26.4 版本</span></span><br><span class="line"><span class="comment"># 使用的是matplotlib = 3.10.5版本</span></span><br><span class="line"><span class="comment"># 使用的是sklearn= 1.6.1版本</span></span><br><span class="line"><span class="comment"># 使用的是lightgbm = 4.6.0版本</span></span><br><span class="line"><span class="comment"># 使用的是pandas = 2.2.3版本 </span></span><br><span class="line"><span class="comment"># 查看本地全部包和对应版本命令：pip list</span></span><br><span class="line"><span class="keyword">import</span> shap</span><br><span class="line"><span class="keyword">import</span> xgboost </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">import</span> lightgbm <span class="keyword">as</span> lgb</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 display 为 True，则 X 包含不包含“Education”、“Target”和“fnlwgt”目标列和冗余列的原始数据。否则，X 包含没有“Target”和“fnlwgt”列的已处理数据。</span></span><br><span class="line"><span class="comment"># X，X_display都是32561 rows x 12 columns的数据</span></span><br><span class="line"><span class="comment"># y，y_display都是32561 rows x 1 columns的数据,数组返回的“Target”列,这里可能有bug.</span></span><br><span class="line">X, y = shap.datasets.adult()</span><br><span class="line">X_display, y_display = shap.datasets.adult(display=<span class="literal">True</span>) </span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">7</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># XGBClassifier是sklearn中XGBoost分类器的实现，集成多个决策树来改善模型预测精度</span></span><br><span class="line"><span class="comment"># eval_metric确认任务类型为分类任务，使用负对数似然函数&#x27;mlogloss&#x27;</span></span><br><span class="line"><span class="comment"># 模型初始化并做模型训练</span></span><br><span class="line">model = xgboost.XGBClassifier(eval_metric=<span class="string">&#x27;mlogloss&#x27;</span>).fit(X, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这是模型自带的特征重要性，可以查看特征重要性，plot_importance()函数基于XGBoost模型训练后计算的特征重要性分数来绘制图表，</span></span><br><span class="line"><span class="comment"># 默认使用importance_type = &#x27;weight&#x27;,特征在树中的平均权重做为重要性的度量.</span></span><br><span class="line"><span class="comment"># xgboost.plot_importance(model)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Explainer解释器并利用训练数据X计算shap值</span></span><br><span class="line"><span class="comment"># shap_values的数据类型为 &lt;class &#x27;numpy.ndarray&#x27;&gt;</span></span><br><span class="line"><span class="comment"># shap_values2的数据类型为&lt;class &#x27;shap._explanation.Explanation&#x27;&gt;</span></span><br><span class="line">explainer = shap.Explainer(model) </span><br><span class="line">shap_values = explainer.shap_values(X) <span class="comment"># 第一个特征的shap values:shap_values[0][0]</span></span><br><span class="line">shap_values2 = explainer(X) </span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string"># 全局条形图：summary plot是针对全部样本预测的解释，是取每个特征的shap values的平均绝对值来获得标准条形图，这个其实就是全局重要度</span></span><br><span class="line"><span class="string"># Summary_plot 为每一个样本绘制其每个特征的Shapley value，它说明哪些特征最重要，以及它们对数据集的影响范围。</span></span><br><span class="line"><span class="string"># 另一种是通过散点简单绘制每个样本的每个特征的shap values，通过颜色可以看到特征值大小与预测影响之间的关系，同时展示其特征值分布</span></span><br><span class="line"><span class="string"># 两个图都可以看到Relationship全局重要度是最高的，其次是Age。第一个图可以看到各个特征重要度的相对关系，虽然Capital Gain是第三，但是重要度只有Relationship的60%，</span></span><br><span class="line"><span class="string"># shap.summary_plot使用的是shap_values的数据类型为 &lt;class &#x27;numpy.ndarray&#x27;&gt;</span></span><br><span class="line"><span class="string"># shap.plots.bar使用的是shap_values2的数据类型为&lt;class &#x27;shap._explanation.Explanation&#x27;&gt;</span></span><br><span class="line"><span class="string">#shap.plots.bar(shap_values2, max_display = 12)</span></span><br><span class="line"><span class="string">shap.summary_plot(shap_values, X, plot_type=&quot;bar&quot;)</span></span><br><span class="line"><span class="string">#按照计算公式，可得其数值表格化如下</span></span><br><span class="line"><span class="string">feature_importance = pd.DataFrame()</span></span><br><span class="line"><span class="string">feature_importance[&#x27;feature&#x27;] = X.columns</span></span><br><span class="line"><span class="string">feature_importance[&#x27;importance&#x27;] = np.abs(shap_values).mean(0)</span></span><br><span class="line"><span class="string">feature_importance.sort_values(&#x27;importance&#x27;, ascending=False)</span></span><br><span class="line"><span class="string">print(feature_importance)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># y 轴上的位置由特征确定，x 轴上的位置由每 Shapley value 确定。颜色表示特征值（红色高，蓝色低），颜色使我们能够匹配特征值的变化如何影响风险的变化。</span></span><br><span class="line"><span class="comment"># 重叠点在 y 轴方向抖动，因此我们可以了解每个特征的 Shapley value分布，并且这些特征是根据它们的重要性排序的。</span></span><br><span class="line"><span class="comment"># 由颜色深浅则可以看到Relationship和Age都是值越大，个人年收入超过5万美元的可能性越大，平均而言年龄是最重要的特征，与年轻（蓝色）人相比，收入超过 5 万美元的可能性较小</span></span><br><span class="line"><span class="comment"># 也使用可以shap.plots.beeswarm绘制一样的蜂群图，在显示数据集中的TOP特征如何影响模型输出的信息密集摘要。</span></span><br><span class="line"><span class="comment"># 点的 x 位置由该特征的 SHAP 值 ( shap_values.value[instance,feature]) 确定，并且点沿每个特征行“堆积”以显示密度。</span></span><br><span class="line"><span class="comment">#shap.summary_plot(shap_values, X)</span></span><br><span class="line"><span class="comment">#shap.plots.beeswarm(shap_values2, order=np.abs(shap_values).mean(0).argsort()[::-1], max_display = 12)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以使用matplotlib构建自定义颜色图，color默认使用shap.plots.colors.red_blue的颜色</span></span><br><span class="line"><span class="comment">#shap.plots.beeswarm(shap_values2,  color=plt.get_cmap(&quot;cool&quot;))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 局部特征重要性条形图, 条形是每个特征的 SHAP 值。最左侧的灰色显示数值是特征值</span></span><br><span class="line"><span class="comment">#shap.plots.bar(shap_values2[1], max_display = 12)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制男性和女性特征重要性的全局摘要</span></span><br><span class="line"><span class="comment">#sex = [&quot;Women&quot; if shap_values2[i,&quot;Sex&quot;].data == 0 else &quot;Men&quot; for i in range(shap_values2.shape[0])]</span></span><br><span class="line"><span class="comment">#shap.plots.bar(shap_values2.cohorts(sex).abs.mean(0))</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用Explanation对象的自动群组功能来创建一个群组，调用Explanation.cohorts(N)将创建N个队列，</span></span><br><span class="line"><span class="comment"># 使用 sklearn DecisionTreeRegressor 最佳地分离实例的 SHAP 值，图例中的方括号显示的是每个队列中的实例数</span></span><br><span class="line"><span class="comment">#shap.plots.bar(shap_values2.cohorts(2).abs.mean(0), max_display = 12)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拟合相对于目标变量 y 的特征 X 的分层聚类模型,可以在SHAP中通过模型损失比较来测量特征冗余</span></span><br><span class="line"><span class="comment"># 计算聚类并传递给条形图，就可以同时可视化特征冗余结构和特征重要性。默认只会显示距离 &lt; 0.5 的聚类部分</span></span><br><span class="line"><span class="comment">#clustering = shap.utils.hclust(X, y) </span></span><br><span class="line"><span class="comment">#shap.plots.bar(shap_values2, clustering=clustering, max_display = 12)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># SHAP Partial dependence plot (PDP or PD plot) 依赖图显示了一个或两个特征对机器学习模型的预测结果的边际效应</span></span><br><span class="line"><span class="comment"># PDP 的一个假设是第一个特征与第二个特征不相关。如果违反此假设，则 PDP 计算的平均值将包括极不可能甚至不可能的数据点</span></span><br><span class="line"><span class="comment"># 参数interaction_index用于设置交互项，用于验证特征之间是否存在交互效应</span></span><br><span class="line"><span class="comment"># Dependence plot 是一个散点图，显示单个特征对整个数据集的影响。每个点都是来自数据集的单个预测（行）。</span></span><br><span class="line"><span class="comment"># x 轴是数据集中的实际值。（来自 X 矩阵，存储在 中shap_values.data）。</span></span><br><span class="line"><span class="comment"># y 轴是该特征的 SHAP 值（存储在 中shap_values.values），它表示该特征值对该预测的模型输出的改变程度</span></span><br><span class="line"><span class="comment">#先看某个特征是如何影响到模型预测结果的</span></span><br><span class="line"><span class="comment">#看到Age越大，个人年收入超过5万美元的可能性越大，但是在65岁后出现波动，80岁后可能性下降</span></span><br><span class="line"><span class="comment">#shap.dependence_plot(&#x27;Age&#x27;, shap_values, X, interaction_index=None)</span></span><br><span class="line"><span class="comment">#相同的图片画法</span></span><br><span class="line"><span class="comment">#plt.figure(figsize=(7.5, 5))</span></span><br><span class="line"><span class="comment">#plt.scatter(X[&#x27;Age&#x27;], shap_values[:, 0], s=10, alpha=1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个特征是如何和另一个特征交互影响到模型预测结果的，这里以Age和Capital Gain为例子</span></span><br><span class="line"><span class="comment"># 散点还是由Age绘制，但是Age的预测其实是有其他特征相互作用的，散点图垂直分散就是由相互作用效应驱动，</span></span><br><span class="line"><span class="comment"># 所以用Capital Gain进行着色以突出显示可能的相互作用</span></span><br><span class="line">shap.dependence_plot(<span class="string">&#x27;Age&#x27;</span>, shap_values, X,  display_features=X_display, interaction_index=<span class="string">&#x27;Capital Gain&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#shap values绘制归因关系是有其他特征的相互作用使图垂直分散的，可以使用shap_interaction_values消除这种相互作用</span></span><br><span class="line">shap_interaction_values = explainer.shap_interaction_values(X)</span><br><span class="line">shap.dependence_plot((<span class="string">&#x27;Age&#x27;</span>, <span class="string">&#x27;Age&#x27;</span>), shap_interaction_values, X, interaction_index=<span class="literal">None</span>)</span><br><span class="line"><span class="comment">#相同的图片画法</span></span><br><span class="line">plt.figure(figsize=(<span class="number">7.5</span>, <span class="number">5</span>))</span><br><span class="line">plt.scatter(X[<span class="string">&#x27;Age&#x27;</span>], shap_interaction_values[:, <span class="number">0</span>, <span class="number">0</span>], s=<span class="number">10</span>, alpha=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># shap.plots.scatte图底部的浅灰色区域是显示数据值分布的直方图</span></span><br><span class="line"><span class="comment"># 在交互颜色方面，散点图则需要将整个 Explanation 对象传递给 color 参数</span></span><br><span class="line"><span class="comment">#shap_values2.display_data = X_display.values</span></span><br><span class="line"><span class="comment">#shap.plots.scatter(shap_values2[:, &quot;Age&quot;], color=shap_values2[:,&quot;Workclass&quot;])</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string"># SHAP force plot 提供了单一模型预测的可解释性，可用于误差分析，找到对特定实例预测的解释</span></span><br><span class="line"><span class="string"># 如果不想用JS,需要在shap.force_plot传入matplotlib=True的参数。否则就需要使用shap.initjs()</span></span><br><span class="line"><span class="string"># 模型输出值是-6.75，模型基值是-1.297，绘图箭头下方数字是此实例的特征值，将预测推高的特征用红色表示，将预测推低的特征用蓝色表示</span></span><br><span class="line"><span class="string"># 箭头越长，特征对输出的影响越大。explainer.expected_value是解释模型的常数</span></span><br><span class="line"><span class="string">#shap.initjs() # 初始化JavaScript库</span></span><br><span class="line"><span class="string">#shap.force_plot(explainer.expected_value, shap_values[0,:], X_display.iloc[0,:])</span></span><br><span class="line"><span class="string"># 或者</span></span><br><span class="line"><span class="string">shap.force_plot(explainer.expected_value, shap_values[0,:], X_display.iloc[0,:], matplotlib=True)</span></span><br><span class="line"><span class="string">#其数值表格化如下：</span></span><br><span class="line"><span class="string">sample_0_shap = pd.DataFrame(X.iloc[0,:])</span></span><br><span class="line"><span class="string">sample_0_shap.rename(columns=&#123;0: &#x27;feature_value&#x27;&#125;, inplace=True)</span></span><br><span class="line"><span class="string">sample_0_shap[&#x27;shap_value&#x27;] = shap_values[0]</span></span><br><span class="line"><span class="string">sample_0_shap.sort_values(&#x27;shap_value&#x27;, ascending=False)</span></span><br><span class="line"><span class="string">print(sample_0_shap)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># explainer.shap_interaction_values是实现快速两两交互计算，将为每个预测返回一个矩阵，其中主要影响在对角线上，交互影响在对角线外</span></span><br><span class="line"><span class="comment">#shap.summary_plot(explainer.shap_interaction_values(X), X) # 第一个特征的shap interaction values:explainer.shap_interaction_values(X)[0][0]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Decision plot决策图：SHAP 决策图显示复杂模型如何得出其预测（即模型如何做出决策）</span></span><br><span class="line"><span class="comment"># 决策图中间灰色垂直直线标记了模型的基础值，彩色线是预测，表示每个特征是否将输出值移动到高于或低于平均预测的值。特征值在预测线旁边以供参考。</span></span><br><span class="line"><span class="comment"># 从图的底部开始，预测线显示 SHAP value 如何从基础值累积到图顶部的模型最终分数</span></span><br><span class="line"><span class="comment">#expected_value = explainer.expected_value</span></span><br><span class="line"><span class="comment">#features = X.iloc[range(20)]# 限制20个样本</span></span><br><span class="line"><span class="comment">#shap_values = explainer.shap_values(features)[1]# 展示第一条样本</span></span><br><span class="line"><span class="comment">#features_display = X_display.loc[features.index]</span></span><br><span class="line"><span class="comment">#shap.decision_plot(expected_value, shap_values, features_display)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 决策图支持将对link=&#x27;logit&#x27;数几率转换为概率。</span></span><br><span class="line"><span class="comment"># 使用虚线样式highlight=misclassified突出显示一个错误分类的观察结果</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">shap_values = explainer.shap_values(features)</span></span><br><span class="line"><span class="string">y_pred = (shap_values.sum(1) + expected_value) &gt; 0</span></span><br><span class="line"><span class="string">misclassified = y_pred != y[:20]</span></span><br><span class="line"><span class="string">shap.decision_plot(expected_value, shap_values, </span></span><br><span class="line"><span class="string">                   features_display, </span></span><br><span class="line"><span class="string">                   link=&#x27;logit&#x27;, </span></span><br><span class="line"><span class="string">                   highlight=misclassified)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 通过单独绘制来检查错误分类的观察结果</span></span><br><span class="line"><span class="string">shap.decision_plot(expected_value, shap_values[misclassified], </span></span><br><span class="line"><span class="string">                   features_display[misclassified],</span></span><br><span class="line"><span class="string">                   link=&#x27;logit&#x27;, </span></span><br><span class="line"><span class="string">                   highlight=0)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 错误分类观察的力图</span></span><br><span class="line"><span class="string">shap.force_plot(expected_value, shap_values[misclassified], </span></span><br><span class="line"><span class="string">                features_display[misclassified],</span></span><br><span class="line"><span class="string">                link=&#x27;logit&#x27;)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 瀑布图旨在显示单个预测的解释，因此将解释对象的单行作为输入。瀑布图从底部的模型输出的预期值开始，</span></span><br><span class="line"><span class="comment"># 每一行显示每个特征的是正（红色）或负（蓝色）贡献，即如何将值从数据集上的模型预期输出值推动到模型预测的输出值</span></span><br><span class="line"><span class="comment"># waterfall绘图显示单个样本数据</span></span><br><span class="line"><span class="comment">#shap.plots.waterfall(shap_values2[5], max_display = 12)</span></span><br><span class="line"><span class="comment">#shap.plots.scatter(shap_values2[:,&quot;Relationship&quot;])</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/441302127">用 SHAP 可视化解释机器学习模型的输出实用指南</a><br>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/103370775">SHAP的理解与应用</a><br>[3]<a target="_blank" rel="noopener" href="https://www.biaodianfu.com/shap.html">机器学习可解释性工具：SHAP </a></p>
+<h3 id="以后的研究注意方向：使用-GPU-加速-SHAP-解释机器学习模型预测"><a href="#以后的研究注意方向：使用-GPU-加速-SHAP-解释机器学习模型预测" class="headerlink" title="以后的研究注意方向：使用 GPU 加速 SHAP 解释机器学习模型预测"></a>以后的研究注意方向：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/zh-cn/blog/explain-your-machine-learning-model-predictions-with-gpu-accelerated-shap/">使用 GPU 加速 SHAP 解释机器学习模型预测</a></h3>
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E7%AF%87/">https://varamnematchinensis.github.io/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E7%AF%87/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                                    <span class="chip bg-color">可解释</span>
+                                </a>
+                            
+                                <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">SHAP算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%BA%94%E7%94%A8/">
+                                    <span class="chip bg-color">应用</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="可解释人工智能及其研究-SHAP算法应用篇">
+                        
+                        <span class="card-title">可解释人工智能及其研究-SHAP算法应用篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            可解释人工智能及其研究-SHAP算法应用篇，主要介绍SHAP可解释性算法在成人人口普查数据的应用。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                        <span class="chip bg-color">可解释</span>
+                    </a>
+                    
+                    <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">SHAP算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BA%94%E7%94%A8/">
+                        <span class="chip bg-color">应用</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="可解释人工智能及其研究-SHAP算法说明篇">
+                        
+                        <span class="card-title">可解释人工智能及其研究-SHAP算法说明篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            可解释人工智能及其研究-SHAP算法说明篇，主要介绍SHAP可解释性算法，包括这个算法的历史、价值、解决问题、数据基础、计算解决方案、应用价值、SHAP开源算法库的使用（安装、API、解释器、可视化工具、使用注意事项等）。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                        <span class="chip bg-color">可解释</span>
+                    </a>
+                    
+                    <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">SHAP算法</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">78k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>

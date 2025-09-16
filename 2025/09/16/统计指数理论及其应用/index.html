@@ -1,0 +1,1268 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="统计指数理论及其应用, Amnematchinensis">
+    <meta name="description" content="统计指数理论及其应用，主要介绍统计指数的的含义、价格指数、基本概念、典型计算方法、计算公式解读、统计指数举例和应用经验。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>统计指数理论及其应用 | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">统计指数理论及其应用</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%B0%E5%AD%A6/">
+                                <span class="chip bg-color">数学</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BB%9F%E8%AE%A1/">
+                                <span class="chip bg-color">统计</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%8C%87%E6%95%B0%E7%90%86%E8%AE%BA/">
+                                <span class="chip bg-color">指数理论</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%95%B0%E5%AD%A6/" class="post-category">
+                                数学
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-09-16
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-09-16
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    11 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="统计指数"><a href="#统计指数" class="headerlink" title="统计指数"></a>统计指数</h2><p>含义：综合反应不能直接相加，不能直接对比多种因素组成的经济现象在不同时间和空间条件下变动的相对数，是一种经济分析方法，反应研究对象的变化趋势，可用于分析度量。<br>常见指数：70个大中城市新建商品住宅销售价格指数、<a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/zytjzbqs/jmxxggzs/202409/t20240910_1956353.html">居民消费价格指数(CPI)</a>、<a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/zytjzbqs/gyscz/202409/t20240910_1956355.html">工业生产者出厂价格指数(PPI)</a>、沪深300证券指数、<a target="_blank" rel="noopener" href="https://www.spglobal.com/spdji/zh/methodology/article/sp-china-indices-methodology-chinese/">标准普尔中国PMI指数(财新PMI)</a>、<a target="_blank" rel="noopener" href="https://www.sse.net.cn/indexIntro?indexName=scfi">上海出口集装箱运价指数（SCFI）</a>、摩根士丹利社会感知指数(Social Perception Index)。</p>
+<h3 id="价格指数"><a href="#价格指数" class="headerlink" title="价格指数"></a>价格指数</h3><ol>
+<li>含义：反应一定时期内价格水平变动趋势和变动程度的相对数，可支持基于不同颗粒度的分析管理。</li>
+<li>作用：结合分析对象、分析视角、计算度量等因素，综合反应历史价格趋势、预判未来盈利风险、支撑综合业务决策，通过对比同行同业指数数据，评估产品或公司竞争力。</li>
+<li>分类：<ul>
+<li>按比较的基期不同，指数分为定基指数和环比指数。定基指数指在数列中以某一固定时期的水平作对比基准的指数。环比指数则是以其前一时期的水平作为对比基准的指数。</li>
+<li>按计算形式的不同，指数分为综合指数和平均数指数。综合指数是指两个总量指标对比计算出来的指数。平均数指数是依据非全面统计资料编制，实质是综合指数的变形，平均数指数可分为算术平均数指数、调和平均数指数和几何平均数指数。</li>
+<li>按所反映现象的范围不同，指数分为个体指数和综合指数。个体指数是表明某单一要素构成现象变动的相对数，如个别产品的物量指数和个别商品的价格指数等。综合指数是表明多种要素构成现象的综合变动的相对数，如社会消费品零售总额指数和居民消费价格指数等。</li>
+<li>按所反映现象的性质不同，指数分为数量指数和质量指数。数量指数也称物量指数，是表明总体单位数量、规模等数量变动的相对数，如产品产量指数和商品销售量指数等。质量指数是表明总体单位水平、工作质量等质量变动的相对数，如各种价格指数、单位成本指数和劳动生产率指数等。</li>
+</ul>
+</li>
+</ol>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ol>
+<li>基期：基是指统计基数，即制定一个日期作为参考标准，是一开始作为基准的时期，使用基期概念是为了将开始时间定位，作为对比基准。</li>
+<li>报告期：就是当前研究的阶段，是当期的意思，就是把现在研究的这一期和那一期进行对比。报告期与基期是一对指标，一般报告期都是针对基期而言的。</li>
+<li>权数及权重：权数是用来衡量总体中各构成部分对总体影响程度的数值。综合指数或者平均数的构成变量中，每个变量对综合指数或平均数的影响程度就是这个变量的权数。从表现形式上来看，权数通常可以表现为绝对数形式权数（频数）和相对数形式权数（频率）。其中，相对数是用绝对数计算出来的百分数（％）或千分数（‰）表示，又称比重或权重，通常情况下权重之和等于1。<br>中国CPI（居民消费价格指数）以前有“中国猪肉指数（China Pig&#x2F;Pork Index）”的外号，就是因为猪肉是测算CPI的一篮子商品中权重最大的单品（约占2.5%），对CPI的拉动效果极为明显。</li>
+<li>构建综合指标体系时，各级权数选取常用到以下几种方法：<ul>
+<li>主观经验法，根据测算对象的分项结构利用主观经验进行赋值。</li>
+<li>专家咨询法，即邀请专家讨论修改各级指标权重意见，直到意见趋于一致得出合理的赋权方案。</li>
+<li>层次分析法，即将一个总目标分解为多级指标，在同层级内根据各指标重要性计算每项指标的相对优先权重。</li>
+<li>多元分析法，利用主成分分析、因子分析等统计方法计算各权数。这几种方法既可单独使用，也可配合使用。</li>
+</ul>
+</li>
+<li>代表规格品：简单来说，就是价格变动趋势和变动程度有较强的足够的代表性的产品或服务。</li>
+</ol>
+<h3 id="典型指数计算方法"><a href="#典型指数计算方法" class="headerlink" title="典型指数计算方法"></a>典型指数计算方法</h3><p>拉式指数公式$L_{p}$, 派式指数公式$P_{p}$</p>
+<ol>
+<li>同度量因素：拉式为基期销量，派式为报告器销量。</li>
+<li>权重：拉式权重固定在基期，单纯反应价格的变动；派式权重固定在报告期，即反应价格的变化，又能反应量的变化。<br>$$<br>L_{p} &#x3D; \frac{\sum p_{1}q_{0}}{\sum p_{0}q_{0}}&#x3D; \sum \frac{p_{1}}{p_{0}} \frac{p_{0}q_{0}}{\sum p_{0}q_{0}} &#x3D; \sum \frac{p_{1}}{p_{0}}w_{0}<br>$$</li>
+</ol>
+<p>$$<br>P_{p} &#x3D; \frac{\sum p_{1}q_{1}}{\sum p_{0}q_{1}}&#x3D; \sum \frac{p_{1}}{p_{0}} \frac{p_{0}q_{1}}{\sum p_{0}q_{1}} &#x3D; \sum \frac{p_{1}}{p_{0}}w_{1}<br>$$<br>其中：下角标0表示基期，1表示报告期。<br>3. 注意事项：<br>     - 基期不一定是某个具体日期（时点，如1月1日），基期与报告期可能是一个时点，也可能是一个时段（时期，如某年、某月等），这取决于研究对象是时期指标还是时点指标。<br>     - 计算价格指数有“拉氏”和“派氏”两种加权公式，区别在于把“一篮子”商品和服务的消费数量固定在对比期还是报告期。固定在对比期的是拉氏公式，固定在报告期的是派氏公式.世界上绝大多数国家在编制CPI时均选择了拉氏公式，一是计算价格指数时通常无法及时取得报告期的消费数量，难以编制派氏指数。二是拉氏指数是假定消费数量不变，以观察和比较消费价格的变动情况，更具经济学意义。<br>     - 对于权数变动，按照拉氏公式理论，计算定基指数时，对比期为基期年，权数即为基期年购买固定篮子内各类商品或服务所支出金额占购买整个篮子所支出总金额的比重。这个权数是固定不变的，在《消费者价格指数手册：理论与实践》里，它被称为原权数。而在计算月度环比指数时，对比期为上月，权数即为上月购买固定篮子内各类商品或服务的支出金额占总支出的比重；计算同比指数时，对比期为上年同月，权数即为上年同月购买固定篮子内各类商品或服务的支出金额占总支出的比重。很显然，环比和同比指数的权数是随着每月价格变化自动调整的，在《消费者价格指数手册：理论与实践》里，它被称为按价格调整的权数。权数虽然在变化，但权数所代表的“一篮子”商品和服务的消费数量却是相同的、固定的，也就是“固定篮子”。</p>
+<h3 id="指数计算公式解读"><a href="#指数计算公式解读" class="headerlink" title="指数计算公式解读"></a>指数计算公式解读</h3><p>$$<br>I_{price} &#x3D; \sum^{Top N}\frac{p_{1}}{p_{0}}w_{x}<br>$$</p>
+<ol>
+<li>代表标准或规格品${Top N}$ : 代表标准或规格品的筛选标准可以采用统计方法筛选、业务专家意见和定期审视刷新的策略，其中数据选择标准需要有代表性，覆盖广，数据本身要连续可得，同质可比。</li>
+<li>基期和报告期(下角标0和1)：0：代表基期单价，为指数的初始计算时间点；1，代表报告期单价，为指数报告的时间点。对于研究对象波动大的，基期时距需要相对短一些；波动相对稳定的，则基期时距应该相对长一些。其中基期和报告期的选择标准，可以从负责编制的目的，考虑波动程度，再选择数据稳定的时期。</li>
+<li>权重$w_{x}$:针对场景选择$x$,如果$x$取基期，则是固定权重的拉式指数；如果$x$为一段时间，则为相对权重的拉式变形指数；如果$x$取报告期，则为变动权重的派式指数。权重的选择标准，可以从内容选择要服从研究目的，形式选择要满足资料可得，时期选择要考虑业务经济意义考虑。</li>
+<li>计算公式$I_{price}$：计算公式的选择标准，需要考虑加权指数为基本形式，计算结果有业务意义，计算简明，结果敏感。</li>
+</ol>
+<h3 id="指数举例：-70城市房价指数"><a href="#指数举例：-70城市房价指数" class="headerlink" title="指数举例： 70城市房价指数"></a>指数举例： <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/sj/zxfb/202507/t20250715_1960403.html">70城市房价指数</a></h3><ol>
+<li>发布机构：中国国家统计局。</li>
+<li>发布时间：每月15号左右发布上月数据。</li>
+<li>数据覆盖范围：70个大中城市，覆盖一线、二线和三线城市。</li>
+<li>数据分类：<ul>
+<li>新建商品住宅：反应开发商定价趋势。</li>
+<li>二手住宅：反应真实市场交易情况，更敏感。</li>
+</ul>
+</li>
+<li>数据来源：房企网签数据和房产中介上报数据。</li>
+<li>统计方法：加权平均法，具体统计方法参见<a target="_blank" rel="noopener" href="https://jszd.stats.gov.cn/TrueCMS//gjtjjjsdczd/bbzd/content/6bffa669-d9c7-4e87-a4a3-fec88e612a1b.html">《房地产价格统计报表制度》</a></li>
+<li>数据关键指标：<ul>
+<li>定基指数：以2015年价格为基测（100），观测累计涨幅。</li>
+<li>环比（MoM）：本月对比上月，反应短期波动情况。</li>
+<li>同比（YoY）：本月对应去年同期，反应长期趋势。</li>
+</ul>
+</li>
+<li>场景和判断：<ul>
+<li>二手房价涨幅大于新房时，说明市场由真实需求驱动（而非开发商业务促销），可以视为房价企稳的重要判断，或者说是进入右侧交易。</li>
+<li>房价连续3个月环比涨幅超过1%，有可能会触发政府限购加码；而同比下跌超过5%，政府可能出台救市政策。</li>
+<li>《逃不开的经济周期》一书中认为，房地产是经济周期之母，需要格外研究。</li>
+</ul>
+</li>
+</ol>
+<h3 id="指数计算应用经验"><a href="#指数计算应用经验" class="headerlink" title="指数计算应用经验"></a>指数计算应用经验</h3><ol>
+<li>指数可以做为引子，借助指数我们可以计算并获取很多从其他视角的其他信息，辅助决策。例如为了计算指数，需要获得权重和均价，借此可以建立不同产品的权重图和价格图，而价格一般的是通过金额和数量计算出来的，由此可以建立不同视角下的金额热力图、占比图或者数量图、分布图等。由于计算指数需要依赖标准或规格品，在挑选标准或规格品过程中，可以按照总量或数量获取前90%等的产品清单，进而实现通过对20%产品的指数监控实现80%左右的收益(二八法则)。</li>
+<li>如果产品之间存在组成和传递关系，可以建立产品之间的量化关系，分析产品之间的波动规律十分合理，也可以通过指数形成波动信息的传导，并将多种指数可以放置在一个图中对比分析其中的gap,分析其中的偏差原因。</li>
+</ol>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>[1]<a target="_blank" rel="noopener" href="https://book.douban.com/subject/6061753/">统计指数理论, 方法与应用研究</a>，徐国祥等著. 上海人民出版社<br>[2] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/4932567/">统计指数理论及应用</a>，徐国祥著. 中国统计出版社.<br>[3] 统计指数理论与实践， 任建智著. 中国物资出版社<br>[4] <a target="_blank" rel="noopener" href="https://www.douban.com/note/866626990/?_i=5827726a4yBb1W">领导干部应知应会主要统计指标诠释</a>. 本书编写组编.中国统计出版社.<br>[5] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/36473131/">统计预测和决策</a>.徐国祥著.上海财经大学出版社<br>[6] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/2329672/">国民经济核算原理与中国实践</a>.高敏学著.中国人民大学出版社<br>[7]<a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/zytjzbqs/zzxsjgzs/202411/t20241128_1957596.html">住宅销售价格指数的编制</a> .中国国家统计局<br>[8] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/zytjzbqs/zzxsjgzs/202501/t20250121_1958389.html">住宅销售价格数据的基础数据来源</a>.中国国家统计局<br>[9] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/jbtjzswd/tjbk/202507/t20250711_1960387.html">什么是统计数据的报告期和基期</a><br>[10] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/tjbk/202301/t20230101_1912948.html">什么是指数</a><br>[11] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/tjbk/202301/t20230101_1912959.html">什么是权数</a><br>[12] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/tjzb/202301/t20230101_1903623.html">住宅销售价格指数是如何编制的</a><br>[13] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/tjzb/202301/t20230101_1903972.html">什么是采购经理指数（PMI）</a><br>[14] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/tjzb/202301/t20230101_1903757.html">居民消费价格指数（CPI）是如何编制的</a><br>[15] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/zytjzbqs/cgzlzs/202501/t20250121_1958396.html">采购经理指数编制方法</a><br>[16] <a target="_blank" rel="noopener" href="https://www.stats.gov.cn/zs/tjws/zytjzbqs/jmxxggzs/202411/t20241127_1957589.html">CPI 的编制方法</a><br>[17] <a target="_blank" rel="noopener" href="https://tjyj.cbpt.cnki.net/portal">统计研究</a><br>[18] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/11516006/">消费者价格指数手册：理论与实践</a><br>[19] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/35587406/">宏观经济数据分析手册</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/09/16/%E7%BB%9F%E8%AE%A1%E6%8C%87%E6%95%B0%E7%90%86%E8%AE%BA%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/">https://varamnematchinensis.github.io/2025/09/16/%E7%BB%9F%E8%AE%A1%E6%8C%87%E6%95%B0%E7%90%86%E8%AE%BA%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%B0%E5%AD%A6/">
+                                    <span class="chip bg-color">数学</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%BB%9F%E8%AE%A1/">
+                                    <span class="chip bg-color">统计</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%8C%87%E6%95%B0%E7%90%86%E8%AE%BA/">
+                                    <span class="chip bg-color">指数理论</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-%E5%9F%BA%E7%A1%80%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="可解释人工智能及其研究-基础篇">
+                        
+                        <span class="card-title">可解释人工智能及其研究-基础篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            可解释人工智能及其研究-基础篇，主要介绍模型可解释性、可解释性分类、当前模型可解释性方法的挑战和问题、AI模型在应用场景的典型使用问题、可解释性对模型应用的价值、模型可解释性工具等。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-09-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                        <span class="chip bg-color">可解释</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/09/15/FastAPI%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="FastAPI使用注意事项">
+                        
+                        <span class="card-title">FastAPI使用注意事项</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            FastAPI使用注意事项，主要介绍FastAPI的安装、交互式文档、路由请求响应配置、依赖项、表单数据处理和使用注意实现等，并使用简单的CRUD作为API的样例。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/API/" class="post-category">
+                                    API
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Python/">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/RESful-API/">
+                        <span class="chip bg-color">RESful API</span>
+                    </a>
+                    
+                    <a href="/tags/Web%E6%A1%86%E6%9E%B6/">
+                        <span class="chip bg-color">Web框架</span>
+                    </a>
+                    
+                    <a href="/tags/API/">
+                        <span class="chip bg-color">API</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">78k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>

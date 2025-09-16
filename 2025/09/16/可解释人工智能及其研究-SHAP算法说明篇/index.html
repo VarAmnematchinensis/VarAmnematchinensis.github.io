@@ -1,0 +1,1488 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="可解释人工智能及其研究-SHAP算法说明篇, Amnematchinensis">
+    <meta name="description" content="可解释人工智能及其研究-SHAP算法说明篇，主要介绍SHAP可解释性算法，包括这个算法的历史、价值、解决问题、数据基础、计算解决方案、应用价值、SHAP开源算法库的使用（安装、API、解释器、可视化工具、使用注意事项等）。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>可解释人工智能及其研究-SHAP算法说明篇 | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">可解释人工智能及其研究-SHAP算法说明篇</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                                <span class="chip bg-color">可解释</span>
+                            </a>
+                        
+                            <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">SHAP算法</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-09-16
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-09-16
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    23 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="SHAP可解释性算法"><a href="#SHAP可解释性算法" class="headerlink" title="SHAP可解释性算法"></a>SHAP可解释性算法</h3><ol>
+<li>算法介绍：SHAP(SHapley Additive exPlanation)，一种基于博弈论思想为载体的、模型无关(可以用于任何机器学习)的、事后机器学习可解释算法。能衡量单次预测结果中的特征贡献，也能聚合局部结果作为对模型的整体解释。其中：<ul>
+<li>SHapley ：代表对每个样本中的每一个特征变量，都计算出它的Shapley Value；</li>
+<li>Additive ：代表对每一个样本而言，特征变量对应的Shapley Value是可加的；</li>
+<li>exPlanation：代表对每个样本的解释，即每个特征变量是如何影响模型的预测值。</li>
+</ul>
+</li>
+</ol>
+<h3 id="算法原理：夏普利值-shapley-value"><a href="#算法原理：夏普利值-shapley-value" class="headerlink" title="算法原理：夏普利值(shapley value)"></a>算法原理：夏普利值(shapley value)</h3><ol>
+<li>算法历史：<ul>
+<li>2012年诺贝尔经济学奖得主LIoyd.S.Shapley在1953年提出的分配方式（论文《A Value for n-Person Games》）。</li>
+<li>2010年， Erik Štrumbelj 和 Igor Kononenko 发表题为《An Efficientterpretation of individual Classification using Game Theory》”的论文，首次提出使用 Shapley 值来解释机器学习模型的预测。</li>
+<li>2017年，Scott Lundberg 和 Su-In Lee 发表题为《A unified approach to interpreting model predictions》的论文，详细介绍了SHapley Additive exPlanations (SHAP)用于机器学习可解释性。</li>
+</ul>
+</li>
+<li>价值：是模型可解释性领域为数不多、理论严谨的算法，是唯一无偏地满足可加性、对称性、冗员性和有效性的指标。</li>
+<li>解决问题：主要用于按照合作各方对合作总目标的贡献程度，按照贡献度分配，避免平均主义，来解决在合作博弈中各方的利益分配问题。</li>
+<li>基础公理：可加性、对称性、冗员性和有效性，LIoyd.S.Shapley证明，原始Shapley值是唯一满足这四条公理的合作博弈解，而且最具合理性和公平性的分配方式也是唯一的。<ul>
+<li>可加性(Additivity)：不同模型在相同输入单元中计算得到的重要性数值是线性可加的；表示在有多种合作时，每种合作的利益分配方式与其他合作结果无关。</li>
+<li>对称性（Symmetry）：始终起到相同作用的两个输入单元，其得到的重要性数值也是相同的；表示合作获利的分配不随每个人在合作中的记号或者次序变化，即博弈顺序不影响博弈收益。</li>
+<li>冗员性(Dummy)：输入样本中的冗员单元的重要性等于其独立作用于神经网络的输出，这里的冗员单元定义为不与其它任何单元相互作用的输入单元；表示如果一个成员对于任何他参与的合作联盟都没有贡献，则他不应该从全体合作中获利。</li>
+<li>有效性（Efficiency 效率）：所有输入单元的重要性之和恰好为神经网络的输出；表示合作各方获利总和等于合作获利。</li>
+</ul>
+</li>
+<li>shapley value和可解释性关系：在机器学习领域，“模型特征”可以用shapley value去刻画每个模型特征对最后模型结果的“贡献”，类似于特征重要性。</li>
+<li>shapley value在机器学习模型解释中的难点：<ul>
+<li>每个子集或联盟收益情况判断：一般我们知道组合最大或最大子集的情况下的收益，无法知道从单个子集到最大子集等所有组合子集的收益情况。</li>
+<li>计算复杂度指数级计算：由于shapley value依赖子集逐个计算，导致shapley value计算复杂度随指数级增长。即$O(2^{M})$,M为子集个数</li>
+</ul>
+</li>
+</ol>
+<h3 id="shapley-value数学原理解释"><a href="#shapley-value数学原理解释" class="headerlink" title="shapley value数学原理解释"></a>shapley value数学原理解释</h3><p>模型的输入特征表示为“玩家”， 对于给定输入基于特征子集$S$进行预测表示“游戏”，特征子集$S$表示“合作”，使用子集$S$时的模型预测值和基线预测值之差被定义为“价值函数”$\upsilon(S)$, $\phi_{i}(f, x)$量化第$i$个特征对预测模型$f(x)$的平均边际贡献，它本身通过考虑所有不含特征$i$的特征子集$S$，计算特征$i$加入S时带来的预测值变化（即边际贡献），然后对所有边际贡献进行加权平均。得到数据表达式如下：<br>$$<br>\phi_{i}(f, x) &#x3D; \sum_{S \subseteq F \setminus  {i} } \frac{|S|! \cdot (|F| - |S| - 1)!}{|F|!} \cdot [\upsilon(S \cup { i}) - \upsilon(S)]<br>$$<br>其中：$F$表示所有特征集合，$|F|$表示总特征数，$S$表示$F$中不包含特征$i$的一个子集，$[\upsilon(S \cup { i})$表示当特征$i$加入特征子集$S$时的模型（或者价值函数）的输出，$\upsilon(S)$表示仅适用特征子集$S$时的模型（或者价值函数）的输出。<br>这个数学公式核心思想：一个特征的重要性取决于它在各种可能的特征组合中加入时，平均能带来多大的预测改变，进而确保按贡献分配的公平性。</p>
+<h3 id="SHAP数学原理解释"><a href="#SHAP数学原理解释" class="headerlink" title="SHAP数学原理解释"></a>SHAP数学原理解释</h3><p>SHAP利用shapley value的原理，在 shapley value原理基础上，增加常数项$\phi_{0}$,则shapley value的含义变为在预测均值的基础上，对预测值所起到的作用。<br>对于单个样本，事后解释模型$g$的表达形式为：<br>$$<br>g(x) &#x3D; \phi_{0} + \sum_{j &#x3D; 1}^{M}\phi_{j}<br>$$<br>其中，$M$是模型中的特征数量，$\phi_{0} $是所有样本预测值的均值。<br>对于特定的预测模型$f(x)$, 其对应的解释模型$g$可以表示为各个特征归因值（SHAP值）的线性组合：</p>
+<p>$$<br>g(z^{\prime}) &#x3D; \phi_{0} + \sum_{j &#x3D; 1}^{M}\phi_{j} z^{\prime}_{j}<br>$$</p>
+<p>其中：$g(z^{\prime})$表示解释模型的输出，$z^{\prime}$是简化的二进制输入向量（$z^{\prime} &#x3D; 1$表示特征$j$“存在”，$z^{\prime} &#x3D; 0$表示特征$j$“缺失”），$M$表示特征总数，$\phi_{0}$表示基线值（通常表示模型在数据集上的平均预测$E[f(X)]$）, $\phi_{j}$表示是特征$j$的SHAP值。</p>
+<p>SHAP值是Shapley值在机器学习和模型解释领域的特定应用。SHAP值不仅继承Shapley值满足四条公理的特性，还具有以下三条对模型解释至关重要的理想性质：（原始模型$f$和解释模型$g$正向相关）</p>
+<ul>
+<li><strong>局部准确性(Local Accuracy)</strong>：对于特定的输入$x$,解释模型$g(z^{\prime})$(当所有特征都“存在”时，即$z^{\prime}$对应于$x$的完整特征表示)的输出必须精确等于原始模型$f(x)$的输出。表示所有特征的SHAP值之和加上基准值$\phi_{0}$等于该实例的预测值$f(x)$。<br>$$<br>f(x) &#x3D; \phi_{0} + \sum_{j &#x3D; 1}^{M}\phi_{j}(当所有z_{j}^{\prime} &#x3D; 1时)<br>$$<br>这保证解释完整性，所有特征的贡献总和恰好等于预测值和基线值之差。</li>
+<li><strong>缺失性(Missingness)</strong>：如果一个特征在简化输入$z^{\prime}$中被视为“缺失”（即$z_{j}^{\prime}&#x3D; 0$），那么其对应的SHAP值$\phi_{j}$在解释模型$g(z^{\prime})$中的贡献应为零(即$\phi_{j}\cdot z^{\prime} &#x3D; 0$)。即如果一个特征$x_{j}$对预测没有贡献，那么他的SHAP值$\phi_{j}$应该是零。</li>
+<li><strong>一致性(Consistency)</strong>：如果一个模型被修改后，某个特征的边际贡献在任何特征组合下都增加或者保持不变，那么该特征的SHAP值也应该增加或者保持不变。该属性保证SHAP值能够可靠的反应特征重要性的真实变化，避免某些方法可能出现的反直觉行为。</li>
+</ul>
+<h3 id="SHAP值难点计算解决方案"><a href="#SHAP值难点计算解决方案" class="headerlink" title="SHAP值难点计算解决方案"></a>SHAP值难点计算解决方案</h3><ol>
+<li>近似算法：<ul>
+<li>模型无关算法：Kernel SHAP</li>
+<li>模型相关算法TreeSHAP（适用于基于树模型的算法，Interventional TreeSHAP和Path-dependent TreeSHAP）、DeepSHAP算法（适用于深度学习模型）</li>
+</ul>
+</li>
+<li>Kernel SHAP算法：在结合LIME可解释算法基础上，使用拟合加权线性模型来估算shapley value。算法五步骤如下（此部分可看参考文献[2] 第161页）：<ul>
+<li><p>采样：采样联盟$z^{\prime}_{k} \in {0,1}^{M}, k \in {1, …, K }$(1 &#x3D; 联盟中存在的特征，0 &#x3D; 不存在的特征)</p>
+</li>
+<li><p>对采样值进行预测：对$z^{\prime}<em>{k}$预测，方法是首先将$z^{\prime}</em>{k}$转换为原始特征空间，然后应用模型$f:f(h_{x}( z^{\prime}_{k}))$。</p>
+</li>
+<li><p>使用SHAP核来计算每个$z^{\prime}_{k}$的权重。其中SHAP核如下：$M$是最大联盟大小，$|z^{\prime}|$实例$z^{\prime}$中当前特征的数量。用这个核权重的线性回归会产生Shapley值。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>$$<br>\pi_{x}(z^{\prime}) &#x3D; \frac{(M - 1)}{\begin{pmatrix}<br>M\<br>|z^{\prime}|\<br>\end{pmatrix}|z^{\prime}|(M - z^{\prime})}<br>$$</p>
+<ul>
+<li>拟合加权线性模型，可以使用损失函数$L$来训练线性函数$g$:</li>
+</ul>
+<p>$$<br>g(z^{\prime}) &#x3D; \phi_{0} + \sum_{j &#x3D; 1}^{M}\phi_{j} z^{\prime}_{j}<br>$$</p>
+<p>$$<br>L(f, g, \pi_{x}) &#x3D; \sum_{z^{\prime} \in Z}[f(h_{x}(z^{\prime}))-g(z^{\prime})]^{2}\pi_{x}(z^{\prime})<br>$$<br>其中$Z$是训练数据。</p>
+<ul>
+<li>返回shapley值$\phi_{k}$，即线性模型的系数。</li>
+</ul>
+<ol start="4">
+<li>算法优缺点:<ul>
+<li>算法优点：模型无关性和通用性，理论上适用于任何类型的机器学习模型。</li>
+<li>算法缺点：需要大量扰动样本进行模型评估，计算成本高。要求特征之间必须相互独立，如果特征之间存在高度相关，则可能会出现在现实中不可能出现的数据点，从而对SHAP值的估计产生误差。</li>
+</ul>
+</li>
+</ol>
+<h3 id="算法应用价值"><a href="#算法应用价值" class="headerlink" title="算法应用价值"></a>算法应用价值</h3><ol>
+<li><p>业务领域：对异常变动敏感的业务领域，可以使用SHAP算法进行异常分析，快速定位异常原因，也可以在业务规则之外，提供新的“解释”。</p>
+</li>
+<li><p>模型解释和调试：可以用来解释“黑盒”是AI预测模型，既可以进行局部解释（单点数据样例），也可以实现全局可解释（数据集）。</p>
+</li>
+<li><p>利益分配：合作博弈的核心在于合理公平地分配合作成果，可以SHAP算法用于按照对项目的贡献分配奖金，衡量影响力大小对决策的影响。</p>
+</li>
+<li><p>领域应用：在金融、保险领域，SHAP可用来解释信贷评分、保险理赔反欺诈监测（中国人寿）和隐私合规的要求。分布式可解释算法已在蚂蚁集团内部反欺诈、反洗钱等场景中有落地。</p>
+</li>
+</ol>
+<h3 id="算法工具：SHAP开源算法库"><a href="#算法工具：SHAP开源算法库" class="headerlink" title="算法工具：SHAP开源算法库"></a>算法工具：<a target="_blank" rel="noopener" href="https://github.com/slundberg">SHAP开源算法库</a></h3><ol>
+<li>介绍：由Scott Lundberg开发，内置Kernel SHAP&#x2F;Tree SHAP&#x2F;Deep SHAP等多种API.</li>
+<li>安装：PyPI和Conda</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install shap</span><br><span class="line">or</span><br><span class="line">conda install -c conda-forge shap</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><a target="_blank" rel="noopener" href="https://shap.readthedocs.io/en/latest/api.html">API方法</a></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>是否和模型相关</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>shap.Explainer(model[, masker, link, …])</td>
+<td>使用 Shapley 值来解释任何机器学习模型或 python 函数。</td>
+<td></td>
+</tr>
+<tr>
+<td>shap.TreeExplainer(model[, data, …])</td>
+<td>使用树 SHAP 算法来解释集成树模型的输出。</td>
+<td>用于树模型</td>
+</tr>
+<tr>
+<td>shap.GPUTreeExplainer(model[, data, …])</td>
+<td>reeExplainer 的实验性 GPU 加速版本。支持与 TreeExplainer 相同的能力，同时支持基于 GPU 进行加速</td>
+<td>用于树模型</td>
+</tr>
+<tr>
+<td>shap.LinearExplainer(model, masker[, link, …])</td>
+<td>计算线性模型的 SHAP 值，可以选择考虑特征间相关性。</td>
+<td>用于线性模型</td>
+</tr>
+<tr>
+<td>shap.PermutationExplainer(model, masker[, …])</td>
+<td>通过迭代输入的排列来近似 Shapley 值，通过遍历输入的排列变换来估计 Shapely values，能够保证 Local accuracy 性质</td>
+<td>模型无关</td>
+</tr>
+<tr>
+<td>shap.PartitionExplainer(model, masker, *[, …])</td>
+<td>通过特征层次结构递归计算 Shapley 值，该层次结构定义特征联盟并根据博弈论得出 Owen 值。</td>
+<td>模型无关</td>
+</tr>
+<tr>
+<td>shap.SamplingExplainer(model, data, **kwargs)</td>
+<td>使用 Shapley 抽样值解释方法（也称为 IME）的扩展计算 SHAP 值。</td>
+<td>模型无关</td>
+</tr>
+<tr>
+<td>shap.AdditiveExplainer(model, masker[, …])</td>
+<td>计算广义加性模型(GAM) 的 SHAP 值，并假设模型仅具有一阶交叉。</td>
+<td>用于GAM</td>
+</tr>
+<tr>
+<td>shap.DeepExplainer(model, data[, session, …])</td>
+<td>旨在近似深度学习模型的 SHAP 值。shap实现为DeepLIFT 算法（Deep SHAP）的增强版本，与 Kernel SHAP 类似，我们使用选择的背景样本来近似 SHAP 值的条件期望。支持 tf 模型和 torch 模型</td>
+<td>用于深度学习模型</td>
+</tr>
+<tr>
+<td>shap.KernelExplainer(model, data[, …])</td>
+<td>Kernel SHAP 是一种使用特殊的加权线性回归来计算每个特征的重要性的方法。计算的重要性值是来自博弈论的Shapley值以及来自局部线性回归的系数。</td>
+<td>模型无关</td>
+</tr>
+<tr>
+<td>shap.GradientExplainer(model, data[, …])</td>
+<td>使用预期梯度（积分梯度的扩展）解释模型</td>
+<td></td>
+</tr>
+<tr>
+<td>shap.ExactExplainer(model, masker[, link, …])</td>
+<td>通过优化的精确枚举计算 SHAP 值。</td>
+<td>模型无关</td>
+</tr>
+<tr>
+<td>shap.explainers.other.Coefficient(model)</td>
+<td>只需将模型系数作为特征归因返回</td>
+<td></td>
+</tr>
+<tr>
+<td>shap.explainers.other.Random(model, masker)</td>
+<td>仅返回随机（正态分布）特征归因</td>
+<td></td>
+</tr>
+<tr>
+<td>shap.explainers.other.LimeTabular(model, data)</td>
+<td>简单地包裹 lime.lime_tabular。LimeTabularExplainer 到公共 shap 接口中.</td>
+<td></td>
+</tr>
+<tr>
+<td>shap.explainers.other.Maple(model, data)</td>
+<td>只需将 MAPLE 包装到通用 SHAP 接口中即可</td>
+<td></td>
+</tr>
+<tr>
+<td>shap.explainers.other.TreeMaple(model, data)</td>
+<td>只需将 MAPLE 树到通用 SHAP 接口中即可</td>
+<td></td>
+</tr>
+<tr>
+<td>shap.explainers.other.TreeGain(model)</td>
+<td>仅返回树模型的全局增益&#x2F;基尼特征重要性</td>
+<td></td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>构建 shap解释器：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shap.Explainer(model,  # 要评估的方法或者模型</span><br><span class="line">			   masker=None,  # 为 Explainer 提供 mask 后的背景数据</span><br><span class="line">			   link=links.identity, # 指定输出结果的单位与 SHAP value 单位的关系，通常使用相同单位，也可以使用log关系</span><br><span class="line">			   algorithm=&quot;auto&quot;, # 使用哪种算法来估计Shapely value，通常使用auto来自动选择</span><br><span class="line">			   output_names=None, # 模型输出的名称，主要用于后续可视化</span><br><span class="line">			   feature_names=None, # 输入中每一列的名称</span><br><span class="line">			   linearize_link=True, # 这个代码里没解释……</span><br><span class="line">			   seed=None, # 如果要复现结果，指定seed为某个int值</span><br><span class="line">			   **kwargs)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用途：构建SHAP库的主要解释器接口类，能够根据用户传入的 model、masker 等信息，自动的选择合适的 explainer 来作为评估的实例。</li>
+<li>常用参数：<ul>
+<li>model：需要解释的模型对象或者函数对象，用于根据获取到样本数据集计算这些样本的模型输出；</li>
+<li>algorithm：分为“auto”, “permutation”, “partition”, “tree”, or “linear”，表示用于估计 Shapley 值的算法。默认情况下，“auto”选项会尝试在给定传递的模型model和masker的情况下做出最佳选择；</li>
+<li>seed： 随机数种子，用于重复测验。</li>
+</ul>
+</li>
+<li>方法：<ul>
+<li>shap.Explainer().<strong>init</strong>():传递模型构建新解释器；</li>
+<li>shap.Explainer().explain_row()：解释单行并返回由（row_values、row_expected_values、row_mask_shapes、main_effects）构成的元组。抽象方法，需要有子类实现。返回对象是由（row_values， row_expected_values， row_mask_shapes）构成的元祖。 row_values 是每个样本归因值数组，row_expected_values 是表示每个样本模型预期值数组，row_mask_shapes 是所有输入形状的列表；</li>
+<li>shap.Explainer().supports_model_with_masker(model, masker):确定此解释器是否可以处理给定模型，返回是False或True.抽象方法，需要有子类实现；</li>
+<li>shap.Explainer().load(in_file)：从给定文件流in_file中加载解释器；</li>
+<li>shap.Explainer().save(out_file)：将解释器写入给定的文件流out_file中。</li>
+</ul>
+</li>
+</ul>
+<h3 id="SHAP开源算法库可视化交互探索工具"><a href="#SHAP开源算法库可视化交互探索工具" class="headerlink" title="SHAP开源算法库可视化交互探索工具"></a><a target="_blank" rel="noopener" href="https://github.com/slundberg">SHAP开源算法库</a>可视化交互探索工具</h3><ol>
+<li><p>可视化交互探索工具按照返回值解释情况分类：</p>
+<ul>
+<li>局部可解释性(Local Interper)：侧重解释单个预测的生成，对单条或者多条样本预测值的解释。可以使用waterfall(瀑布图)&#x2F;decision图&#x2F;force图&#x2F;bar图（柱状图）.</li>
+<li>全局可解释性(Global Interger):得到模型的总体结构(overall structure).</li>
+</ul>
+</li>
+<li><p>瀑布图(Waterfall Plot)：</p>
+<ul>
+<li>命令：shap.plots.waterfall()</li>
+<li>解释：展示了对于单个预测，各个特征的 SHAP 值如何一步步地将模型的预测输出从基线值（通常是平均预测值）推向最终的预测值。</li>
+</ul>
+</li>
+<li><p>力图(Force Plot)：</p>
+<ul>
+<li>解释：以一种“力”的隐喻来可视化单个预测的特征贡献，针对单个样本预测解释，将shap value可视化为force，每个特征增加或减少预测的force值，预测以基线开始，基线是解释模型的常数，每个归因值为一个箭头，增加(正值)或减少(负值)预测，红色为正共享，蓝色为负贡献。红色特征（正 SHAP 值）将预测推高，蓝色特征（负 SHAP 值）将预测拉低，直观地显示了驱动预测结果的关键因素及其相对强度</li>
+<li>命令：shap.force_plot()</li>
+<li>可视化：基线值：图中的起点表示模型的基线值（expected_value）也就是可视化当中的base value,是传入数据集上模型预测值的均值，可以通过自己计算来验证；特征贡献：每个特征的贡献通过带颜色的条表示，条的长度表示该特征对最终预测值的影响大小，红色条表示正向贡献，即该特征使预测值增加，蓝色条表示负向贡献，即该特征使预测值减少；预测值：终点表示模型对该样本的最终预测值，这是基线值加上所有特征贡献的总和.</li>
+</ul>
+</li>
+<li><p>摘要图(Summary Plot &#x2F; Beeswarm Plot):</p>
+<ul>
+<li>解释：这是一种非常强大的全局解释图。它通常将每个特征的 SHAP 值分布以散点图（蜂群图）的形式展示出来，其中每个点代表一个样本的一个特征的 SHAP 值。点的颜色通常表示原始特征值的高低，这有助于揭示特征值与其对预测影响之间的关系。</li>
+<li>命令：shap.summary_plot（）</li>
+<li>作用：摘要图是SHAP常用的一种可视化方法，用于显示特征的重要性和特征值的影响方向，摘要图结合了特征重要性和特征效应图，展示了每个特征的SHAP值的分布情况，帮助我们理解每个特征对模型预测的贡献，这张可视化结果可在众多论文当中看见，当然你也可以通过参数cmap改变配色避免审美疲劳。包括：cmap：”viridis”：从黄色到蓝绿色。”Spectral”：从红色到蓝色，适用于有正负影响的特征。”coolwarm”：从冷到暖的颜色图。”RdYlGn”：从红到绿的颜色图。”RdYlBu”：从红到蓝的颜色图。”RdBu”：红蓝双色图。”RdGy”：红灰双色图。”PuOr”：从紫色到橙色的颜色图。”BrBG”：从棕色到蓝绿色的颜色图。”PRGn”：从紫色到绿色的颜色图。”PiYG”：从粉红色到绿色的颜色图。</li>
+<li>颜色：粉红色点:表示特征值在这个观察模型中对模型预测产生了正面影响。蓝色点:表示该特征值在这个观察中对模型预测产生负面影响。每个样本每个特征的SHAP值，并允许发现预测异常值。每一行代表一个特征，横坐标代表SHAP值。每一个单代表一个样本，颜色代表特征值（红色高，蓝色低）。红色越集中在均值左侧，而蓝色集中在右侧，则说明特征的大小和模型预测值是负相关;而红色越集中在均值右侧，而蓝色集成中均值左侧，说明特征的大小和模型预测值负相关；红蓝混合在一起，则说明特征的噪声大。</li>
+<li>水平轴(shap值)：显示每个特征对预测结果的影响大小，点越远离中心线（零点），表示该特征对模型输出的影响越大正的shap值表示正面影响，负的shap值表示负面影响</li>
+<li>垂直轴(特征排列)：图中垂直排列的特征按影响力从上到小进行排序，上方的特征对模型输出的总影响更大，而下方的特征影响较小</li>
+</ul>
+</li>
+<li><p>特征影响力解释：</p>
+<ul>
+<li>最上方特征(如：MedInc)：显示了大量的正面和负面影响，表明其在不同的观察值对模型预测的结果有很大不同的影响。</li>
+<li>中部特征(如：AveRooms)：也显示出两种颜色的点，但点的分布更集中，影响相对较小</li>
+<li>底部特征(如：Population)：对模型的影响最小，且大部分影响较为接近于零值，表示这些特征对模型预测的贡献较小。</li>
+</ul>
+</li>
+<li><p>特征重要性(Feature Importance)：</p>
+<ul>
+<li>通过散点简单绘制每个样本每个特征的shap值，通过颜色看到特征值大小和预测影响之间的关系，同时取每个特征的shap值的绝对值平均值作为该特征的重要性，可获得标准条形图(shap.summary_plot(plot_type &#x3D; ‘bar’)或者shap.plots.bar())。</li>
+</ul>
+</li>
+<li><p>依赖图 (Dependence Plot):</p>
+<ul>
+<li>解释：用于探索单个特征的取值与其对应的 SHAP 值之间的关系。图中每个点代表一个样本，横轴是特征值，纵轴是该特征的 SHAP 值。通过观察点的分布模式，可以了解特征对其贡献的影响是否是线性的、单调的或其他更复杂的形式</li>
+<li>命令：shap.dependence_plot()</li>
+<li>含义：依赖图用于显示一个特征的SHAP值与该特征值之间的关系，并可以展示特征之间的交互作用</li>
+<li>参数解释：’MedInc’：这是你想要研究的特征名；shap_values：这是通过SHAP计算得到的特征重要性值；X_train：这是用于生成SHAP值的训练数据；interaction_index&#x3D;’AveOccup’：这是指定与主特征（MedInc）交互的特征，SHAP会在图中显示两者的交互效果。</li>
+</ul>
+</li>
+<li><p>热图（Heatmap）</p>
+<ul>
+<li>命令：shap.plots.heatmap()</li>
+<li>可视化解读：左侧y轴为重要性特征排名，特征按影响力从大到小进行排序，右侧y轴为其可视化，图像中颜色深浅表示SHAP值的大小，也就是该特征下值对模型的影响，颜色越深SHAP值绝对值越大越影响模型，顶部为模型在这些数值下的预测结果可视化。</li>
+</ul>
+</li>
+<li><p>使用步骤：</p>
+<ul>
+<li>使用SHAP工具解释，需要先选项合适的解释器(Explainer),使用shap.Explainer时,可以自动选择合适的解释器来作为评估的实例。</li>
+<li>选择Masker合适的背景数据。Masker通常选择经过采样的样本数据(1000条以内，默认100条为主)，主要用于让解释器了解模型所使用的大致数据分布，有利于更加准确的评估每个特征的贡献。对于存在多重共线性的特征，可以先使用shap.util.hclust()方法先聚类或者分组，再分析。</li>
+<li>最后绘图显示特征贡献情况。</li>
+</ul>
+</li>
+</ol>
+<h3 id="SHAP开源算法库使用注意事项"><a href="#SHAP开源算法库使用注意事项" class="headerlink" title="SHAP开源算法库使用注意事项"></a><a target="_blank" rel="noopener" href="https://github.com/slundberg">SHAP开源算法库</a>使用注意事项</h3><ol>
+<li>SHAP算法验证时，代码优先使用Jupyter Notebook 或 IPython 环境中运行代码，SHAP算法的图表会在运行后，自动显示。而使用PyCharm时，则不会显示，使用时，需要配合matplotlib库一起使用，配置参数show &#x3D; False, matplotlib &#x3D; True，例如shap.force_plot。</li>
+<li>在PyCharm+matplotlib库一起使用时，单个预测和所有预测所导致的画图差别，在使用K最近邻算法时，对于所有预测，matplotlib库使用shap.force_plot（）画图无效</li>
+<li>数据集使用，shap.datasets.adult()首次运行时会尝试从github上下载数据集并缓存，这容易导致命令在jupyter notebook中可以运行，但是在Pycharm中会报超时连接的错误。</li>
+<li>使用代码时，导入包必须注明版本号，以防因为包的升级进化，导致存在参数和方法失效的问题。</li>
+<li>shap.plots.initjs()是初始化交互式力图所需的javascript库，需要在仅按照IPython笔记本环境中使用。</li>
+</ol>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>[1] <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%AF%E8%A7%A3%E9%87%8B%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7">可解释人工智能</a><br>[2] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/37102010/">可解释机器学习：黑盒模型可解释性理解指南（第2版）</a> 【德】 Christoph Molnar著，郭涛译.电子工业出版社<br>[3] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/35693817/">可解释机器学习(模型、方法与实践)</a> 邵平等著.机械工业出版社<br>[4] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/35862965/">可解释人工智能导论</a> 杨强等著.电子工业出版社<br>[5] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/36059612/">AI可解释性（Python语言版）</a> 列奥尼达·詹法纳(Leonida Gianfagna) &#x2F; 安东尼奥·迪·塞科(Antonio Di Cecco)著.清华大学出版社<br>[6] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/36818500/">可解释AI实战（PyTorch版）</a> 阿杰伊·塔姆佩（Ajay Thampi）著.清华大学出版社<br>[7] Feng, T., Zhou, Z., Tarun, J., &amp; Nair, V. N. (2022). <a href="(https://arxiv.org/pdf/2208.06096)">Comparing Baseline Shapley and Integrated Gradients for Local Explanation: Some Additional Insights</a>. arXiv preprint arXiv:2208.06096.<br>[8] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/36077228/">Python可解释AI（XAI）实战</a> 丹尼斯·罗斯曼(Denis Rothman)著.清华大学出版社<br>[9] Sundararajan, M., &amp; Najmi, A. (2020, November). <a target="_blank" rel="noopener" href="https://proceedings.mlr.press/v119/sundararajan20b.html">The many Shapley values for model explanation</a>. In International conference on machine learning (pp. 9269-9278). PMLR.<br>[10] <a target="_blank" rel="noopener" href="https://book.douban.com/subject/37092060/">面向从业者的可解释人工智能</a> Michael Munn著，陈志鸿译.东南大学出版社.<br>[11] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/473931620">夏普利值：看诺奖获得者提出的广告效果归因分析新思路</a><br>[12] <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23180647">能不能形象的介绍一下 shapley 值法</a><br>[13] <a target="_blank" rel="noopener" href="https://clearcode.cc/blog/game-theory-attribution/">博弈论归因：您可能从未听说过的模型</a><br>[14] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/395674023">可解释性：完善Shapley value理论体系，建模并学习基准值</a><br>[15]<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Shapley%E5%80%BC%E6%B3%95/5909624?fr=aladdin">Shapley值法</a><br>[16] <a target="_blank" rel="noopener" href="https://shap.readthedocs.io/en/latest/index.html">SHAP 文档</a><br>[17] <a target="_blank" rel="noopener" href="https://www.infoq.cn/article/XIYtQjiIC5sPSp04aDK9">打开 AI 的黑盒子：模型可解释性的现状、应用前景与挑战</a><br>[18]  Jialin Wu and Raymond J. Mooney.<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1809.02805">Faithful Multimodal Explanation for Visual Question Answering</a>arXiv preprint arXiv:1809.02805<br>[19] <a target="_blank" rel="noopener" href="https://www.51cto.com/aigc/5957.html">告别AI“黑箱”！SHAP全面指南，让模型解释不再难</a><br>[20] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1705.07874">A Unified Approach to Interpreting Model Predictions</a><br>[21] <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=Mzk0NDM4OTYyOQ==&mid=2247484880&idx=1&sn=a86f37b85fe21de3e6797838d8797b15&chksm=c3242942f453a05491b5db2131973c436d3ee789d52fbc93c596eca09d2e51c2be40ba279832&scene=21#wechat_redirect">SHAP全解析：机器学习、深度学习模型解释保姆级教程</a><br>[22]<a target="_blank" rel="noopener" href="https://developer.volcengine.com/articles/7418786913525760054">SHAP进阶解析：机器学习、深度学习模型解释保姆级教程</a><br>[23] <a target="_blank" rel="noopener" href="https://colab.research.google.com/#scrollTo=5fCEDCU_qrC0">Colab工具</a><br>[24] <a target="_blank" rel="noopener" href="https://e0hyl.github.io/BLOG-OF-E0/LIMEandSHAP/#lime-%E5%BA%93%E7%9B%B8%E5%85%B3%E6%8E%A5%E5%8F%A3">可解释方法LIME和SHAP代码实战</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E%E7%AF%87/">https://varamnematchinensis.github.io/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E%E7%AF%87/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                                    <span class="chip bg-color">可解释</span>
+                                </a>
+                            
+                                <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">SHAP算法</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="可解释人工智能及其研究-SHAP算法应用篇">
+                        
+                        <span class="card-title">可解释人工智能及其研究-SHAP算法应用篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            可解释人工智能及其研究-SHAP算法应用篇，主要介绍SHAP可解释性算法在成人人口普查数据的应用。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-09-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                        <span class="chip bg-color">可解释</span>
+                    </a>
+                    
+                    <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">SHAP算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BA%94%E7%94%A8/">
+                        <span class="chip bg-color">应用</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-%E5%9F%BA%E7%A1%80%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="可解释人工智能及其研究-基础篇">
+                        
+                        <span class="card-title">可解释人工智能及其研究-基础篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            可解释人工智能及其研究-基础篇，主要介绍模型可解释性、可解释性分类、当前模型可解释性方法的挑战和问题、AI模型在应用场景的典型使用问题、可解释性对模型应用的价值、模型可解释性工具等。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                        <span class="chip bg-color">可解释</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">78k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
