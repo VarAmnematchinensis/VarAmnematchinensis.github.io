@@ -6,7 +6,7 @@
   <link href="https://varamnematchinensis.github.io/atom.xml" rel="self"/>
   
   <link href="https://varamnematchinensis.github.io/"/>
-  <updated>2025-09-16T09:23:56.749Z</updated>
+  <updated>2025-09-24T03:29:22.721Z</updated>
   <id>https://varamnematchinensis.github.io/</id>
   
   <author>
@@ -15,6 +15,70 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AI应用实践-智能BI(智能问数与智能数据分析)</title>
+    <link href="https://varamnematchinensis.github.io/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/"/>
+    <id>https://varamnematchinensis.github.io/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/</id>
+    <published>2025-09-17T16:15:00.000Z</published>
+    <updated>2025-09-24T03:29:22.721Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;AI应用实践-智能BI-智能问数与智能数据分析&quot;&gt;&lt;a href=&quot;#AI应用实践-智能BI-智能问数与智能数据分析&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="应用" scheme="https://varamnematchinensis.github.io/categories/%E5%BA%94%E7%94%A8/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="应用" scheme="https://varamnematchinensis.github.io/tags/%E5%BA%94%E7%94%A8/"/>
+    
+    <category term="BI" scheme="https://varamnematchinensis.github.io/tags/BI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)</title>
+    <link href="https://varamnematchinensis.github.io/2025/09/17/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-Text2SQL(NL2SQL,%20Natural%20Language%20to%20SQL)/"/>
+    <id>https://varamnematchinensis.github.io/2025/09/17/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-Text2SQL(NL2SQL,%20Natural%20Language%20to%20SQL)/</id>
+    <published>2025-09-16T16:15:00.000Z</published>
+    <updated>2025-09-24T03:21:50.969Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;AI应用实践-Text2SQL-NL2SQL-Natural-Language-to-SQL&quot;&gt;&lt;a href=&quot;#AI应用实践-Text2SQL-NL2SQL-Natural-Language-to-SQL&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="应用" scheme="https://varamnematchinensis.github.io/categories/%E5%BA%94%E7%94%A8/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="应用" scheme="https://varamnematchinensis.github.io/tags/%E5%BA%94%E7%94%A8/"/>
+    
+    <category term="Text2SQL" scheme="https://varamnematchinensis.github.io/tags/Text2SQL/"/>
+    
+    <category term="NL2SQL" scheme="https://varamnematchinensis.github.io/tags/NL2SQL/"/>
+    
+  </entry>
   
   <entry>
     <title>可解释人工智能及其研究-SHAP算法应用篇</title>
@@ -41,11 +105,11 @@
     
     <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
+    <category term="应用" scheme="https://varamnematchinensis.github.io/tags/%E5%BA%94%E7%94%A8/"/>
+    
     <category term="可解释" scheme="https://varamnematchinensis.github.io/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/"/>
     
     <category term="SHAP算法" scheme="https://varamnematchinensis.github.io/tags/SHAP%E7%AE%97%E6%B3%95/"/>
-    
-    <category term="应用" scheme="https://varamnematchinensis.github.io/tags/%E5%BA%94%E7%94%A8/"/>
     
   </entry>
   
@@ -202,6 +266,37 @@
   </entry>
   
   <entry>
+    <title>Prompt Engineering(提示词工程)实施总结</title>
+    <link href="https://varamnematchinensis.github.io/2025/09/14/Prompt%20Engineering(%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B)%E5%AE%9E%E6%96%BD%E6%80%BB%E7%BB%93/"/>
+    <id>https://varamnematchinensis.github.io/2025/09/14/Prompt%20Engineering(%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B)%E5%AE%9E%E6%96%BD%E6%80%BB%E7%BB%93/</id>
+    <published>2025-09-13T16:15:00.000Z</published>
+    <updated>2025-09-24T03:42:39.622Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;Prompt-Engineering-提示词工程-实施总结&quot;&gt;&lt;a href=&quot;#Prompt-Engineering-提示词工程-实施总结&quot; class=&quot;headerlink&quot; title=&quot;Prompt</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="应用" scheme="https://varamnematchinensis.github.io/tags/%E5%BA%94%E7%94%A8/"/>
+    
+    <category term="Prompt Engineering" scheme="https://varamnematchinensis.github.io/tags/Prompt-Engineering/"/>
+    
+  </entry>
+  
+  <entry>
     <title>算法文档编写要点</title>
     <link href="https://varamnematchinensis.github.io/2025/09/14/%E7%AE%97%E6%B3%95%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E8%A6%81%E7%82%B9/"/>
     <id>https://varamnematchinensis.github.io/2025/09/14/%E7%AE%97%E6%B3%95%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E8%A6%81%E7%82%B9/</id>
@@ -225,9 +320,9 @@
     <category term="算法" scheme="https://varamnematchinensis.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-    <category term="经验总结" scheme="https://varamnematchinensis.github.io/tags/%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/"/>
-    
     <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="经验总结" scheme="https://varamnematchinensis.github.io/tags/%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/"/>
     
     <category term="文档管理" scheme="https://varamnematchinensis.github.io/tags/%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86/"/>
     
@@ -403,11 +498,11 @@
     <category term="算法" scheme="https://varamnematchinensis.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
-    
     <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
     
     <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
     
     <category term="深度学习" scheme="https://varamnematchinensis.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
@@ -526,100 +621,6 @@
         
         
     <summary type="html">&lt;h3 id=&quot;性能调优&quot;&gt;&lt;a href=&quot;#性能调优&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
-    
-    
-    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
-    
-    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GaussDB(DWS)数据库-湖仓一体篇</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93/</id>
-    <published>2025-08-04T12:22:00.000Z</published>
-    <updated>2025-08-04T13:25:33.283Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;hr&gt;
-&lt;h2 id=&quot;湖仓一体&quot;&gt;&lt;a href=&quot;#湖仓一体&quot; class=&quot;headerlink&quot; title=&quot;湖仓一体&quot;&gt;&lt;/a&gt;湖仓一体&lt;/h2&gt;&lt;p&gt;湖仓一体：lake</summary>
-        
-      
-    
-    
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
-    
-    
-    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
-    
-    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GaussDB(DWS)数据库-集群管理篇</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E7%AF%87/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E7%AF%87/</id>
-    <published>2025-08-04T12:22:00.000Z</published>
-    <updated>2025-08-04T13:27:31.230Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;集群创建与删除&quot;&gt;&lt;a href=&quot;#集群创建与删除&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
-    
-    
-    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
-    
-    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GaussDB(DWS)数据库-导入导出篇</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/03/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AF%87/</id>
-    <published>2025-08-03T13:34:00.000Z</published>
-    <updated>2025-08-03T14:12:29.683Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;DWS外表&quot;&gt;&lt;a href=&quot;#DWS外表&quot; class=&quot;headerlink&quot; title=&quot;DWS外表&quot;&gt;&lt;/a&gt;DWS外表&lt;/h2&gt;&lt;p&gt;外表定义(Foregin</summary>
         
       
     

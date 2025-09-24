@@ -1,0 +1,1312 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="AI应用实践-智能BI(智能问数与智能数据分析), Amnematchinensis">
+    <meta name="description" content="AI应用实践-智能BI(智能问数与智能数据分析)，主要介绍智能BI，包括商业智能(BI)定义、历史发展、智能BI核心技术、系统架构设计、关键技术、产品设计要点、设计实施过程、优秀实践产品、产品实践案例、当前技术挑战、长远设想和个人思考。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>AI应用实践-智能BI(智能问数与智能数据分析) | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">AI应用实践-智能BI(智能问数与智能数据分析)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%BA%94%E7%94%A8/">
+                                <span class="chip bg-color">应用</span>
+                            </a>
+                        
+                            <a href="/tags/BI/">
+                                <span class="chip bg-color">BI</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%BA%94%E7%94%A8/" class="post-category">
+                                应用
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-09-18
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-09-24
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    31 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="AI应用实践-智能BI-智能问数与智能数据分析"><a href="#AI应用实践-智能BI-智能问数与智能数据分析" class="headerlink" title="AI应用实践-智能BI(智能问数与智能数据分析)"></a>AI应用实践-智能BI(智能问数与智能数据分析)</h1><h2 id="商业智能-BI"><a href="#商业智能-BI" class="headerlink" title="商业智能(BI)"></a>商业智能(BI)</h2><p><a target="_blank" rel="noopener" href="https://www.ibm.com/cn-zh/topics/business-intelligence">商业智能(BI)</a><br>　　定义：根据IBM的定义，商业智能(BI)是一套用于收集、管理和分析组织数据以生成为业务战略和运营提供洞察信息的技术流程。<br>　　商业智能与业务分析的关系：商业智能 (BI) 属于描述性信息，它可基于当前业务数据基础来实现更明智的业务决策。因此，业务分析 (BA) 是 BI 的一个子集，它可提供规范性和前瞻性的分析。它是 BI 基础设施的总括，其中包括用于识别和存储决策所需数据的工具。</p>
+<h2 id="BI工具历史"><a href="#BI工具历史" class="headerlink" title="BI工具历史"></a>BI工具历史</h2><p>历史：固定报表BI-&gt;自助式BI-&gt;智能BI<br><strong>固定报表式BI</strong><br>　　定义：通过手工编写复杂的SQL代码，固定代码定期调度查询执行，查询数据呈现作为固定报表使用。<br>　　典型使用对象：数据工程师、数据开发者。<br>　　数据刷新频率：每月、每周。<br>　　主要交互方式：即席查询。<br>　　技术发展背景：信息化。<br>　　典型工具：国内有金蝶、用友，国外有Oracle、SAP、Hyperion(海波龙)、IBM Cognos Analytisc早期等。<br>　　主要问题：按需要开发，定制化交付，对代码编写要求比较高，编写复杂而且由于代码固定修改代价比较高，对开发设计人员的要求比较高，响应周期长、交互体验差、适应性比较差。</p>
+<p><strong>自助分析式BI</strong><br>　　定义：通过“拖、拉、拽”等方式拼接生成SQL语句，再针对拼接后SQL语句调测验证后，调度查询数据形成前台可视化数据或报表呈现。<br>　　典型使用对象：业务数据分析师、数据开发者。<br>　　数据刷新频率：每天、每小时。<br>　　主要交互方式：拖拉拽控件形成可视化图表。<br>　　技术发展背景：数字化。<br>　　典型工具：国内有<a target="_blank" rel="noopener" href="https://www.finebi.com/">帆软BI</a>、<a target="_blank" rel="noopener" href="https://www.yonghongtech.com/bd/">永洪BI</a>，国外有商业软件<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/power-platform/products/power-bi">PowerBI</a>、<a target="_blank" rel="noopener" href="https://www.tableau.com/zh-cn">Tableau</a>、<a target="_blank" rel="noopener" href="https://www.qlik.com/us/products/qlikview">QlikView</a>、<a target="_blank" rel="noopener" href="https://www.thoughtspot.com/">ThoughtSpot</a>，开源软件<a target="_blank" rel="noopener" href="https://superset.org.cn/docs/intro/">Apache Superset</a>、<a target="_blank" rel="noopener" href="https://metabase.net.cn/docs/latest/">Metabase</a>等。<br>　　主要问题：操作繁琐复杂、需要明确各种数据表之间的关系，自助化交付、还需要一定的SQL编写和验证能力，导致操作效率比较低，操作门槛高的问题。</p>
+<p><strong>关于商业智能 (BI)的观点</strong><br>　　Traditional BI Can’t Keep Up.Static dashboards, request backlogs, stale data—this outdated model slows decisions and stalls innovation.In a real-time world, insights should flow live into workflows so every team can act with confidence, not lag behind.(传统商业智能 (BI) 已经跟不上时代了。静态的仪表板、积压的数据请求、过时的数据——这种落后的模式拖慢了决策速度，阻碍了创新。在实时的世界里，洞察应该实时地融入工作流程中，让每个团队都能充满信心地采取行动，而不是落后于人) 　　——ThoughtSpot</p>
+<p><strong>智能BI(智能问数与智能数据分析)</strong><br>　　定义：借助Text2SQL(NL2SQL, Natural Language to SQL)等技术，代替使用结构化查询语言SQL的图形化界面(GUI)交流数据，实现用自然语言的交互方式获取、理解并分析数据，降低技术要求、提升取数效率和节约成本、改善用户体验，进一步深度挖掘数据潜在价值。<br>　　典型使用对象：所有人（市场、销售、业务和技术人员）。<br>　　数据刷新频率：分钟级、秒级。<br>　　主要交互方式：自然语言交流。<br>　　技术发展背景：智能化。<br>　　意义：借助不断迭代升级自适应各种场景的LLM，用自然语言和数据进行多轮并且上下文关联式的交流，将会成为以后普遍的数据访问形式、数据挖掘方式和数据库管理方式，也将作为产品设计中不可或缺的关键功能设计。</p>
+<h2 id="核心技术"><a href="#核心技术" class="headerlink" title="核心技术"></a>核心技术</h2><p>核心技术：大语言模型学习和微调 + 语义标注和解析 + SQL转换(数据库技术)<br>　　语义标注和解析(自然语言处理，NLP) ：通过用户业务数据标注，利用向量数据库和知识图谱，实现Prompt优化。<br>　　大语言模型学习和微调(大语言模型)：当语料标注数据无法满足要求时，利用构建的Text2SQL(NL2SQL)问答对标注集，对大模型进行微调。</p>
+<h2 id="系统架构设计"><a href="#系统架构设计" class="headerlink" title="系统架构设计"></a>系统架构设计</h2><h3 id="最简架构设计"><a href="#最简架构设计" class="headerlink" title="最简架构设计"></a>最简架构设计</h3><p>用户自然语言请求-&gt;大模型处理转换SQL-&gt;数据库执行SQL-&gt;获取数据库相关数据-&gt;大模型依赖数据和用户问题解答用户。<br>大模型处理转换SQL技术难点：SQL可用性问题, 大模型需要知道需要查询哪些表和字段，知道解决用户问题需要什么样的查询语句，理解用户意图并能转换为数据库信息。</p>
+<h3 id="最简使用过程"><a href="#最简使用过程" class="headerlink" title="最简使用过程"></a>最简使用过程</h3><p>创建模型-&gt;对话转SQL-&gt;数据查询执行-&gt;数据分析可视化</p>
+<h3 id="复杂架构设计"><a href="#复杂架构设计" class="headerlink" title="复杂架构设计"></a>复杂架构设计</h3><p>复杂架构设计：<br>　　<strong>硬件组件</strong>：专用算力组件（英伟达GPU&#x2F;华为NPU等计算设备）、通用算力组件（x86&#x2F;Arm等设备），用途是构建系统承载软件执行的硬件设备。结合使用要求，这个组件也可以是云化组件，即可以使用一种云平台上的不同硬件设备，也可以是对接多种云计算平台。<br>　　<strong>数据组件</strong>：也可以看成是知识库的一部分。技术上由数据库软件和数据适配器组成，逻辑上对外以数据集和逻辑模型呈现。数据库软件可以是任何结构化或者非结构化的数据库软件，典型如PostgreSql&#x2F;Oracle&#x2F;Mysql等。数据适配器的南向接口可以连接并适配多种数据库系统，并实现数据库内部跨schema、跨异构同构数据库数据内容连接功能，其北向接口作为唯一的数据对外接口，屏蔽异构数据库的对外影响，统一一致获取数据。数据库数据结合数据源、账号、schema模式、表视图名等信息，实现相同业务数据的数据集管理。结合数据适配器，完成数据集内部和数据集之间的逻辑模型建立和关联(既可以用传统的数据模型关联策略，也可以使用图数据库建立表关系和多表关联路径)，数据内容在字段级或数据标准级实现语义解释（中文汉字解释或者英文解释注释）、枚举值和别名标记、指标数据建立（定义指标内容、使用的字段和指标计算公式）。<br>　　<strong>大模型组件</strong>：大模型组件由大模型和大模型适配器组成，其和数据库组件类似，大模型可以是任何开源或者闭源的大模型软件，典型如deepseek&#x2F;OpenAI&#x2F;Qwen等,大模型适配器的南向接口可以连接并适配多种大模型，其北向接口作为唯一的大模型对外接口，屏蔽内部异构大模型的对外影响。从长远来看，这个组件可以有更丰富的内容，可以向其中添加成熟固定的模型算法包(实现数据统计、趋势分析、异常检测等功能)、反应快速灵活以解决特定问题的小模型（语义分词、意图识别、实体关联和SQL生成）或多模态模型（prompt、grounding、语义推理），以实现对数据更丰富的处理。<br>　　<strong>通用管理组件</strong>：该组件由软件系统的最基本内容构成，以实现用户、角色和租户管理、权限控制（查询SQL显示字段检查用户是否有查看权限，权限控制粒度到字段级）、登录认证、隐私保护(加解密)、运维管理、资源管理、负载均衡、接口管理、数据集场景管理（不同数据集构成不同业务场景）、全生命周期管理等软件通用管理功能。<br>　　<strong>前台组件</strong>：用户交互组件，是用户直接使用、感知最强的IT组件，最少由输入器和输出器组成。输入器和输入器最低支持文字输入和呈现。结合通用管理组件的接口管理功能，可以灵活适配和使用已有系统的前台页面和新添加的对话式交互工具，根据用户需要实现数据SQL呈现、SQL修改、SQL二次执行、可视化呈现等功能。在对话式交互中实现多轮连续会话分析。未来这里可以实现数据导出、看板报告等内容生成和分享。<br>　　<strong>语义组件</strong>：根据尼尔森《十大可用性原则》贴近场景原则，构建提示词、常用词、近义词、同义词、通用词、专业术语、专有名词(方言)映射关系和数据库，构建语义词库，可结合业务需要个性化配置，实现日期、时间等通配符转换，适配不同格式情况，提升反馈准确性。记录高频会话中的常用信息，或对典型语句做收藏保存，实现语义信息的高效调用。这里可以使用模式关系抽取技术（schema linking），实现对schema智能筛选、自动获取查询相关的表结构和字段信息。或者使用分词技术，将一句话分解为多个词组，结合语义词库，实现对词组和逻辑模型信息的匹配，实现用户输入内容的完整意图识别。<br>　　<strong>质量安全控制组件</strong>：结合通用管理组件，完成对用户输入信息意图理解校验（从简单的讲可以是看用户输入是否符合Prompt模板，或者是其内容是否超过token数量限制）、生成SQL的语法校验（确保SQL内容符合数据库使用的高效语法）、生成SQL一致性校验（在产生多条SQL时确保生产SQL的一致性）、数据结果权限校验（判断用户是否有查询该数据的权限）、数据库安全校验等功能，还可以校验处理LLM的“幻觉”问题。<br>　　<strong>Text2SQL组件</strong>：也可以是Text2SQL引擎，实现从前台组件获取用户自然语言需求内容，调用大模型组件、数据库组件、语义组件转换为查询SQL，调用查询SQL返回SQL和数据给前台组件。其由语言解析器和SQL执行器组成：语言解析器：对文本进行解析后转换为SQL语句，包括根据问题和数据库的映射找到问题需要使用的表和对应的字段列，将识别结果和包含信息后，生成满足对应语法要求的SQL语句。SQL执行器：执行SQL语句内容。<br>　　针对Text2SQL组件，当前主要使用监督微调技术（SFT-Based）和提示词工程方案(Prompt-Engineer)。监督微调技术（SFT-Based）就是以通用大模型为基础，利用微调技术，有针对性地训练大模型在某一方面的专有能力。针对提示词工程方案(Prompt-Engineer)，实际业务场景中，通过搜集历史数据，用户90%的常用场景可以收集完整，同一类场景SQL查询基本相似，进而可以构造出公共模板。可以先通过对问题信息提取做出场景归类，再根据场景选择对应的查询提示词模板，在利用RAG和外挂知识库，动态增强NL2SQL能力。</p>
+<h2 id="关键技术"><a href="#关键技术" class="headerlink" title="关键技术"></a>关键技术</h2><p><strong>提示词工程方案(Prompt-Engineer)</strong>:设计问题和指令，获取大模型最佳输出的过程。为了清晰地传达内容和信息，将问题结构化，利用具体和多样化的示例来帮助大模型生成准确结果，并用约束来限制大模型输出的内容范围，避免偏离和越权问题。其会涉及的提升类型有直接提示(zero-shot)、带示例提示(one-shot&#x2F;few-shot&#x2F;multi-shot)、思维链提示（CoT）、指定所需输出格式等。<br>　　<strong>提示词测试方案(Prompt-Test)</strong>:通过迭代测试的方式，编写出合适的Prompt模板。<br><strong>Prompt模板构建方法</strong>：<br>　　1. 构造测试集；根据问题和答案，挑选一定数量的典型样例，构造数据集，以方便每次修改Prompt后都可以跑通测试，确定Prompt哪里表现有问题。<br>　　2. 分析并编写问题从接收到解决全过程的关键要点：包括自身角色（任务是什么，实现什么功能）、功能介绍（任务操作哪些表和字段，目标是什么，就像教育新人要干什么，用什么，结果是什么）、使用数据集、问题描述、问题定义、样例、输出格式、字段必要信息、必要指令等，利用LLM优化构造完整的Prompt格式模板内容。<br>　　3. 测试迭代优化：利用测试集，测试Prompt模板，根据结果修改Prompt模板内容。<br><strong>Prompt模板注意点</strong>：<br>　　4. 不同大模型对Prompt的理解不一样，Prompt模板需要手动不断调整。<br>　　5. 构建模块过程中可以了解大模型的知识特点和Prompt技巧，加快Prompt模板生成。<br>　　6. 在Prompt模板中可以通过添加关键字设置，加快高频使用场景下的反应速度。<br>　　<strong>Prompt构造模板内容</strong>:使用五元组&lt;Role, Instructions, Database, Examples, Output Format&gt;构成，Role定位Prompt的身份功能任务角色,Instructions进一步解释功能，并添加限制性因素和要求，方便后期对大模型结果进行提取, Database包含数据库名称、数据表名、字段名、字段类型、主外键等数据元信息，指出查询的业务信息对应的使用哪些数据库。 Examples由问题（query）和回复参数(response)组成：问题是常用的自然语言查询问题，回复参数(response)是对应自然语言问题对应数据表、数据字段和取值信息等。Output Format定义模型返回的数据格式, 和Examples中的回复参数(response)保持一致。<br>　　<strong>Prompt典型论文</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2211.01910">Large Language Models Are Human-Level Prompt Engineers</a>：2023年Yongchao Zhou等人提出,Automatic Prompt Engineer (APE)来指导大语言模型提示词的生成和选择。GitHub地址：<a target="_blank" rel="noopener" href="https://github.com/keirp/automatic_prompt_engineer">https://github.com/keirp/automatic_prompt_engineer</a></p>
+<h2 id="产品设计要点"><a href="#产品设计要点" class="headerlink" title="产品设计要点"></a>产品设计要点</h2><ol>
+<li>整体思路：分析清楚业务问题是什么，归总人工工作流程，针对流程环节情况，确定哪些地方可以做大模型替代。可以先选择难度低的问题，把流程跑通后，再向高难度迭代，核心不是技术的高级与否，核心在解决用户的问题。</li>
+<li>系统中如果希望实现模型训练或者微调，如果不是已经现成的模型，最好是不添加这些功能。理由：大模型的训练和微调目前来看仍然是难度比较高的活动，模型训练一般耗时比较长、微调的方式不同呈现的效果也不一样，对用户的能力要求比较高，从用户体验角度看，这个功能不一定能给用户带来特别大的使用体验的提升，可能还有点费力不讨好的风险。个性化定制化的设计一定要慎重谨慎。</li>
+<li>优先聚集在高频、通用作业数据使用场景，建立样板点或样板间，提升大模型在用户侧的体验感知。可以建立典型问题集，通过和用户沟通，获取典型高频的问题，构建用户问题+后台SQL操作映射表，根据对映射表的分析，初步理解用户的使用特点、难点所在。</li>
+<li>数据质量是大模型性能和结果可靠性的前置条件。分析用户使用数据过程，根据用户问题和常用数据，确定所使用的数据结构形式和内容，理解数据库表和字段及其背后的业务语言和逻辑，理解业务问题、使用表和字段信息、真实回复、查询SQL内容、SQL检索方式。</li>
+<li>通用管理组件中的运维管理功能，要实现对系统的持续监控。监控结果、用户反馈和用户需求一起考虑，促进系统的迭代优化和高效执行。</li>
+</ol>
+<h2 id="设计实施过程"><a href="#设计实施过程" class="headerlink" title="设计实施过程"></a>设计实施过程</h2><p>从实现的功能进化角度，可以先实现快速找数，快速掌握数据全貌，其次通过技术实现数据的复杂组合分析，最后探索根据提供的分析组合叠加数据的关联关系，进一步辅助分析决策。</p>
+<h2 id="优秀实践产品"><a href="#优秀实践产品" class="headerlink" title="优秀实践产品"></a>优秀实践产品</h2><table>
+<thead>
+<tr>
+<th align="left">产品</th>
+<th align="left">介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://cn.aliyun.com/product/quick-bi?from_alibabacloud=">阿里瓴羊Quick BI</a></td>
+<td align="left">中国唯一且连续6年入选 Gartner 的 ABI 产品。大模型时代的全场景数据分析 AI+BI 产品。是阿里云推出的大模型驱动数据分析产品，深度融合 BI 与 AI Agent 能力，帮助企业快速构建数据分析系统。用户可通过自然语言与分析 Agent “智能小Q” 交互，实现自动数据洞察、报表生成和多轮深度分析，并支持拖拽式制作仪表板、电子表格与数据大屏。同时，产品支持多数据源连接、一键报告生成和多端共享，推动企业从“被动看数”迈向“主动用数”，赋能业务智能决策与高效协同。无缝对接企业系统，灵活嵌入，安全增强数据协作。自然语言开启多维问数，多步取数，挖掘深层洞见。自动生成真实深度报告，优化策略，支持二次编辑。海量数据毫秒响应，实时计算，高效支撑业务决策。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/model-studio/brief-introduction-of-gbi-products">阿里析言GBI产品</a></td>
+<td align="left">基于阿里云通义大语言模型在数据分析领域专门增强的原生数据助理，通过自然语言交互实现NL2SQL、数据问答、分析、洞察等多维度的大模型智能分析应用，实现数据查询、分析与报告生成，适用于业务变化较快、数据分析时效性强的一线业务场景。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.digitforce.com/product/sa/">智能分析助手(SwiftAgent)</a></td>
+<td align="left">数势科技开发的、基于大模型和AI Agent的企业数据分析与决策产品，可实现基于自然语言的业务数据洞察、报告总结和决策建议。功能上支持文本、语音、Excel等数据类型输入，方便客户在移动端和PC端快速完成数据查询。支持用户通过对业务数据进行维度归因、因子归因、时间序列归因与相关性分析等多种洞察方法，完成数据波动归因。支持对结果数据集进行如同环比、占比、排序和高级聚合等多种高级统计分析方式。可贴合用户问题，自动匹配生成多种分析图表。基于数据分析结果及行业微调大模型，生成贴合业务场景的行业报告。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://percent.cn/Product/syznxt.html">百分点商业智能系统(Clever BI)</a></td>
+<td align="left">一款AI驱动的数据分析产品，依托自然语言处理和深度学习技术，用户可通过自然语言与系统进行可视化交互，轻松实现多源数据关联、挖掘分析，支持数据整合、分析、可视化的全流程自助式操作，大大降低数据分析的门槛，为数据应用和决策研判提供有力支撑。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://console.bce.baidu.com/ai_apaas/app/debugger/gbi/e5a2f884-744c-423b-ae31-c11172944ec4/123e4567-e89b-12d3-a456-426655440025">百度GBI</a></td>
+<td align="left">一款生成式商业智能产品，具有强大的创新驱动功能。它集成了数据集成、智能分析等功能于一身，帮助企业快速发现新的商业机会和创新点。百度GBI具有支持自然语言交互、跨数据库分析和专业知识学习三方面能力。</td>
+</tr>
+</tbody></table>
+<h2 id="产品实践案例"><a href="#产品实践案例" class="headerlink" title="产品实践案例"></a>产品实践案例</h2><table>
+<thead>
+<tr>
+<th align="left">产品</th>
+<th align="left">介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.53ai.com/news/zhinenghuagaizao/2025010809175.html">喜马拉雅基于大模型ChatBl实践探索</a></td>
+<td align="left">喜马拉雅基于大模型 ChatBI 的实践探索，文中将重点介绍关于准确性和大模型幻觉等问题的解决方案。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/1943744657868690237">Bilibili Data AI 探索和实践</a></td>
+<td align="left">介绍从数据整合到决策提效：B 站数据知识库与增强分析协同的端到端实践。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/692442114">ChatBI：基于文心一言的生成式数据分析技术探索</a></td>
+<td align="left">本文将深入剖析商业智能(BI)与生成式模型结合带来的业务价值和技术实践经验。重点从三个视角和大家进行了交流分享。第一，从技术趋势和业务需求视角，论证了生成式智能BI必然技术趋势和带来的巨大业务价值；第二，从系统设计视角，介绍了百度数据中台ChatBI设计思路和关键点。第三，从新技术实践实践视角，介绍了ChatBI在百度落地过程中遇到的问题和解决思路。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.53ai.com/news/zhinenghuagaizao/2024103138175.html">腾讯基于LLM的智能数据分析平台OlaChat的落地实践</a></td>
+<td align="left">在当今快速发展的数据分析领域，智能分析平台正经历从传统 BI 到敏捷分析，再到智能分析的转变。随着移动互联网的兴起和大语言模型的出现，数据分析变得愈加普及，用户可以通过自然语言与系统进行互动，获取所需数据。然而，即使在敏捷分析阶段，仍然存在一定的学习成本。大语言模型的引入为数据分析带来了新的机遇，它不仅提升了语言理解和生成能力，还使得逻辑推理与工具使用变得更加高效。通过对用户自然语言指令的理解和转化，智能分析平台能够实现更直观的数据查询和分析过程，为用户提供更为便捷的服务。本文将分享腾讯基于 LLM 的智能数据分析平台 OlaChat 的落地实践.</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/11603873458">腾讯在 ABI 工程领域的探索与实践</a></td>
+<td align="left">本次分享将深入探讨腾讯在智能化 BI 系统中的技术实践，详细阐述如何通过工程架构、微调模型、引导补全、前端指令层设计等手段，提升数据分析的智能化水平，以实现更高效、更智能的商业智能分析。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.modb.pro/db/1861269331712159744">腾讯云ChatBI：基于大模型的效果调优方案探索</a></td>
+<td align="left">本文主要探讨了腾讯云 ChatBI 如何利用大模型技术进行效果调优，以提供更高效、便捷的数据分析体验。</td>
+</tr>
+</tbody></table>
+<h2 id="技术挑战"><a href="#技术挑战" class="headerlink" title="技术挑战"></a>技术挑战</h2><ol>
+<li>数据质量和语法差异：数据集和逻辑模型的建立，依赖企业内部的数据管理和信息架构。对于交易型数据系统内数据的主外键缺失、字段注释解释缺失等数据质量问题，导致查询效率比较低，影响数据查询结果的准确性。分析型数据系统内为加快查询而不使用主外键设置，使用“粒度”作为查询和关联字段信息的媒介，也会影响逻辑模型间的数据关联，进而影响数据结果的正确反馈。不同的数据库使用不同的数据库语法，导致写出的SQL执行情况有差异。</li>
+<li>自然语言理解的准确性：大模型本身的“幻觉”问题、自然语言的多样性、歧义性可能造成查询错误，导致数据准确性和系统可靠性下降，影响用户使用信心。</li>
+<li>领域差异：隔行如隔山，每个领域都有自己的专业术语、黑话方言等语言特点，造成需求差异比较大，理解困难，如何结合这些语言特点去适配不同领域的查询诉求，是比较大的挑战。</li>
+<li>实时性：业务数据仓库内的数据表和数据量都比较大，大模型上下文token也有成本和数量限制，组件之间的网络通讯IO等交互有局限，Text2SQL转换的SQL查询性能不一定是性能最优化的查询SQL，这些因素导致数据搜索只能在有限的数据范围（例如一定范围内的公开数据）和一定的时间（分钟或小时级）内反馈搜索数据结果，制约用户对在多轮会话下数据查询使用体验。</li>
+<li>数据安全：调用外部大模型时，确保其本地或者核心数据不外泄，用户权限控制时能正确看到自己可以看到的数据，会影响数据和隐私安全的合规要求。</li>
+<li>数据评判标准：现有的评判数据集例如Spider和Bird等，还不能完全适应真实的生产环境。多语言下的NL2SQL的性能下降明显，需要改进优化。</li>
+<li>shema linking技术挑战：需要根据用户问题从数据库中找都需要使用的表和列，但是数据库中的表复杂而且专业性强，这给搜索带来了挑战。</li>
+</ol>
+<h2 id="长远设想"><a href="#长远设想" class="headerlink" title="长远设想"></a>长远设想</h2><ol>
+<li>用户助手：结合业务自身数据和使用特点，通过对大模型的微调，构建用户个性化大模型，对接或替换大模型组件，实现业务个性化支持。</li>
+<li>个性化记录、反馈和自适应学习：通过点赞、投币、收藏、保存等用户反馈和操作行为，结合推荐系统和日常积累，加强反馈给用户的数据准确性，主动推荐推送用户可能关心的数据和指标内容，优化查询和理解能力。记录系统在生成SQL语句过程中的推理步骤和依据, 利用可视化工具展示给用户看。</li>
+<li>通用自然语言支持：对多国语言、多种方言、跨领域的自然语言支持，实现系统对广泛人群的使用和覆盖。</li>
+<li>跨平台和技术组件的支持和集成：用户本地数据库、私有公有云化数据库、Office办公软件、NoSQL数据库、Hadoop大数据组件、ERP系统、本地存量软件系统等系统平台的对接和支持。</li>
+<li>LLM反问和追问来提升用户体验：根据尼尔森《十大可用性原则》容错原则，在前台和用户交流部分，通过设置反问和追问功能，逐步精细化用户诉求，提升用户自然语言对问题适配模型和数据的精细化描述，进而提升用户体验。</li>
+<li>引入Agent智能体：利用Agent智能体的规划设计和反思等技能，实现更复杂的任务拆分和组合、工具调用、归因总结等。</li>
+<li>隐私保护，对schema、表字段等结构化数据库元信息进行匿名化处理，确保实现隐私保护。</li>
+<li>系统性能扩展：考虑到Text2SQL(NL2SQL)技术需要前后处理等多个重要步骤，可以通过使用分布式架构和模型块化设计搭建整个解决方案，进一步增强系统的处理能力。</li>
+<li>shema linking技术处理：可以使用embedding模型将表名和列名进行向量化，然后对于每个查询检索出最为相似的表名和列名，可以调用语义组件，实现表名和列表标准替换，结合Prompt+LLM,转换为查询SQL。</li>
+<li>连接智算硬件：结合当前智算硬件设备(例如智算一体机等)，直接连接企业现成本地数据库系统，让企业用户通过智算硬件设备，直接就完成智能业务数据分析和处理。</li>
+</ol>
+<h2 id="个人思考"><a href="#个人思考" class="headerlink" title="个人思考"></a>个人思考</h2><p>个人思考:<br>　　Text2SQL(NL2SQL)只是一个开始，NL2DSL可以适配任何DSL专用领域的使用需求。用AI的通用能力在算力和特定领域数据的支持下，去消灭领域内的“土围子”。智能BI看起来好像只是一个问数和数据分析系统，但其实如果往深了想，这种对数据的查询和分析是否可以成为日后通用统一查询流量入口或者搜索查询入口，完全可以淘汰传统的企业内部简单的查询分析系统。如果在此基础上进一步配合MCP协议、Agent智能体，成长为企业内部的数据咨询专家，也是可以进一步期待的。从产品设计的角度考虑，这个系统产品未来是很有潜力的。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] A. Popescu, A. Armanasu, O. Etzioni, D. Ko, and A. Yates. Modern natural language interfaces to databases: Composing statistical parsing with semantic tractability. In COLING, 2004.<br>[2] F. Li and H. V. Jagadish. Constructing an interactive natural language interface for relational databases. PVLDB, 8(1):73–84, 2014.<br>[3] D. Saha, A. Floratou, K. Sankaranarayanan, U. F. Minhas, A. R. Mittal, and F. O¨ zcan. ATHENA: an ontology-driven system for natural language querying over relational data stores. PVLDB, 9(12):1209–1220, 2016.<br>[4] N. Yaghmazadeh, Y. Wang, I. Dillig, and T. Dillig. Sqlizer: query synthesis from natural language. PACMPL, 1(OOPSLA):63:1–63:26, 2017.<br>[5] P. Pasupat and P. Liang. Compositional semantic parsing on semi-structured tables. In ACL, pages 1470–1480, 2015.<br>[6] C. Baik, H. V. Jagadish, and Y. Li. Bridging the semantic gap with SQL query logs in natural language interfaces to databases. In ICDE, pages 374–385, 2019.<br>[7] S. Iyer, I. Konstas, A. Cheung, J. Krishnamurthy, and L. Zettlemoyer. Learning a neural semantic parser from user feedback. In ACL, pages 963–973, 2017.<br>[8] F. Basik, B. H¨attasch, A. Ilkhechi, A. Usta, S. Ramaswamy, P. Utama, N. Weir, C. Binnig, and U. C¸ etintemel. Dbpal: A learned nl-interface for databases. In SIGMOD, pages 1765–1768, 2018.<br>[9] V. Zhong, C. Xiong, and R. Socher. Seq2sql: Generating structured queries from natural language using reinforcement learning. CoRR, abs&#x2F;1709.00103, 2017.<br>[10] X. Xu, C. Liu, and D. Song. Sqlnet: Generating structured queries from natural language without reinforcement learning. CoRR, abs&#x2F;1711.04436, 2017.<br>[11] M. Lapata and L. Dong. Coarse-to-fine decoding for neural semantic parsing. In ACL, pages 731–742, 2018.<br>[12] S. Yavuz, I. Gur, Y. Su, and X. Yan. Dialsql: Dialogue based structured query generation. In ACL, pages 1339–1349, 2018.<br>[13] P. Huang, C. Wang, R. Singh, W. Yih, and X. He. Natural language to structured query generation via meta-learning. In NAACL-HLT, pages 732–738, 2018.<br>[14] M. Zhou, G. Cao, T. Liu, N. Duan, D. Tang, B. Qin, X. Feng, J. Ji, and Y. Sun. Semantic parsing with syntax- and table-aware SQL generation. In ACL, pages 361–372, 2018.<br>[15] T. Yu, Z. Li, Z. Zhang, R. Zhang, and D. R. Radev. Typesql: Knowledge-based type-aware neural text-to-sql generation. In NAACL-HLT, pages 588–594, 2018.<br>[16] C. Finn, P. Abbeel, and S. Levine. Model-agnostic meta-learning for fast adaptation of deep networks. In ICML, pages 1126–1135, 2017.<br>[17] T. Yu, R. Zhang, K. Yang, M. Yasunaga, D. Wang, Z. Li, J. Ma, I. Li, Q. Yao, S. Roman, Z. Zhang, and D. R. Radev. Spider: A large-scale human-labeled dataset for complex and cross-domain semantic parsing and text-to-sql task. In EMNLP, pages 3911–3921, 2018.<br>[18] T. Yu, M. Yasunaga, K. Yang, R. Zhang, D. Wang, Z. Li, and D. R. Radev. Syntaxsqlnet: Syntax tree networks for complex and cross-domain text-to-sql task. In EMNLP, pages 1653–1663, 2018.<br>[19] B. Bogin, J. Berant, and M. Gardner. Representing schema structure with graph neural networks for text-to-sql parsing. In ACL, pages 4560–4565, 2019.<br>[20] J. Guo, Z. Zhan, Y. Gao, Y. Xiao, J. Lou, T. Liu, and D. Zhang. Towards complex text-to-sql in cross-domain database with intermediate representation. In ACL, pages 4524–4535, 2019.<br>[21] Pasupat P, Liang P. Compositional semantic parsing on semi-structured tables[J]. arXiv preprint arXiv:1508.00305, 2015.<br>[22] Hemphill C T, Godfrey J J, Doddington G R. The ATIS spoken language systems pilot corpus[C]&#x2F;&#x2F;Speech and Natural Language: Proceedings of a Workshop Held at Hidden Valley, Pennsylvania, June 24-27, 1990. 1990.<br>[23] Sun N, Yang X, Liu Y. Tableqa: a large-scale chinese text-to-sql dataset for table-aware sql generation[J]. arXiv preprint arXiv:2006.06434, 2020.<br>[24] Min Q, Shi Y, Zhang Y. A pilot study for chinese sql semantic parsing[J]. arXiv preprint arXiv:1909.13293, 2019.<br>[25] Wang L, Zhang A, Wu K, et al. ChiTeSQL: A Large-Scale and Pragmatic Chinese Text-to-SQL Dataset[C]&#x2F;&#x2F;Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP). 2020: 6923-6935.<br>[26] Bogin B, Gardner M, Berant J. Global reasoning over database structures for text-to-sql parsing[J]. arXiv preprint arXiv:1908.11214, 2019.<br>[27] 刘译璟, 徐林杰, 代其锋. 基于自然语言处理和深度学习的 NL2SQL 技术及其在 BI 增强分析中的应用[J]. 中国信息化, 2019, 11.<br>[28] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/1920428002006795984">25年不可错过的大模型应用方向-Text2SQL: 企业提效50%以上</a><br>[29] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269478469">语义解析 (Text-to-SQL) 技术研究及应用 下篇</a><br>[30] <a target="_blank" rel="noopener" href="https://originalstatic.aminer.cn/misc/billboard/CAIIAM/%E5%88%98%E8%AF%91%E7%92%9F-%E5%9F%BA%E4%BA%8E%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%92%8C%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84NL2SQL%E6%8A%80%E6%9C%AF%E5%8F%8A%E5%85%B6%E5%9C%A8BI%E5%A2%9E%E5%BC%BA%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.pdf">基于自然语言处理和深度学习的NL2SQL技术及其在BI增强分析中的应用</a><br>[31] <a target="_blank" rel="noopener" href="https://www.tellius.com/resources/blog/is-a-semantic-layer-necessary-for-enterprise-grade-ai-agents">Is a Semantic Layer Necessary for Enterprise-Grade AI Agents?</a><br>[32] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2411.08599">A PREVIEW OF XIYAN-SQL: A MULTI-GENERATOR ENSEMBLE FRAMEWORK FOR TEXT-TO-SQL</a><br>[33] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.01943">CHASE-SQL: Multi-Path Reasoning and Preference Optimized Candidate Selection in Text-to-SQL</a><br>[34] <a target="_blank" rel="noopener" href="https://hub.baai.ac.cn/papers">智源社区</a><br>[35] <a target="_blank" rel="noopener" href="https://www.datafocus.ai/category/BI%203.0?page=2">ChatBI</a><br>[36] <a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_39620217/article/details/137603846">NL2SQL基础系列(1)：业界顶尖排行榜、权威测评数据集及LLM大模型（Spider vs BIRD）全面对比优劣分析[Text2SQL、Text2DSL]</a><br>[37] <a target="_blank" rel="noopener" href="https://github.com/eosphoros-ai/Awesome-Text2SQL/blob/main/README.zh.md">Awesome Text2SQL</a><br>[38] <a target="_blank" rel="noopener" href="https://github.com/yechens/NL2SQL">Text2SQL 语义解析数据集、解决方案、paper资源整合项目</a><br>[39] <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FtsA4O_VTUqhhYS3Gq3G8Q">语义解析 (Text-to-SQL) 技术研究及应用</a><br>[40] <a target="_blank" rel="noopener" href="https://www.shaqiu.cn/article/AGlZV58ELBJm">沙丘智库《2025年“大模型+数据分析”最佳实践报告》正式发布</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/">https://varamnematchinensis.github.io/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%BA%94%E7%94%A8/">
+                                    <span class="chip bg-color">应用</span>
+                                </a>
+                            
+                                <a href="/tags/BI/">
+                                    <span class="chip bg-color">BI</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="AI应用实践-智能BI(智能问数与智能数据分析)">
+                        
+                        <span class="card-title">AI应用实践-智能BI(智能问数与智能数据分析)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            AI应用实践-智能BI(智能问数与智能数据分析)，主要介绍智能BI，包括商业智能(BI)定义、历史发展、智能BI核心技术、系统架构设计、关键技术、产品设计要点、设计实施过程、优秀实践产品、产品实践案例、当前技术挑战、长远设想和个人思考。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%BA%94%E7%94%A8/" class="post-category">
+                                    应用
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BA%94%E7%94%A8/">
+                        <span class="chip bg-color">应用</span>
+                    </a>
+                    
+                    <a href="/tags/BI/">
+                        <span class="chip bg-color">BI</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/09/17/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-Text2SQL(NL2SQL,%20Natural%20Language%20to%20SQL)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)">
+                        
+                        <span class="card-title">AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)，主要介绍Text2SQL技术的历史发展、关键技术环节、中外评测数据集、评分标准、学术界当前的研究情况、目前可以使用的开源工具和项目和个人设想等。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%BA%94%E7%94%A8/" class="post-category">
+                                    应用
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BA%94%E7%94%A8/">
+                        <span class="chip bg-color">应用</span>
+                    </a>
+                    
+                    <a href="/tags/Text2SQL/">
+                        <span class="chip bg-color">Text2SQL</span>
+                    </a>
+                    
+                    <a href="/tags/NL2SQL/">
+                        <span class="chip bg-color">NL2SQL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">100.5k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>

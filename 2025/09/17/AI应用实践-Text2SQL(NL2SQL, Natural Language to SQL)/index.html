@@ -1,0 +1,1545 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL), Amnematchinensis">
+    <meta name="description" content="AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)，主要介绍Text2SQL技术的历史发展、关键技术环节、中外评测数据集、评分标准、学术界当前的研究情况、目前可以使用的开源工具和项目和个人设想等。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL) | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%BA%94%E7%94%A8/">
+                                <span class="chip bg-color">应用</span>
+                            </a>
+                        
+                            <a href="/tags/Text2SQL/">
+                                <span class="chip bg-color">Text2SQL</span>
+                            </a>
+                        
+                            <a href="/tags/NL2SQL/">
+                                <span class="chip bg-color">NL2SQL</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%BA%94%E7%94%A8/" class="post-category">
+                                应用
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-09-17
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-09-24
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    31 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="AI应用实践-Text2SQL-NL2SQL-Natural-Language-to-SQL"><a href="#AI应用实践-Text2SQL-NL2SQL-Natural-Language-to-SQL" class="headerlink" title="AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)"></a>AI应用实践-Text2SQL(NL2SQL, Natural Language to SQL)</h1><p>Text2SQL，学术领域常称NL2SQL，即将输入的自然语言查询自动转换为数据库可执行的SQL查询语句的技术，是基于LLM提升数据分析效率的智能查询技术。</p>
+<h2 id="Text2SQL-NL2SQL-技术发展历史"><a href="#Text2SQL-NL2SQL-技术发展历史" class="headerlink" title="Text2SQL(NL2SQL)技术发展历史"></a>Text2SQL(NL2SQL)技术发展历史</h2><p>技术发展历史：<br>　　<strong>1973年</strong>:Woods开发LUNAR系统，用于回答月球岩石样本问题。<br>　　<strong>1978年</strong>:Hendrix设计LIFER&#x2F;LADDER自然语言接口，用于连接美国海军数据库。<br>　　<strong>本世纪初</strong>:基于规则的方法(Rule-based Methods)出现，包括<a target="_blank" rel="noopener" href="https://aclanthology.org/C04-1021.pdf">PRECISE</a>、<a target="_blank" rel="noopener" href="https://www.vldb.org/pvldb/vol8/p73-li.pdf">NaLIR</a>、<a target="_blank" rel="noopener" href="https://www.vldb.org/pvldb/vol9/p1209-saha.pdf">ATHENA</a>、<a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/3133887">SQLizer</a>、<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1902.00031">Templar</a>。该方法依赖预定义模板和严格SQL语法规则来说生成可执行的物流SQL，缺点是无法处理并理解复杂多样的自然语言问题，泛化能力差。<br>　　<strong>2019年</strong>:随着深度学习的崛起，基于深度学习的Text2SQL(NL2SQL, Natural Language to SQL)方法(Deep Learning-based Approaches)开始流行。基于深度学习的方法包括<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1709.00103">基于Pointer Netword改进Seq2SQL方法</a>、<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.04436">基于Sequence-to-set的改进SQLNet方法</a>、<a target="_blank" rel="noopener" href="https://aclanthology.org/P19-1444/">基于TRANX(自定向下文法生成)的改进IRNet方法</a>、<a target="_blank" rel="noopener" href="https://aclanthology.org/D19-1378/">基于图的改进GlobalGNN方法</a>。方法较基于规则的方法(Rule-based Methods)更灵活，但是由于结构所限，其生成SQL的能力仍然很差，难以处理复杂的SQL操作。<br>　　<strong>2021年</strong>:基于预训练语言模型(PLM)的方案开始成为解决Text2SQL(NL2SQL, Natural Language to SQL)问题的实践方案。基于预训练语言模型的方案包括<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1905.08205">Towards Complex Text-to-SQL in Cross-Domain Database with Intermediate Representation</a>、<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.08314">TaBERT: Pretraining for Joint Understanding of Textual and Tabular Data</a>.这类方案生成的SQL较基于深度学习的方案更准确，但是其严重依赖预训练的数据和模型微调，对资源要求比较高，对复杂数据库操作的处理仍然存在明显困难。<br>　　<strong>2023年</strong>:随着GPT为代表的大语言模型的流行，基于大语言模型(LLM)的Text2SQL(NL2SQL, Natural Language to SQL)解决方案，因其巨大的改进探索潜力，开始成为日益受到关注的新兴研究领域。<br>　　在Text2SQL(NL2SQL)的产品化过程中，<a target="_blank" rel="noopener" href="https://www.hengshi.com/blog/1150.html">在Gartner定义的”增强分析”成熟曲线上，90%的准确率是商业应用的门槛线。</a></p>
+<h2 id="Text2SQL-NL2SQL-技术关键环节"><a href="#Text2SQL-NL2SQL-技术关键环节" class="headerlink" title="Text2SQL(NL2SQL)技术关键环节"></a>Text2SQL(NL2SQL)技术关键环节</h2><p>技术关键环节：<br>　　<strong>预处理部分</strong>：用户使用日常自然语言和CUI(Conversation UI)界面描述分解自身数据需求，需要识别NL中的关键信息（包括关键属性、时间、限制等），以提高NL2SQL翻译的质量。<br>　　<strong>NL2SQL翻译部分</strong>：核心。需要识别数据库系统中的表、列和字段(通常使用Schema linking技术)，最后结合NL系统生成标准SQL语句。<br>　　<strong>后处理部分</strong>：需要优化生成SQL，修复SQL中的语法等问题，最后数据库执行SQL语句后返回查询结果。</p>
+<h2 id="Text2SQL-NL2SQL-任务评测数据集"><a href="#Text2SQL-NL2SQL-任务评测数据集" class="headerlink" title="Text2SQL(NL2SQL)任务评测数据集"></a>Text2SQL(NL2SQL)任务评测数据集</h2><p>功能：为模型训练和评估确立标准，鼓励技术合作交流。</p>
+<h3 id="英文典型数据集"><a href="#英文典型数据集" class="headerlink" title="英文典型数据集"></a>英文典型数据集</h3><table>
+<thead>
+<tr>
+<th align="left">数据集名</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/salesforce/WikiSQL">WikiSQL</a></td>
+<td align="left">2017年Salesforce等人提出的、数据库表26521张、问题和SQL对数80657对、单轮、多领域、英文标注NL2SQL数据集。论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1709.00103">https://arxiv.org/pdf/1709.00103</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://yale-lily.github.io/spider">Spider 1.0</a></td>
+<td align="left"><strong>重点数据集</strong>，2018年耶鲁大学提出的、分布在200个独立数据库的5693张表、问题和SQL对数10181对、单轮、覆盖138个不同领域、英文标注NL2SQL数据集。论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1809.08887">https://arxiv.org/pdf/1809.08887</a>; Github: <a target="_blank" rel="noopener" href="https://github.com/taoyds/spider">https://github.com/taoyds/spider</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://spider2-sql.github.io/">Spider 2.0</a></td>
+<td align="left">2024年香港大学等团队提出文本到SQL基准测试框架，包含632个源自企业级数据库用例的真实文本转SQL工作流问题。Spider 2.0中的数据库来自真实的数据应用程序，通常包含超过1000 列，并存储在本地或云数据库系统（例如 BigQuery 和 Snowflake）中。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/Exploration-Lab/BookSQL">BookSQL</a></td>
+<td align="left">2024年由印度理工学院提出的、会计领域的大规模文本到SQL数据集。数据集总规模达100万。该数据集由财务专家监督编制。数据集包含27家企业，每家企业的交易量约为3.5万至4万笔。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://bird-bench.github.io/">BIRD</a></td>
+<td align="left"><strong>重点数据集</strong>。2023年由香港大学和阿里达摩院等团队提出的, 首个专为缩小文本到SQL解析的学术研究与实际应用间差距而设计的、大规模的基准测试集。BIRD 包含超过12751个独特的问题-SQL对，95 个大型数据库，总大小达33.4GB。它还涵盖了37个专业领域，例如区块链、曲棍球、医疗保健和教育等。论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.03111">https://arxiv.org/pdf/2305.03111</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://bull-text-to-sql-benchmark.github.io/">BULL 1.0</a></td>
+<td align="left">2024年由浙江大学的Chao Zhang等人提出,来源于恒生电子实战金融分析业务，包含基金、股票、宏观经济数据库的金融文本转SQL数据集，各数据库共有31、28和19个表，由金融专业人士注释的4966个自然语言问题SQL对。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/ppasupat/WikiTableQuestions">WikiTableQuestions</a></td>
+<td align="left">2015年斯坦福大学提出的、数据来源自维基百科的数据集。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.kaggle.com/siddhadev/ms-cntk-atis">The Air Travel Information System(ATIS)</a></td>
+<td align="left">1990年德州仪器公司提出的经典数据集。</td>
+</tr>
+</tbody></table>
+<h3 id="中文典型数据集"><a href="#中文典型数据集" class="headerlink" title="中文典型数据集"></a>中文典型数据集</h3><table>
+<thead>
+<tr>
+<th align="left">数据集名</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/entrance/231716/information">NL2SQL</a></td>
+<td align="left">2019年阿里天池数据算法赛，首届中文NL2SQL挑战赛追一科技的提供的，使用金融以及通用领域的表格数据作为数据源。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://taolusi.github.io/CSpider-explorer/">CSpider</a></td>
+<td align="left">2019年西湖大学提出的、中文大规模复杂跨域语义解析和文本转 SQL 数据集，CSipder 是由 Spider 翻译而来,包含200个数据库上的10181个问题和5693个独特的复杂SQL查询，具有涵盖138个不同领域的多个表的数据库。论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1909.13293">https://arxiv.org/pdf/1909.13293</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://aclanthology.org/2020.emnlp-main.562.pdf">DuSQL</a></td>
+<td align="left">2020年百度构建的一个大规模、多领域、多表的中文Text-to-SQL数据集，数据集覆盖160+领域，包含200个Database以及对应的2.3979万对(question, SQL query)，其中18602对用于训练集，2039用于验证集，3156用于测试集,该数据集不仅覆盖了SQL常见关键词，还覆盖了更多实际应用中的问题类型，如排序、比较、计算等。网站地址：<a target="_blank" rel="noopener" href="https://aistudio.baidu.com/competition/detail/47/0/task-definition">https://aistudio.baidu.com/competition/detail/47/0/task-definition</a></td>
+</tr>
+</tbody></table>
+<h3 id="其他典型数据集"><a href="#其他典型数据集" class="headerlink" title="其他典型数据集"></a>其他典型数据集</h3><p>GeoQuery&#x2F;Scholar&#x2F;Academic&#x2F;IMDB&#x2F;Yelp&#x2F;Advising&#x2F;Restaurants&#x2F;<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1906.02285">SParC</a>&#x2F;<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1909.05378">CoSQL</a>&#x2F;<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2006.06434">TableQA</a>&#x2F;<a target="_blank" rel="noopener" href="https://aclanthology.org/2021.acl-long.180.pdf">CHASE</a>&#x2F;<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2106.11455">KaggleDBQA</a></p>
+<h2 id="Text2SQL-NL2SQL-数据集评测维度"><a href="#Text2SQL-NL2SQL-数据集评测维度" class="headerlink" title="Text2SQL(NL2SQL)数据集评测维度"></a>Text2SQL(NL2SQL)数据集评测维度</h2><p>单&#x2F;多轮、单&#x2F;多表、鲁棒性、歧义性<br>　　<strong>单&#x2F;多轮测试</strong>：构建单&#x2F;多轮对话测试，测试系统在单&#x2F;多轮对话中的NL2SQL能力。<br>　　<strong>单&#x2F;多表测试</strong>：构建单&#x2F;多表对话测试，测试系统在涉及单&#x2F;多表时的NL2SQL能力。<br>　　<strong>鲁棒性测试</strong>：验证系统在NL2SQL过程中承受不利扰动干预的能力。<br>　　<strong>歧义性测试</strong>：验证系统在模糊环境下，领会正确意图产生正确SQL能力。</p>
+<h2 id="Text2SQL-NL2SQL-数据集评分标准"><a href="#Text2SQL-NL2SQL-数据集评分标准" class="headerlink" title="Text2SQL(NL2SQL)数据集评分标准"></a>Text2SQL(NL2SQL)数据集评分标准</h2><p>根据阿里天池数据算法赛的比赛评分标准等公开评测指标，常用评分标准有<strong>Logic Form Accuracy、Execution Accuracy和Valid Efficiency Score</strong>。<br>　　<strong>Logic Form Accuracy(Accqm)或Exact Match Accuracy(精确匹配率, EM)</strong>: 预测完全正确的SQL语句。其中，列的顺序并不影响准确率的计算(即Select A, B from T&#x3D; Select B, A from T)。预测完全正确的SQL语句和标注SQL的匹配程度。<br>　　<strong>Execution Accuracy(执行准确率， EX)</strong>: 预测的SQL的执行结果与真实SQL的执行结果一致。 预测的SQL的执行结果正确数量在数据集中的比例。<br>　　<strong>Valid Efficiency Score(有效效率分数， VES)</strong>:在考虑SQL准确性和效率的情况下，对比验证预测SQL的运算时间和真实标注SQL的运行时间的相对差异。<br>　　阿里天池数据算法赛排行榜以$Score_{lf}$与$Score_{ex}$的平均值排序。<br>　　<br>$$<br>Score_{lf} &#x3D; \begin{cases}<br>1, &amp; SQL^{‘} &#x3D; SQL\<br>0, &amp; SQL^{‘} \neq SQL<br>\end{cases}<br>$$</p>
+<p>$$<br>Acc_{lf} &#x3D; \frac{1}{N}\sum^{N}<em>{n &#x3D; 1}Score</em>{lf}^{n}&#x3D; \frac{预测SQL和真实SQL所有子句匹配成功的问题数}{所有问题数}<br>$$</p>
+<p>$$<br>Score_{ex} &#x3D; \begin{cases}<br>1, &amp; Y^{‘} &#x3D; Y\<br>0, &amp; Y^{‘} \neq Y<br>\end{cases}<br>$$</p>
+<p>$$<br>Acc_{ex} &#x3D; \frac{1}{N}\sum^{N}<em>{n &#x3D; 1}Score</em>{ex}^{n}<br> &#x3D; \frac{回答正确的问题数}{所有问题数}<br>$$</p>
+<p>其中,$N$表示数据量，$SQL^{‘}$和$SQL$分别代表预测的SQL语句和真实SQL语句，$Score_{lf}$表示Logic Form准确率;$Y^{‘}$和$Y$分别表示预测的SQL和真实SQL的执行结果，$Score_{ex}$表示Execution准确率。</p>
+<h2 id="学术界解决方案"><a href="#学术界解决方案" class="headerlink" title="学术界解决方案"></a>学术界解决方案</h2><h3 id="Text2SQL-NL2SQL-技术综述"><a href="#Text2SQL-NL2SQL-技术综述" class="headerlink" title="Text2SQL(NL2SQL)技术综述"></a>Text2SQL(NL2SQL)技术综述</h3><p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2208.13629">A Survey on Text-to-SQL Parsing: Concepts, Methods, and Future Directions</a><br>[2]  <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2408.05109">A Survey of Text-to-SQL in the Era of LLMs: Where are we, and where are we going?</a><br>[3] <a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/NL2SQL-is-a-solved-problem...-Not!-Floratou-Psallidas/ff2d31ac2fbd08ba088e6851f1ccbe482465aea5">NL2SQL is a solved problem… Not!</a><br>[4] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2406.08426">Next-Generation Database Interfaces:A Survey of LLM-based Text-to-SQL</a><br>[5] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2208.13629">A Survey on Text-to-SQL Parsing: Concepts, Methods, and Future Directions</a><br>[6]  <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2208.10099">Recent Advances in Text-to-SQL: A Survey of What We Have and What We Expect</a><br>[7]<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2208.04415">Deep Learning Driven Natural Languages Text to SQL Query Conversion: A Survey</a></p>
+<h3 id="Spider数据集下NL2SQL方案"><a href="#Spider数据集下NL2SQL方案" class="headerlink" title="Spider数据集下NL2SQL方案"></a>Spider数据集下NL2SQL方案</h3><table>
+<thead>
+<tr>
+<th align="left">论文</th>
+<th align="left">内容</th>
+<th align="left">GitHub地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2302.05965">RESDSQL: Decoupling Schema Linking and Skeleton Parsing for Text-to-SQL</a></td>
+<td align="left">2023年Haoyang Li等人提出，引入了一种新的 Text-to-SQL 解析器——RESDSQL(Ranking -enhanced Encoding plus a Skeleton -aware Decoding framework for Text-to- SQL)，它试图将Schema Linking和Skeleton Parsing分离，以降低 Text-to-SQL 的难度, 具体做法是先进行Schema Linking使得输入模型encoder的schema只包括与问题最相关的表和列；在生成SQL时，模型decoder先生成SQL骨架再生成实际的SQL查询。所有实验均在单块 NVIDIA A100 80G GPU 上进行。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/RUCKBReasoning/RESDSQL">https://github.com/RUCKBReasoning/RESDSQL</a></td>
+</tr>
+<tr>
+<td align="left">[2] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2304.11015">DIN-SQL: Decomposed In-Context Learning of Text-to-SQL with Self-Correction</a></td>
+<td align="left">2023年Mohammadreza Pourreza, Davood Rafiei提出,通过将SQL生成问题分解为子问题，并将这些子问题的解决方案输入 LLM，可以显著提升其在文本到 SQL这一高难度任务上的性能。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/MohammadrezaPourreza/Few-shot-NL2SQL-with-prompting">https://github.com/MohammadrezaPourreza/Few-shot-NL2SQL-with-prompting</a></td>
+</tr>
+<tr>
+<td align="left">[3] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2307.07306">C3: Zero-shot Text-to-SQL with ChatGPT</a></td>
+<td align="left">2023年Xuemei Dong等人提出的，一种基于ChatGPT的零样本Text-to-SQL方法：C3，在 Spider 测试集上的执行准确率达到了 82.3%。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/bigbigwatermalon/C3SQL">https://github.com/bigbigwatermalon/C3SQL</a></td>
+</tr>
+<tr>
+<td align="left">[4] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.15363">Text-to-SQL Empowered by Large Language Models: A Benchmark Evaluation</a></td>
+<td align="left">2023年Dawei Gao等人提出的，一种名为 DAIL-SQL 的全新集成解决方案，2023年8月20日Spider数据集排名第一的解决方案。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/BeachWang/DAIL-SQL">https://github.com/BeachWang/DAIL-SQL</a></td>
+</tr>
+<tr>
+<td align="left">[5] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2401.10506">FinSQL: Model-Agnostic LLMs-based Text-to-SQL Framework for Financial Analysis</a></td>
+<td align="left">2024年Chao Zhang等人提出的，一个基于模型无关的大型语言模型 (LLM) 的金融分析Text-to-SQL框架：FinSQL，并基于LLM的Text-to-SQL框架FinSQL从快速构建、高效参数微调和输出校准的角度为金融Text-to-SQL提供了系统的解决方案.</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/bigbigwatermalon/FinSQL?tab=readme-ov-file">https://github.com/bigbigwatermalon/FinSQL?tab=readme-ov-file</a></td>
+</tr>
+<tr>
+<td align="left">[6] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.13284">Structure-Guided Large Language Models for Text-to-SQL Generation</a></td>
+<td align="left">2024年Qinggang Zhang等人提出的，一种新颖的结构引导Text-to-SQL框架:SGU-SQL，该框架结合了基于语法的提示功能来增强LLM的SQL生成能力。</td>
+<td align="left">代码未开源</td>
+</tr>
+<tr>
+<td align="left">[7] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.02948">Grounding Natural Language to SQL Translation with Data-Based Self-Explanations</a></td>
+<td align="left">2025年Yuankai Fan等人提出的，基于数据的自解释自然语言到SQL转换，主要探讨了如何通过迭代反馈机制提高自然语言（NL）到 SQL 的翻译精度，提出了名为CYCLESQL的框架。CYCLESQL的核心思想是在传统的NL到SQL翻译过程中引入基于数据的自然语言解释，利用这些解释作为自提供的反馈，通过自我验证的方式不断优化翻译结果。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/Kaimary/CycleSQL">https://github.com/Kaimary/CycleSQL</a></td>
+</tr>
+<tr>
+<td align="left">[8] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2109.05093">PICARD: Parsing Incrementally for Constrained Auto-Regressive Decoding from Language Models</a></td>
+<td align="left">2021年Torsten Scholak等人提出PICARD模型，一种通过增量解析约束语言模型的自回归解码器的方法。PICARD通过在每个解码步骤拒绝不可接受的token输出来帮助找到有效的输出序列。在具有挑战性的Spider和CoSQL数据集的Text-to-SQL任务中，本文展示了PICARD将性能尚可的T5模型转换为最先进的解决方案。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/ServiceNow/picard">https://github.com/ServiceNow/picard</a></td>
+</tr>
+<tr>
+<td align="left">[9] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1911.04942">RAT-SQL: Relation-Aware Schema Encoding and Linking for Text-to-SQL Parsers</a></td>
+<td align="left">2021年Bailin Wang等人提出的统一的框架，基于关系感知的自我注意机制，来处理Text-to-SQL编码器中的模式编码、模式链接和特征表示。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/Microsoft/rat-sql">https://github.com/Microsoft/rat-sql</a></td>
+</tr>
+</tbody></table>
+<h3 id="Bird数据集下NL2SQL方案"><a href="#Bird数据集下NL2SQL方案" class="headerlink" title="Bird数据集下NL2SQL方案"></a>Bird数据集下NL2SQL方案</h3><table>
+<thead>
+<tr>
+<th align="left">论文</th>
+<th align="left">内容</th>
+<th align="left">GitHub地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.01943">CHASE-SQL: Multi-Path Reasoning and Preference Optimized Candidate Selection in Text-to-SQL</a></td>
+<td align="left">2024年Mohammadreza Pourreza等人提出的新框架CHASE-SQL，旨在通过利用多智能体建模和测试时计算来改进候选语句的生成和选择，从而解决文本转 SQL 任务中大型语言模型 (LLM) 的性能挑战。</td>
+<td align="left">无</td>
+</tr>
+<tr>
+<td align="left">[2] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2405.16755">CHESS: Contextual Harnessing for Efficient SQL Synthesis</a></td>
+<td align="left">2024年Shayan Talaei等人提出的，一种名为 CHESS（Contextual Harnessing for Efficient SQL Synthesis）的多代理框架，旨在有效地将自然语言问题转换为 SQL 查询，即文本到 SQL 的合成。CHESS 旨在应对文本到 SQL 合成中的一系列挑战，包括数据库目录的庞大规模、复杂的数据库架构推理、生成查询的功能有效性以及自然语言问题的歧义性。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/ShayanTalaei/CHESS">https://github.com/ShayanTalaei/CHESS</a></td>
+</tr>
+<tr>
+<td align="left">[3] <a target="_blank" rel="noopener" href="https://www.arxiv.org/abs/2409.16751">E-SQL: Direct Schema Linking via Question Enrichment in Text-to-SQL</a></td>
+<td align="left">2024年Hasan Alp Caferoğlu等人提出的，一种名为E-SQL的新型管道，通过直接架构链接和候选谓词增强来应对文本到SQL转换中的挑战。该方法以增强自然语言查询为基础，将相关的数据库元素（如表、列和数值）直接纳入查询中，以便更好地匹配用户意图与数据库结构。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/HasanAlpCaferoglu/E-SQL?tab=readme-ov-file">https://github.com/HasanAlpCaferoglu/E-SQL?tab=readme-ov-file</a></td>
+</tr>
+<tr>
+<td align="left">[4] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2406.01265">The Dawn of Natural Language to SQL: Are We Fully Ready?</a></td>
+<td align="left"><strong>重点</strong>。2024年Boyan Li等人提出的，一个多角度的NL2SQL评估测试框架：NL2SQL360，以便为研究人员设计和测试新的NL2SQL方法。通过NL2SQL360，在不同的数据领域和SQL特性等应用场景下对主流NL2SQL方法进行了详细比较，为选择特定需求的最合适的NL2SQL方法提供了有价值的见解。此外，探索了NL2SQL设计空间，利用NL2SQL360自动识别针对用户特定需求的最佳NL2SQL解决方案。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/BugMaker-Boyan/NL2SQL360/?tab=readme-ov-file">https://github.com/BugMaker-Boyan/NL2SQL360/?tab=readme-ov-file</a></td>
+</tr>
+<tr>
+<td align="left">[5] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.16347">CodeS: Towards Building Open-source Language Models for Text-to-SQL</a></td>
+<td align="left">2024年Haoyang Li等人提出的，一个开源的专门用于Text2SQL任务的LLM——CodeS，有多个参数规模的版本(1B~15B)，它是基于StarCdoer基座模型，使用Text2SQL相关的数据集继续训练得到的。同时，论文提出了在训练这个模型和使用这个模型一些方法。</td>
+<td align="left">GitHub地址：<a target="_blank" rel="noopener" href="https://github.com/RUCKBReasoning/codes">https://github.com/RUCKBReasoning/codes</a></td>
+</tr>
+<tr>
+<td align="left">[6] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2312.11242">MAC-SQL: A Multi-Agent Collaborative Framework for Text-to-SQL</a></td>
+<td align="left">2025年Bing Wang等人提出的，一个新颖的基于LLM的多代理协作框架MAC-SQL。该框架由三个Agents组成:Selector、Decomposer和Refiner。选择器压缩数据库并为用户查询保留相关的表模式。分解器将复杂的用户查询分解成更简单的子问题，并逐步解决它们。细化器验证和细化SQL查询。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/wbbeyourself/MAC-SQL">https://github.com/wbbeyourself/MAC-SQL</a></td>
+</tr>
+<tr>
+<td align="left">[7] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.19988">Automatic Metadata Extraction for Text-to-SQL</a></td>
+<td align="left">2025年Vladislav Shkapenyuk等人提出，探索自动元数据提取技术，以支持Text-to-SQL生成，2025年3月11日Bird数据集排名第一的解决方案</td>
+<td align="left">代码未开源</td>
+</tr>
+<tr>
+<td align="left">[8] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.13284">Structure Guided Large Language Model for SQL Generation</a></td>
+<td align="left">2025年Qinggang Zhang等人提出，一种Text-to-SQL框架，利用内在的Text信息来改进LLM的SQL生成。具体而言，引入Text引导SQL（SGU-SQL）生成模型。SGU-SQL首先以Text增强的方式链接用户查询和数据库。然后，它使用语法树分解复杂的链接结构，逐步指导LLM生成SQL。</td>
+<td align="left">代码未开源</td>
+</tr>
+<tr>
+<td align="left">[9] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2408.03256">Synthesizing Text-to-SQL Data from Weak and Strong LLMs</a></td>
+<td align="left">2024年Jiaxi Yang等人提出,通过合成数据方法增强NL2SQL的领域泛化能力，该方法将由更大、更强大的模型（强模型）生成的数据与由较小、未很好对齐的模型（弱模型）生成的错误信息数据相结合。该方法不仅增强了文本到SQL模型的领域泛化能力，还通过偏好学习探索了错误数据监督的潜力。此外，我们将合成数据方法应用于开放源代码LLMs的指令调优，最终得到了SENSE，一个专门的文本到SQL模型。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/Yangjiaxi/Sense">https://github.com/Yangjiaxi/Sense</a></td>
+</tr>
+<tr>
+<td align="left">[10] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2508.17590v1">RubikSQL: Lifelong Learning Agentic Knowledge Base as an Industrial NL2SQL System</a></td>
+<td align="left">2025年Zui Chen等人提出, 基于规则挖掘和用户查询增强构建面向智能体的持续学习库，旨在解决实际企业级NL2SQL应用中的核心挑战，如隐式意图（Implicit Intent）、领域特定术语（Private Domain Knowledge）、宽表模式（Wide Table Schema）以及上下文敏感性（Context Sensitivity）。该系统将NL2SQL视为一个终身学习任务，需要持续的知识库（Knowledge Base, KB）维护和 SQL 生成。其已经在华为内部财经小魔方系统中应用。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/Yangjiaxi/Sense">https://github.com/Yangjiaxi/Sense</a></td>
+</tr>
+<tr>
+<td align="left">[11] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2408.04919">SEA-SQL: Semantic-Enhanced Text-to-SQL with Adaptive Refinement</a></td>
+<td align="left">2025年Chaofan Li等人提出了一种名为SEA-SQL（语义增强文本到SQL的自适应精炼）的框架，用于解决文本到SQL的任务，尤其是在资源开销较低的情况下提高SQL查询的准确性和可执行性。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/545999961/SEA-SQL">https://github.com/545999961/SEA-SQL</a></td>
+</tr>
+<tr>
+<td align="left">[12] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2405.00527">ChatBI: Towards Natural Language to Complex Business Intelligence SQL</a></td>
+<td align="left">2024年Jinqing Lian等人提出, 研究了一种将自然语言转换为复杂商业智能 SQL 的技术——ChatBI。其目标是帮助不熟悉数据库的非专业用户通过自然语言进行数据分析。该技术方案已经百度数据平台上部署。</td>
+<td align="left">代码未开源</td>
+</tr>
+</tbody></table>
+<h3 id="NL2SQL的RAG方案"><a href="#NL2SQL的RAG方案" class="headerlink" title="NL2SQL的RAG方案"></a>NL2SQL的RAG方案</h3><table>
+<thead>
+<tr>
+<th align="left">论文</th>
+<th align="left">内容</th>
+<th align="left">GitHub地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2408.14717">Text2SQL is Not Enough: Unifying AI and Databases with TAG</a></td>
+<td align="left">2024年Asim Biswal等人提出,TAG(Table-Augmented Generation):表增强生成, TAG不仅具备对结构化数据的高效处理(不仅限于查询和分析)，还要通过LLM的引入实现语义推断和复杂多步推断。其中对Text2SQL、RAG、TAG之间的关系。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/TAG-Research/TAG-Bench">https://github.com/TAG-Research/TAG-Bench</a></td>
+</tr>
+</tbody></table>
+<h3 id="NL2SQL的监督微调技术（SFT-Based）方案"><a href="#NL2SQL的监督微调技术（SFT-Based）方案" class="headerlink" title="NL2SQL的监督微调技术（SFT-Based）方案"></a>NL2SQL的监督微调技术（SFT-Based）方案</h3><table>
+<thead>
+<tr>
+<th align="left">论文</th>
+<th align="left">内容</th>
+<th align="left">Hugging Face地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.02059">TableGPT2: A Large Multimodal Model with Tabular Data Integration</a></td>
+<td align="left">2024年浙江大学Aofeng Su等人提出，经过预训练和微调训练的，基于qwen2.5d针对NL2SQ任务的TableGPT2大模型。</td>
+<td align="left">Hugging Face:<a target="_blank" rel="noopener" href="https://huggingface.co/tablegpt/TableGPT2-7B">https://huggingface.co/tablegpt/TableGPT2-7B</a> ;教程：<a target="_blank" rel="noopener" href="https://tablegpt.github.io/tablegpt-agent/reference/">https://tablegpt.github.io/tablegpt-agent/reference/</a></td>
+</tr>
+<tr>
+<td align="left">[2] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2411.08599">A PREVIEW OF XIYAN-SQL: A MULTI-GENERATOR ENSEMBLE FRAMEWORK FOR TEXT-TO-SQL</a></td>
+<td align="left">2024年阿里巴巴集团提出，经过微调训练的，基于LLM的Text-to-SQL框架。</td>
+<td align="left">Hugging Face:<a target="_blank" rel="noopener" href="https://huggingface.co/collections/XGenerationLab/xiyansql-models-67c9844307b49f87436808fc">https://huggingface.co/collections/XGenerationLab/xiyansql-models-67c9844307b49f87436808fc</a> ;析言GBI:<a target="_blank" rel="noopener" href="https://cn.aliyun.com/product/bailian/xiyan?from_alibabacloud=">https://cn.aliyun.com/product/bailian/xiyan?from_alibabacloud=</a></td>
+</tr>
+</tbody></table>
+<h3 id="大语言模型LLM在TexttoSQL上性能"><a href="#大语言模型LLM在TexttoSQL上性能" class="headerlink" title="大语言模型LLM在TexttoSQL上性能"></a>大语言模型LLM在TexttoSQL上性能</h3><table>
+<thead>
+<tr>
+<th align="left">论文</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.10190">大语言模型LLM之战:Dolly、LLaMA 、Vicuna、Guanaco、Bard、ChatGPT–在自然语言转SQL的比较</a></td>
+<td align="left">将六种流行的大型语言模型进行对比，在九个基准数据集上，使用五种不同的提示策略，系统地评估它们的文本到SQL解析能力，涵盖零样本和少样本场景。</td>
+</tr>
+</tbody></table>
+<h2 id="开源工具和项目"><a href="#开源工具和项目" class="headerlink" title="开源工具和项目"></a>开源工具和项目</h2><table>
+<thead>
+<tr>
+<th align="left">工具名</th>
+<th align="left">内容</th>
+<th align="left">GitHub地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MindSQL</td>
+<td align="left">一个文本到SQL生成的Python包，开源、使用RAG(检索增强生成)在大型语言模型LLM的帮助下创建适合数据库的精确SQL查询, 其精度高而且支持高并发。MindSQL与PostgreSQL、MySQL、SQLite等知名数据库无缝集成，还通过扩展接口将其功能扩展到Snowflake、BigQuery等主流数据库IDatabase。这个包的安装不容易，需要额外处理。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/Mindinventory/MindSQL">https://github.com/Mindinventory/MindSQL</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://sqlglot.com/sqlglot.html">SQLGlot</a></td>
+<td align="left">Python开发的开源SQL解析器、转译器、优化器和引擎，可以格式化SQL以及支持在20种不同方言和SQL之间进行转化, 用相应的函数来进行SQL查询语句的转换，无需复杂的配置和设置，可用于Text2SQL的后处理阶段。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/tobymao/sqlglot">https://github.com/tobymao/sqlglot</a></td>
+</tr>
+<tr>
+<td align="left">Microsoft.Recognizers.Text</td>
+<td align="left">微软开源多种语言下的数字、单位、日期、时间等实体的识别和解析器，帮助开发者在其应用程序中集成强大的实体识别功能。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/microsoft/Recognizers-Text/tree/master">https://github.com/microsoft/Recognizers-Text/tree/master</a></td>
+</tr>
+<tr>
+<td align="left">lotus</td>
+<td align="left">基于LLM的开源Python处理结构化和非结构化数据的查询引擎。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/lotus-data/lotus">https://github.com/lotus-data/lotus</a></td>
+</tr>
+<tr>
+<td align="left">SQLCoder</td>
+<td align="left"><strong>重点</strong>，专为NL2SQL优化的开源LLM模型族。这是一个拥有150亿参数的模型，在自然语言到 SQL 生成任务上，其性能略微超过了 gpt-3.5-turbo 并且显著地超越了所有流行的开源模型。目前SQLCoder是基于StarCoder(StarCoder参考： <a target="_blank" rel="noopener" href="https://www.datalearner.com/ai-models/pretrained-models/StarCoder)%E5%BE%AE%E8%B0%83%E5%BE%97%E5%88%B0%E3%80%82%E5%AE%83%E7%9A%84%E4%BB%A3%E7%A0%81%E5%BC%80%E6%BA%90%E5%8D%8F%E8%AE%AE%E6%98%AFApache">https://www.datalearner.com/ai-models/pretrained-models/StarCoder)微调得到。它的代码开源协议是Apache</a> 2.0，而模型预训练结果的开源协议是CC BY-SA-4.0并加上OpenRAIL-M clauses for responsible协议，运行大家免费商用。但是，如果你修改了该模型的权重，则必须也按照CC BY-SA-4.0协议开源，这意味着修改具有传染性！商用的用户需要注意！</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/defog-ai/sqlcoder">https://github.com/defog-ai/sqlcoder</a>; <a target="_blank" rel="noopener" href="https://www.datalearner.com/blog/1051692667851329">SQLCoder详细简介</a>; <a target="_blank" rel="noopener" href="https://defog.ai/sqlcoder-demo/">SQLCoder在线演示地址</a></td>
+</tr>
+<tr>
+<td align="left">Vanna</td>
+<td align="left">基于MIT许可、开源、Python的、RAG(检索增强生成)框架，使用检索增强功能来帮助使用LLM为数据库生成准确的SQL查询。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/vanna-ai/vanna">https://github.com/vanna-ai/vanna</a></td>
+</tr>
+<tr>
+<td align="left">LLaMA-Factory</td>
+<td align="left">简单易用且高效的大型语言模型LLM训练与微调平台框架。其整合主流的各种高效训练微调技术，适配市场主流开源模型。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/hiyouga/LLaMA-Factory/tree/main">https://github.com/hiyouga/LLaMA-Factory/tree/main</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/tencentmusic/supersonic/blob/master/README_CN.md">SuperSonic</a></td>
+<td align="left">国内首个开源NL2SQL项目。通过引入Headless BI，构建数据加工整合连接数据，解决数据中口径不一致、指标无法复用、治理困难的问题。基于数据库数据构建语义模型, 使用语义查询语言S2SQL构建逻辑SQL, 将逻辑SQL翻译为数据库可以使用的物流SQL。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/tencentmusic/supersonic/tree/master">https://github.com/tencentmusic/supersonic/tree/master</a>; <a target="_blank" rel="noopener" href="https://supersonicbi.github.io/">项目教程</a></td>
+</tr>
+<tr>
+<td align="left">DDParser</td>
+<td align="left">DDParser(Baidu Dependency Parser)是百度自然语言处理部基于深度学习平台飞桨(PaddlePaddle)和大规模标注数据研发的、开源的依存句法分析工具。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/baidu/DDParser">https://github.com/baidu/DDParser</a>; <a target="_blank" rel="noopener" href="https://pypi.org/project/ddparser/">pypi地址</a></td>
+</tr>
+<tr>
+<td align="left">ChatSQL</td>
+<td align="left">基于ChatGLM-6B&#x2F;MOSS,实现nl2sql，直连数据库并返回查询结果 目前仅支持MYSQL语法,后续支持多数据库语法查询。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/cubenlp/ChatSQL">https://github.com/cubenlp/ChatSQL</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.yuque.com/eosphoros/dbgpt-docs">DB-GPT</a></td>
+<td align="left">DB-GPT是蚂蚁开源的AI原生数据应用开发框架。目的是构建大模型领域的基础设施，通过开发多模型管理(SMMF)、Text2SQL效果优化、RAG框架以及优化、Multi-Agents框架协作、AWEL(智能体工作流编排)等多种技术能力，让围绕数据库构建大模型应用更简单，更方便。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/eosphoros-ai/DB-GPT?tab=readme-ov-file">https://github.com/eosphoros-ai/DB-GPT?tab=readme-ov-file</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://dataease.cn/sqlbot/v1/">SQLBot</a></td>
+<td align="left">SQLBot 是一款基于大语言模型(LLM)和RAG(检索增强生成)的智能问数系统。借助 SQLBot，用户可以实现数据的即问即答，快速提炼获取所需的数据信息及可视化图表，并且支持进一步开展智能分析。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/dataease/SQLBot?tab=readme-ov-file">https://github.com/dataease/SQLBot?tab=readme-ov-file</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.getwren.ai/">WrenAI</a></td>
+<td align="left">利用LLMs和RAG技术的优势，将自然语言转换为SQL查询，并从数据库中检索数据。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/canner/wrenai">https://github.com/canner/wrenai</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.dataherald.com/">Dataherald</a></td>
+<td align="left">强大的NLtoSQL引擎，其核心是一个基于LLM的智能代理，它利用思维链(CoT)推理和多种工具，从用户提问中生成高精度的SQL查询。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/Dataherald/dataherald">https://github.com/Dataherald/dataherald</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://chat2db-ai.com/">Chat2DB</a></td>
+<td align="left">阿里开源的专为现代数据驱动型企业打造的数据库管理、数据开发及数据分析工具。作为一款AI原生的产品，Chat2DB 将人工智能技术与传统数据库管理功能深度融合，旨在提供更为智能、便捷的工作体验，助力用户高效地管理数据库、开展数据开发和分析工作。</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/codePhiliaX/chat2db">https://github.com/codePhiliaX/chat2db</a></td>
+</tr>
+</tbody></table>
+<h2 id="个人设想"><a href="#个人设想" class="headerlink" title="个人设想"></a>个人设想</h2><p>个人设想：<br>　　SQL语言本身在不同数据库下的语法比较复杂而且同时存在差异性，NL2SQL本身也许不一定是“自然语言问数”的最佳范式。现有问数基本是三种技术路线：NL2SQL&#x2F;NL2SQL-&gt;DSL2SQL&#x2F;NL2语义SQL-&gt;语义SQL-&gt;可执行物理SQL，核心都是在解决SQL的可信和准确性问题，而不管是SQL还是DSL这类语法树，LLM和数据库交互的中介仍然是语法描述，这导致中介被数据库方言所绑架，进而严重依赖LLM的数据库适用能力，忽视逻辑执行计划本身才是业务逻辑和数据库物理实现真正的核心。采用执行计划本身作为自然语言和数据库交互的中介，越过各类SQL引擎，更加靠近物理执行引擎，进而在缩短执行链路的同时，规避SQL方言的问题，直接生成数据库的物理执行计划，进而实现更快速和直接的自然语言问数形式。</p>
+<h2 id="技术主要用途"><a href="#技术主要用途" class="headerlink" title="技术主要用途"></a>技术主要用途</h2><p><strong>技术主要用途</strong>：智能BI(智能问数与智能数据分析)</p>
+<h2 id="相似工作"><a href="#相似工作" class="headerlink" title="相似工作"></a>相似工作</h2><p><strong>相似工作</strong>：有基于图谱的智能QA问答、自动化代码编程等。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] A. Popescu, A. Armanasu, O. Etzioni, D. Ko, and A. Yates. Modern natural language interfaces to databases: Composing statistical parsing with semantic tractability. In COLING, 2004.<br>[2] F. Li and H. V. Jagadish. Constructing an interactive natural language interface for relational databases. PVLDB, 8(1):73–84, 2014.<br>[3] D. Saha, A. Floratou, K. Sankaranarayanan, U. F. Minhas, A. R. Mittal, and F. O¨ zcan. ATHENA: an ontology-driven system for natural language querying over relational data stores. PVLDB, 9(12):1209–1220, 2016.<br>[4] N. Yaghmazadeh, Y. Wang, I. Dillig, and T. Dillig. Sqlizer: query synthesis from natural language. PACMPL, 1(OOPSLA):63:1–63:26, 2017.<br>[5] P. Pasupat and P. Liang. Compositional semantic parsing on semi-structured tables. In ACL, pages 1470–1480, 2015.<br>[6] C. Baik, H. V. Jagadish, and Y. Li. Bridging the semantic gap with SQL query logs in natural language interfaces to databases. In ICDE, pages 374–385, 2019.<br>[7] S. Iyer, I. Konstas, A. Cheung, J. Krishnamurthy, and L. Zettlemoyer. Learning a neural semantic parser from user feedback. In ACL, pages 963–973, 2017.<br>[8] F. Basik, B. H¨attasch, A. Ilkhechi, A. Usta, S. Ramaswamy, P. Utama, N. Weir, C. Binnig, and U. C¸ etintemel. Dbpal: A learned nl-interface for databases. In SIGMOD, pages 1765–1768, 2018.<br>[9] V. Zhong, C. Xiong, and R. Socher. Seq2sql: Generating structured queries from natural language using reinforcement learning. CoRR, abs&#x2F;1709.00103, 2017.<br>[10] X. Xu, C. Liu, and D. Song. Sqlnet: Generating structured queries from natural language without reinforcement learning. CoRR, abs&#x2F;1711.04436, 2017.<br>[11] M. Lapata and L. Dong. Coarse-to-fine decoding for neural semantic parsing. In ACL, pages 731–742, 2018.<br>[12] S. Yavuz, I. Gur, Y. Su, and X. Yan. Dialsql: Dialogue based structured query generation. In ACL, pages 1339–1349, 2018.<br>[13] P. Huang, C. Wang, R. Singh, W. Yih, and X. He. Natural language to structured query generation via meta-learning. In NAACL-HLT, pages 732–738, 2018.<br>[14] M. Zhou, G. Cao, T. Liu, N. Duan, D. Tang, B. Qin, X. Feng, J. Ji, and Y. Sun. Semantic parsing with syntax- and table-aware SQL generation. In ACL, pages 361–372, 2018.<br>[15] T. Yu, Z. Li, Z. Zhang, R. Zhang, and D. R. Radev. Typesql: Knowledge-based type-aware neural text-to-sql generation. In NAACL-HLT, pages 588–594, 2018.<br>[16] C. Finn, P. Abbeel, and S. Levine. Model-agnostic meta-learning for fast adaptation of deep networks. In ICML, pages 1126–1135, 2017.<br>[17] T. Yu, R. Zhang, K. Yang, M. Yasunaga, D. Wang, Z. Li, J. Ma, I. Li, Q. Yao, S. Roman, Z. Zhang, and D. R. Radev. Spider: A large-scale human-labeled dataset for complex and cross-domain semantic parsing and text-to-sql task. In EMNLP, pages 3911–3921, 2018.<br>[18] T. Yu, M. Yasunaga, K. Yang, R. Zhang, D. Wang, Z. Li, and D. R. Radev. Syntaxsqlnet: Syntax tree networks for complex and cross-domain text-to-sql task. In EMNLP, pages 1653–1663, 2018.<br>[19] B. Bogin, J. Berant, and M. Gardner. Representing schema structure with graph neural networks for text-to-sql parsing. In ACL, pages 4560–4565, 2019.<br>[20] J. Guo, Z. Zhan, Y. Gao, Y. Xiao, J. Lou, T. Liu, and D. Zhang. Towards complex text-to-sql in cross-domain database with intermediate representation. In ACL, pages 4524–4535, 2019.<br>[21] Pasupat P, Liang P. Compositional semantic parsing on semi-structured tables[J]. arXiv preprint arXiv:1508.00305, 2015.<br>[22] Hemphill C T, Godfrey J J, Doddington G R. The ATIS spoken language systems pilot corpus[C]&#x2F;&#x2F;Speech and Natural Language: Proceedings of a Workshop Held at Hidden Valley, Pennsylvania, June 24-27, 1990. 1990.<br>[23] Sun N, Yang X, Liu Y. Tableqa: a large-scale chinese text-to-sql dataset for table-aware sql generation[J]. arXiv preprint arXiv:2006.06434, 2020.<br>[24] Min Q, Shi Y, Zhang Y. A pilot study for chinese sql semantic parsing[J]. arXiv preprint arXiv:1909.13293, 2019.<br>[25] Wang L, Zhang A, Wu K, et al. ChiTeSQL: A Large-Scale and Pragmatic Chinese Text-to-SQL Dataset[C]&#x2F;&#x2F;Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP). 2020: 6923-6935.<br>[26] Bogin B, Gardner M, Berant J. Global reasoning over database structures for text-to-sql parsing[J]. arXiv preprint arXiv:1908.11214, 2019.<br>[27] 刘译璟, 徐林杰, 代其锋. 基于自然语言处理和深度学习的 NL2SQL 技术及其在 BI 增强分析中的应用[J]. 中国信息化, 2019, 11.<br>[28] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/1920428002006795984">25年不可错过的大模型应用方向-Text2SQL: 企业提效50%以上</a><br>[29] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269478469">语义解析 (Text-to-SQL) 技术研究及应用 下篇</a><br>[30] <a target="_blank" rel="noopener" href="https://originalstatic.aminer.cn/misc/billboard/CAIIAM/%E5%88%98%E8%AF%91%E7%92%9F-%E5%9F%BA%E4%BA%8E%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%92%8C%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84NL2SQL%E6%8A%80%E6%9C%AF%E5%8F%8A%E5%85%B6%E5%9C%A8BI%E5%A2%9E%E5%BC%BA%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.pdf">基于自然语言处理和深度学习的NL2SQL技术及其在BI增强分析中的应用</a><br>[31] <a target="_blank" rel="noopener" href="https://www.tellius.com/resources/blog/is-a-semantic-layer-necessary-for-enterprise-grade-ai-agents">Is a Semantic Layer Necessary for Enterprise-Grade AI Agents?</a><br>[32] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2411.08599">A PREVIEW OF XIYAN-SQL: A MULTI-GENERATOR ENSEMBLE FRAMEWORK FOR TEXT-TO-SQL</a><br>[33] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.01943">CHASE-SQL: Multi-Path Reasoning and Preference Optimized Candidate Selection in Text-to-SQL</a><br>[34] <a target="_blank" rel="noopener" href="https://hub.baai.ac.cn/papers">智源社区</a><br>[35] <a target="_blank" rel="noopener" href="https://www.datafocus.ai/category/BI%203.0?page=2">ChatBI</a><br>[36] <a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_39620217/article/details/137603846">NL2SQL基础系列(1)：业界顶尖排行榜、权威测评数据集及LLM大模型（Spider vs BIRD）全面对比优劣分析[Text2SQL、Text2DSL]</a><br>[37] <a target="_blank" rel="noopener" href="https://github.com/eosphoros-ai/Awesome-Text2SQL/blob/main/README.zh.md">Awesome Text2SQL</a><br>[38] <a target="_blank" rel="noopener" href="https://github.com/yechens/NL2SQL">Text2SQL 语义解析数据集、解决方案、paper资源整合项目</a><br>[39] <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FtsA4O_VTUqhhYS3Gq3G8Q">语义解析 (Text-to-SQL) 技术研究及应用</a><br>[40]<a target="_blank" rel="noopener" href="https://www.shaqiu.cn/article/AGlZV58ELBJm">沙丘智库《2025年“大模型+数据分析”最佳实践报告》正式发布</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/09/17/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-Text2SQL(NL2SQL,%20Natural%20Language%20to%20SQL)/">https://varamnematchinensis.github.io/2025/09/17/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-Text2SQL(NL2SQL,%20Natural%20Language%20to%20SQL)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%BA%94%E7%94%A8/">
+                                    <span class="chip bg-color">应用</span>
+                                </a>
+                            
+                                <a href="/tags/Text2SQL/">
+                                    <span class="chip bg-color">Text2SQL</span>
+                                </a>
+                            
+                                <a href="/tags/NL2SQL/">
+                                    <span class="chip bg-color">NL2SQL</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="AI应用实践-智能BI(智能问数与智能数据分析)">
+                        
+                        <span class="card-title">AI应用实践-智能BI(智能问数与智能数据分析)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            AI应用实践-智能BI(智能问数与智能数据分析)，主要介绍智能BI，包括商业智能(BI)定义、历史发展、智能BI核心技术、系统架构设计、关键技术、产品设计要点、设计实施过程、优秀实践产品、产品实践案例、当前技术挑战、长远设想和个人思考。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-09-18
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%BA%94%E7%94%A8/" class="post-category">
+                                    应用
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BA%94%E7%94%A8/">
+                        <span class="chip bg-color">应用</span>
+                    </a>
+                    
+                    <a href="/tags/BI/">
+                        <span class="chip bg-color">BI</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/09/16/%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%8A%E5%85%B6%E7%A0%94%E7%A9%B6-SHAP%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="可解释人工智能及其研究-SHAP算法应用篇">
+                        
+                        <span class="card-title">可解释人工智能及其研究-SHAP算法应用篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            可解释人工智能及其研究-SHAP算法应用篇，主要介绍SHAP可解释性算法在成人人口普查数据的应用。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BA%94%E7%94%A8/">
+                        <span class="chip bg-color">应用</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">
+                        <span class="chip bg-color">可解释</span>
+                    </a>
+                    
+                    <a href="/tags/SHAP%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">SHAP算法</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">100.5k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
