@@ -1,0 +1,1338 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="大模型微调(Tuning)实践, Amnematchinensis">
+    <meta name="description" content="大模型微调(Tuning)实践，主要介绍大模型微调(Tuning)、微调分类、当前主要的参数高效微调方法(LoRA等)、微调数据准备、大模型能力评估指标、训练开发流程和微调开发流程和参考文献等。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>大模型微调(Tuning)实践 | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">大模型微调(Tuning)实践</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/">
+                                <span class="chip bg-color">大模型微调</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/AI/" class="post-category">
+                                AI
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-10-01
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-10-13
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    27 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="大模型微调-Tuning"><a href="#大模型微调-Tuning" class="headerlink" title="大模型微调(Tuning)"></a>大模型微调(Tuning)</h2><h3 id="大模型微调-Tuning-1"><a href="#大模型微调-Tuning-1" class="headerlink" title="大模型微调(Tuning)"></a>大模型微调(Tuning)</h3><p><strong>定义</strong>：在预训练模型基础上，调整LLM的参数以适应特定领域特定任务的过程。微调量取决于任务复杂度和数据集大小。<br><strong>本质</strong>：迁移学习。利用从源数据集学习到的新知识迁移到目标数据集上。对于预训练模型而言，微调就是将预训练模型迁移到新目标数据集上。<br><strong>价值</strong>：低成本效益和特定领域高适应性+防止过拟合，提升数据训练效果.</p>
+<ol>
+<li>低成本效益和特定领域高适应性：对比利用Prompt engineering(提示词工程)来引导模型的输出行为，微调SFT可以更高效地优化模型的输出表现，可以更直接执行任务，减少对复杂提示词引导的依赖。更重要的是，通过微调技术，针对特定领域可以在小模型上实现接近大模型的性能效果，降低推理的计算成本和延迟过程，更好的适应特定领域的专业术语和内容结构，提高模型在这些领域的使用效果，提升特定领域任务的表现。</li>
+<li>防止过拟合，提升数据训练效果：预训练的过程可能会导致模型过拟合无监督学习的任务，导致在特定任务上效果不好，特别是数据稀缺而且缺乏标签数据的特定领域。微调可以使模型聚焦于这些特定领域的任务数据，在减少过拟合风险的同时，针对有限的特定数据做针对性的高效训练，使得在有限数据的情况下也能获得好的模型性能。</li>
+</ol>
+<h3 id="训练数据下的微调分类"><a href="#训练数据下的微调分类" class="headerlink" title="训练数据下的微调分类"></a>训练数据下的微调分类</h3><p>微调分类:增量预训练+SFT监督微调+RLHF人类反馈下的强化学习<br>SFT监督微调方法分类：指令微调(IFT)+思维链(COT)</p>
+<ol>
+<li><p>指令微调(IFT):<br>来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.10792v2">Instruction Tuning for Large Language Models: A Survey</a><br>定义：使用监督学习的方法，在&lt;人类指令、已知输入、期望输出&gt;构成的数据集上，训练LLM的过程。<br>场景：对话、信息提取、代码生成等。<br>难度：适中<br>方法：数据集准备+微调<br>数据集准备：按照&lt;instruction人类指令、input已知输入、output期望输出&gt;模板人为构造数据集，或者借助LLM来扩展基于少量手写样例的数据集，通过给LLM指令，通过多样化的输出形成指令数据集。<br>微调：基于准备好的数据集，按照监督学习的方式训练模型，根据给定指令和输入到LLM中，根据预测输出和期望输出的loss计算，反向优化训练LLM模型。</p>
+</li>
+<li><p>思维链(COT):<br>来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.04959">Towards Better Chain-of-Thought Prompting Strategies: A Survey</a><br>定义：可以视为指令微调的一种，更强调在指令中明确的要求回答要给出“推理过程”，并在期望输出内容中有推理过程。<br>场景：推理类任务<br>难度：适中<br>方法：COT数据集准备+微调<br>数据集准备：按照&lt;Question问题描述+按照循序渐进的方式逐步思考并回答问题、Answer推理过程(逐步分解问题)+最后答案&gt;模板人为构造数据集。<br>微调：和指令微调(IFT)的微调方法类似，注意其中在逻辑推理内容。</p>
+</li>
+</ol>
+<h3 id="训练方法下的微调分类"><a href="#训练方法下的微调分类" class="headerlink" title="训练方法下的微调分类"></a>训练方法下的微调分类</h3><p>训练方法下的微调分类：全微调+部分微调(也称为参数高效微调)</p>
+<ol>
+<li><p>全微调(Full Fine-Tuning, FFT):<br>定义：对预训练模型全体进行微调，模型的所有参数和模型层全部被更新和优化，已达成目标任务。<br>应用场景：适用于目标任务和预训练模型之间存在差异的情况，或者需要模型具体较高灵活度和自适应的情况。<br>缺点：计算资源和时间要求较高，训练成本高;灾难性遗忘，即只微调好特定领域的表现，导致其他表现好的领域能力反而变差。</p>
+</li>
+<li><p>部分微调(即参数高效微调，Parameter-Efficient Fine-Tuning, PEFT):<br>定义：在保存预训练模型底层参数不变的情况下，只更新模型的少数模型层和参数，以实现在保留预训练模型通用知识的情况下，适应特定目标任务的目的。<br>缺点：相比全微调计算资源和时间消耗较少，但是性能会比全微调有所减低，无法达到全微调在特定领域上的性能水平，好处就是训练成本低节省存储成本。<br>技术方法：LORA&#x2F;P-Tuning&#x2F;Prompt Tuning&#x2F;Prefix-Tuning</p>
+</li>
+</ol>
+<h3 id="新兴微调技术"><a href="#新兴微调技术" class="headerlink" title="新兴微调技术"></a>新兴微调技术</h3><p><a target="_blank" rel="noopener" href="https://www.datacamp.com/blog/reinforcement-fine-tuning">强化微调(Reinforcement Fine-Tuning, RFT)</a><br>定义：利用奖励驱动的训练循环来完善LLM的知识的计算</p>
+<h3 id="当前主流的参数高效微调方法"><a href="#当前主流的参数高效微调方法" class="headerlink" title="当前主流的参数高效微调方法"></a>当前主流的参数高效微调方法</h3><h4 id="微调综述"><a href="#微调综述" class="headerlink" title="微调综述"></a>微调综述</h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.15647">Scaling Down to Scale Up: A Guide to Parameter-Efficient Fine-Tuning</a><br>综述论文，系统地概述参数高效微调方法，涵盖了 2019 年初至 2024 年中期发表的 50 多篇论文，并评估这些参数高效微调方法的表现和性能。</p>
+<h4 id="In-Context-Learning-上下文学习"><a href="#In-Context-Learning-上下文学习" class="headerlink" title="In-Context Learning(上下文学习)"></a>In-Context Learning(上下文学习)</h4><p><strong>介绍</strong>：轻量级无参数更新方法。在不修改模型和其权重的条件下，利用在输入的Prompt中添加和任务相关的上下文背景信息和样例，使模型更好地生成预期结果。<br><strong>特点</strong>：不需要更新模型参数，成本低，用示例做驱动灵活度高。通过和Prompt Engineering的精细化优化结合，可以获得更好的输出效果，达成10%-15%的性能提升，其作为监督微调的补充，利用Prompt精细化设计，在不依赖格外训练的情况下，实现在模型在特定任务上的更好工具使用能力。<br><strong>优点</strong>：可以在不修改模型和其参数的情况下，用于快速尝试和验证；在有限带标签数据用于监督微调的情况下，提升模型在特定任务上的表现。<br><strong>缺点</strong>：由于没有修改模型权重参数，其在特定任务上的表现不然全微调和参数高效微调。<br><strong>基本构成要素</strong>：Role(角色，必选)+Instruction(指令，必选)+Backgroud Information(背景信息，可选) + Example(示例,可选) + Specific Requirement(具体要求,可选) + Text Input(输入文本, 必选) + 工具列表(可选)</p>
+<ol>
+<li>Role(角色，必选):明确LLM在系统中的角色身份，聚集核心职责。</li>
+<li>Instruction(指令，必选):准确清晰描述用户意图和任务要求，并指定输出格式的要求。</li>
+<li>Backgroud Information(背景信息，可选)：提供帮助模型理解用户意图的上下文背景信息，包括历史信息、系统设置和用户偏好等内容。</li>
+<li>Example(示例,可选)：在token数量限制下，few-shot少量高质量、覆盖绝大多数情况和潜在复杂场景下的工具提示调用示例，内容应该包括完整输入、推理过程思维链(CoT)、工具调用结果呈现等。</li>
+<li>Specific Requirement(具体要求,可选)：确定模型对任务说明的详细要求，包括对输出格式的具体要求，帮助模型理解指令要求。</li>
+<li>Text Input(输入文本, 必选)：模型处理的实际问题，一般是用户的直接文本输入。</li>
+<li>工具列表(可选)：可以使用OpenAI格式规范，清晰明确提供模型可调用的工具内容信息，工具应包括其名称、参数和功能说明等。</li>
+</ol>
+<p><strong>相关论文</strong>：<br>[1] <a target="_blank" rel="noopener" href="https://www.arxiv.org/abs/2510.04618">Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models</a><br>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2509.25140">ReasoningBank: Scaling Agent Self-Evolving with Reasoning Memory</a></p>
+<h4 id="Prefix-Tuning"><a href="#Prefix-Tuning" class="headerlink" title="Prefix Tuning"></a>Prefix Tuning</h4><p><strong>来源</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2101.00190">Prefix-Tuning: Optimizing Continuous Prompts for Generation</a><br><strong>方法</strong>：和Prompt Tuning和P-Tuning相比，Prefix Tuning将Prompt视为可学习的prefix(前缀)，在输入数据增加prefix(前缀)做微调，即在输入token前构造和任务相关的virtual tokens作为prefix, 训练时值更新prefix部分的参数，每个下游任务都单独训练一套prefix token。<br><strong>作用</strong>：prefix(前缀)其实就是引导模型提取输入中的特定信息，进而更好地生成结果。针对不同下游任务训练的prefix(前缀)可保存起来，当用户在切换不同下游任务时，可以通过加载不同prefix(前缀)参数，实现模型功能快速切换。<br><strong>缺点</strong>：前缀token会占用序列长度，造成一定的额外开销，而且效果存在上限，模型表现不一定会随着prefix(前缀)延长而提高，有用模型输入token有限，增加prefix(前缀)后反而有可能降低了原来prompt的表现；prefix Tuning的线性插值比较复杂。</p>
+<h4 id="Prompt-Tuning"><a href="#Prompt-Tuning" class="headerlink" title="Prompt Tuning"></a>Prompt Tuning</h4><p><strong>来源</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.08691">The Power of Scale for Parameter-Efficient Prompt Tuning</a><br><strong>方法</strong>：最简单的参数高效性微调方法。固定LLM全部参数，侧重于制作可指导预训练模型的输入提示和模型，在训练数据前加入一小节Prompt,只训练Prompt的词嵌入层(Embedding模块)，仅更新部分embedding参数来实现低成本微调大模型。其中Prompt可分为soft Prompt(Prompt Embedding采用随机初始化方式)和hard Prompt(Prompt Embedding采用人力实践准备做词嵌入初始化，编写Hard Prompt的过程又称Prompt Engineering)。<br><strong>特点</strong>：任务不通用和规模不通用；和Prefix Tuning相比，参与训练的参数量和更新参数量更小，更节省显存资源.<br><strong>相关论文</strong>：<br>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2208.02532">Prompt Tuning for Generative Multimodal Pretrained Models</a><br>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2109.04332">PPT: Pre-trained Prompt Tuning for Few-shot Learning</a></p>
+<h4 id="P-tuning"><a href="#P-tuning" class="headerlink" title="P-tuning"></a>P-tuning</h4><p><strong>来源</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.10385">GPT Understands, Too</a><br><strong>方法</strong>：在Prompt Tuning基础上，对Prompt部分进一步编码计算，将Prompt转换为可学习的Embedding层，并利用MLP(多层感知机,multilayer perceptron)和LSTM(长短期记忆网络,Long short-term memory)方式对Prompt Embedding做处理，其中Prompt只能是soft Prompt形式。<br><strong>特点</strong>：通过引入Prompt encoder来建模virtual tokens的相互依赖会收敛更快，效果更好。将目标任务的离散文本映射为可连续的优化向量，解决离散文本难定向优化的问题。少量高质量语料训练新增加的参数，其训练消耗小，训练效率更高。冻结原来的参数，利用前缀Prefix来适配不同任务，规避了模型遗忘的问题，同时由于可以在前缀Prefix中训练多个简单任务，其适配性更好，减少部署所需要的资源。</p>
+<h4 id="P-tuning-V2"><a href="#P-tuning-V2" class="headerlink" title="P-tuning V2"></a>P-tuning V2</h4><p><strong>来源</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2110.07602">P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-tuning Universally Across Scales and Tasks</a><br><strong>方法</strong>：在transformer的每一层都加入Prompt token作为输入，引入多任务学习，针对不同任务采用不同的提示长度。<br><strong>目标</strong>：让Prompt Tuning方法能在不同规模的预训练模型、不同目标任务结果上实现和Fine-Tuning一样的结果。<br><strong>特点</strong>：解决Prompt Tuning无法再小模型上有效提升的问题，改进对复杂硬标记任务的效果。Prompt长度是P-tuning V2最关键参数，不同类型难度的自然语言理解任务可能会因为不同的长度Prompt配置实现不同的效果。根据论文中的实验反馈，简单的分类任务需要较短的Prompt(少于10 Token),而复杂困难的任务(如序列标注等)，倾向于使用更长的Prompt(超过100)。</p>
+<h4 id="Adapter-Tuning"><a href="#Adapter-Tuning" class="headerlink" title="Adapter Tuning"></a>Adapter Tuning</h4><p><strong>方法</strong>：在transformer架构中multi-head self-attention(多头注意力机制)和fully conneted layers(全连接层)后添加Adapter层进行微调。Adapter层由fully conneted layers(全连接层,将高维输入映射为低维表示) + Nonlinear activation(非线性激活函数) + fully conneted layers(全连接层，将低维输入映射回高维空间)三层构成，降低训练使更新的参数量。微调过程中，模型其他参数冻结，只更新Adapter层的参数。<br><strong>缺点</strong>: 添加Adapter层后，导致模型变深，导致训练和推理速度变慢</p>
+<h4 id="LoRA-Low-Rank-Adaptation"><a href="#LoRA-Low-Rank-Adaptation" class="headerlink" title="LoRA(Low-Rank Adaptation)"></a>LoRA(Low-Rank Adaptation)</h4><p><strong>来源</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2106.09685">LoRA: Low-Rank Adaptation of Large Language Models</a><br><strong>作者</strong>: 2021年微软提出的轻量化微调算法<br><strong>方法</strong>：对预训练模型而言，适用目标任务的过程，就是变动模型低维参数的过程，通过低秩分解的方法来模拟参数的改变量，用极小的参数量来实现LLM的间接训练。具体来说，在训练时，对输入分别和原始权重的两个低秩矩阵进行计算，得到最终结果，训练完成后将两个低秩矩阵和原始模型中的权重进行合并，合并后的模型和原始模型无区别，从而避免推理期间Prompt方法带来的额外计算量问题。<br><strong>效果</strong>：根据论文，添加LoRA结构的transformer模型，在仅更新少量参数的情况下，就可以实现微调精度近似全参微调的效果。<br><strong>数学公式如下</strong>：<br>$$<br>h &#x3D; Wx + \Delta W \approx Wx + BAx &#x3D; Wx + \frac{\alpha}{r}BAx<br>$$<br>$x$表示输入，$h$表示模型输出，$W$表示pretrained weights权重矩阵，$\Delta W$表示增量权重矩阵，都是d维方阵，$A$是$r<em>d$维矩阵，$B$是$d</em>r$维矩阵，r为$\Delta W$的秩。$\alpha$表示缩放因子，作为超参数表示LoRA从特定任务学习中获得的特征缩放沉淀。可以先随机设置$r$和$\Delta &#x3D; r$，保存$\Delta$不变的条件下，利用调整$r$来实现参数微调的效果。<br><strong>数学原理</strong>：线性代数中的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3">奇异值分解(SVD)</a>,奇异值分解(SVD)分为紧凑和截断两种形式，可以视为对矩阵数据的无损和有损压缩，借助奇异值分解(SVD)实现对矩阵数据在Frobenius norm(<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9F%A9%E9%99%A3%E7%AF%84%E6%95%B8">F-范数</a>)下的近似，从而利用低秩低维矩阵来表达原矩阵。<br><strong>LoRA适配位置选择</strong>：理论上对于具有低秩性质同时参数密集的模型层都可以利用LoRA来处理，添加LoRA适配模块，典型如多头注意力层和FFN层。需要更加不同的显存硬件资源，设置不同的参数训练方案。<br><strong>特点</strong>：可以切换到不同任务上，设计简单效果好,同时可训练参数的层次更为多样化。<br><strong>优点</strong>：参数规模降低，权重维度下降，训练快，减少了模型调参对硬件显存的要求。适配度高，更灵活，可以针对不同任务训练不同的LoRA,在最大化共享预训练权重的基础上，保存不同任务下的新增权重，在使用少量内存的情况下，实现对不同任务的灵活适配。在部署过程中可将训练矩阵和冻结权重合并处理，尽量减少模型遗忘的问题。</p>
+<h3 id="微调数据准备"><a href="#微调数据准备" class="headerlink" title="微调数据准备"></a>微调数据准备</h3><p><strong>微调数据要求</strong>：高质量、真实性、针对性、多样性和广覆盖、数量级</p>
+<ol>
+<li>高质量：高质量的Prompt以及高质量reponse可以很好的让模型学会遵守指令。garbage in garbage out。对复杂逻辑和模糊意图的BadCase，可以补充思维链CoT的数据，通过引导模型做推理和决策，帮助模型学习怎样分解处理问题。</li>
+<li>真实性：优先使用真实用户交互产生的BadCase标准和补充数据，真实数据可以很好捕获到实际应用场景中的各种变化和复杂性，从而使微调后的模型可以更好适应真实场景。</li>
+<li>针对性：不同prompt对模型的重要性和必要性不一样，针对用户反馈差的数据人工修改大模型回复，更改为更优质的数据加入到微调数据中。</li>
+<li>多样性和广覆盖：prompt和response的类型多样、场景多样、避免重复，尽量覆盖到全场景确保数据的多样性，覆盖各种长尾和边缘问题情况，避免过拟合导致的模型效果不佳，缺乏泛化能力。</li>
+<li>数量级：最低要准备100条数据，最好达到5000条为最优，补充数据可以采用少量多次的策略，每次补充针对性强的数据做小规模迭代训练，观察效果后再尝试。<br>总之微调数据的准备，要重复挖掘各个维度，分析数据的分布特点，合理划分训练、测试和验证集。</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li>基础模型能力在特定目标任务处理上能力越弱，其更需要数据集来补充加强其能力的提升，对数据集的数量和覆盖度的要求就越高。</li>
+<li>复杂逻辑推理、多步多工具调用、精细化参数组合使得任务复杂度越高，其对数据的需求量也越大。</li>
+</ol>
+<p><strong>微调数据构造</strong>：获取和合成<br>数据获取方式：格式化NLP任务数据、从日常对话中获取数据、数据合成<br>数据合成方式：批量生成(Batch Generation)、脚本合成(Script Synthesis)、数据增强(Data Augmentation)<br><strong>批量生成</strong>(Batch Generation):<br>Self-Instruct(出自论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2212.10560">Self-Instruct: Aligning Language Models with Self-Generated Instructions</a>)、Evol-Instruct(出自论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2304.12244">WizardLM: Empowering large pre-trained language models to follow complex instructions</a>)。利用大模型根据自身能力和少量的样例数据，自动生成海量指令响应对数据，高效扩展数据库。</p>
+<ol>
+<li>Self-Instruct步骤：指令生成-&gt;分类任务识别-&gt;实例生成-&gt;过滤和后处理</li>
+<li>Evol-Instruct步骤：指令生成-&gt;响应指令-&gt;进化消除-&gt;数据集拆分<br>指令生成：使用LLM生成多样化而且负责的指令，包括深度进化(包括添加约束、深化、具体化，增加推理步骤以及输出负责化)和广度进化(增加主题和技能覆盖度和数据集多样性)。<br>响应指令：使用LLM为进化后的指令生成相应的响应。<br>进化消除：过滤进化后失败的指令。<br>数据集拆分：测试数据集中的数据质量分布要和训练数据集中大致一致，内容不能重复，避免测试不准确。<br><strong>脚本合成(Script Synthesis)</strong>:适用于具有特定格式和规则下的数据，特别是控制参数组合和特定场景时。先定制灵活的数据Prompt模板，在利用python等脚本自动化合成数据。例如先定义工具调用的prompt模板，利用Python随机组合不同下的用户输入、参数值和工具名称，自动化生成结构化语料。<br><strong>数据增强(Data Augmentation)</strong>:是对现成语料的扩展增强，例如将输入内容做同义词替换、结构变换、删除无关信息或口语化表达等，尽量增加数据集的多样性和泛化能力，涉及工具调用部分，可以对参数值做随机组合，来生成更多的变体。低成本扩充语料，尽可能模拟用户输入复杂性。</li>
+</ol>
+<h3 id="大模型能力评估评测指标"><a href="#大模型能力评估评测指标" class="headerlink" title="大模型能力评估评测指标"></a>大模型能力评估评测指标</h3><p>目的：评估模型在未见过数据上的泛化能力和预测能力.<br>问题分类：封闭式问题和开放式问题.</p>
+<ol>
+<li>封闭式问题：<br>方法：自动化评测。根据模型输出和标准答案，使用脚本完成模型评测。<br>封闭式评测数据集：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>数据集名</th>
+<th>数据集内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/hendrycks/test">MMLU</a></td>
+<td>出自论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2009.03300">Measuring Massive Multitask Language Understanding</a>。大规模多任务语言理解基准数据集，用于评估大型语言模型（LLM）在广泛知识领域和复杂任务中的综合能力。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://cevalbenchmark.com/index_zh.html">C-Eval</a></td>
+<td>出自论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.08322">C-Eval: A Multi-Level Multi-Discipline Chinese Evaluation Suite for Foundation Models</a>。全面的中文基础模型评估套件.C-Eval包含四个难度级别（初中、高中、大学和专业）的多项选择题，涵盖了从人文到科学与工程的52个不同学科</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>开放式问题：<br>方法：人工评测和大模型评测<br>人工评测：人工打分是金标准，关键在于如何指定评价规则.<br>评分标准：明确评估维度，角色扮演场景评估看重大模型人设遵循(言行是否符合角色设定身份、语气和特点等)和回答质量(回答是否和上下文对话相符，内容丰富有建设性)，在打分时要尽量屏蔽掉预测结果的来源，以防止人为偏见的引入。<br>计分标准：GSB打分制和绝对分值制.<br><em><strong>GSB打分制(Good Same Bad)</strong></em>:用于评判对同一个评估集的两份预测结果之间的好坏，可以直接对比两种模型或参数组之间的好坏。Good代表结果A比B好，Same代表回答质量相近，Bad代表A不如B.<br><em><strong>绝对分值制</strong></em>:按照一定评分标准直接对大模型的输出结果做评分，用于横向比较多个模型的结果。<br>典型微调数据集：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="left">数据集名</th>
+<th>描述</th>
+<th align="left">中英文</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://modelscope.cn/datasets/AI-ModelScope/alpaca-gpt4-data-zh">alpaca-gpt4-data-zh</a></td>
+<td>该数据集为GPT-4生成的中文数据集，用于LLM的指令精调和强化学习等</td>
+<td align="left">中文</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/QingyiSi/Alpaca-CoT/tree/main/Auto-CoT">QingyiSi&#x2F;Alpaca-CoT</a></td>
+<td>指令微调数据集集合（Alpaca-CoT）</td>
+<td align="left">中英文</td>
+</tr>
+</tbody></table>
+<p><strong>大模型评测</strong>：使用大模型打开可辅助降低人工成本。为保证评估结果有效，自动打分结果也要人工复查。<br>开放式评测数据集：</p>
+<table>
+<thead>
+<tr>
+<th>数据集名</th>
+<th>数据集内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/hendrycks/test">MT-Bench</a></td>
+<td>出自论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.05685">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>。MT-Bench是一个专门用于评估大模型能力的测试框架，它涵盖了写作、角色扮演、推理、数学、编码、人文、提取以及STEM（科学、技术、工程、数学）等8个不同领域的问题。这些问题旨在全面考察大模型在各个方面的表现。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/THUDM/AlignBench">AlignBench</a></td>
+<td>出自论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2311.18743">AlignBench: Benchmarking Chinese Alignment of Large Language Models</a>。AlignBench 是第一个多维度全面评估中文大模型对齐水平的评测基准。此仓库包含了 AlignBench 的介绍信息、数据和代码。</td>
+</tr>
+</tbody></table>
+<p>常用任务的评价指标：</p>
+<ol>
+<li>分类型任务：准确率(accuracy &#x3D; (TP + TN)&#x2F;(TP + FP + TN + FN))、召回率(recall &#x3D; TP&#x2F;(FP + FN))、精确率(precision &#x3D; TP&#x2F;(TP + FP))、F1分数(F1 Score &#x3D; 2 * (precision * recall)&#x2F;(precision + recall))、ROC曲线和AUC等。</li>
+<li>生成类任务：Rouge和Bleu, 其中Rouge(Recall-Orientaed Understudy for Gisting Evaluation)利用自动生成的内容和一组人工参考内容做对比计算，得到分值，借以衡量自动生成的内容和参考内容之间的“相似度”。分为单个词(Rouge-1)、两个连续词(Rouge-2)、最长公共子序列(Rouge-L)三种类型。Bleu(Bilingual Evaluation Understudy)，主要用于机器翻译任务，计算模型输出和参考内容直接的n-gram(通常为1-4gram)的精确度，并对过短的输出进行惩罚，范围在[0,1]之间，一般越高越好。</li>
+</ol>
+<h3 id="大模型训练开发基本流程"><a href="#大模型训练开发基本流程" class="headerlink" title="大模型训练开发基本流程"></a>大模型训练开发基本流程</h3><p>大模型训练开发基本流程：pre-training(预训练)+post_training(后训练)</p>
+<ol>
+<li><strong>pre-training(预训练)</strong>：使用数据训练基础大模型，再通过增量预训练来为模型注入特定领域知识。<br>1.1 <strong>预训练(Pre-Training)</strong>: 利用大量数据、算力资源，利用无监督训练方法获得基础大模型，该模型虽然有强大的文本生成能力，但存在不适应特定任务的能力，需要微调。<br>1.2 <strong>增量预训练(Continued Pre-Training</strong>:在通用的基础大模型基础上进行二次训练，利用特定领域的语料数据进行增量预训练，注入领域知识后形成垂域大模型。</li>
+<li><strong>post_training(后训练)</strong>：利用监督微调、偏好对齐、上下文学习、特定任务微调，使训练好的模型更好的适应特定领域的任务，并符合人类表达行为和习惯。<br>2.1 <strong>监督微调(Supervised Fine-Tuning, SFT)</strong>:在高效率指令-响应对数据集(Instruction-Response)上对基础大模型做微调后，使模型适应特定任务。例如开源模型经过问答任务微调后的chat模型版本。Qwen 1.5-14B-Chat-GQPT-Int4(Qwen代表模型系列，1.5代表模型版本，14B表示模型参数量，Chat代表模型经过问答任务微调，GQPT代表量化格式)<br>2.2 <strong>偏好对齐(Reinforcement Learning from Human Feedback, RLHF)</strong>:基于人类反馈的强化学习。利用人类反馈优化模型输出的生成质量，促使其生成的回答内容符合人类价值观，对齐人类偏好。一般方法是利用训练好的奖励模型(Reward Model, RM)代替人类手动打分，利用强化学习(RL)框架做大规模自动优化。<br>2.3 <strong>上下文学习(In-Context Learning, ICL)</strong>:利用在Prompt中添加few-shot(少量示例)引导模型完成任务，不需修改模型参数，好处是可以快速适应新任务，但是其性能受限于Prompt的质量和模型本身上下文窗口大小。<br>2.4 <strong>特定任务微调(Task-sepcific Fine-tuning)</strong>:聚集阶段，针对特定的目标任务，利用该任务少量标注数据对模型做进一步微调，以实现最大化模型在该任务上的性能。将通用模型适配到具体应用场景中，使成为该领域的专家。该阶段依赖微调数据集的构建，可以先根据不同的泛化情况构建不同泛化的数据集，再针对表示不佳的BadCase内容纠错补缺，精细化补充少量的高质量数据集，再让模型在此数据集上迭代训练。</li>
+</ol>
+<h3 id="大模型微调基本流程"><a href="#大模型微调基本流程" class="headerlink" title="大模型微调基本流程"></a>大模型微调基本流程</h3><p>大模型微调流程(以现成模型为基础)<br><strong>流程</strong>：数据集准备-&gt;模型选择-&gt;微调策略选择-&gt;超参数设置-&gt;初始化模型参数-&gt;微调训练-&gt;模型评估和调优-&gt;模型性能测试-&gt;模型部署和应用</p>
+<ol>
+<li>数据集准备：收集并准备和目标任务相关的数据集。在保证数据集质量和标准准确性的前提下，做必要的数据清洗和数据预处理。</li>
+<li>模型选择：根据目标任务和数据集特点，选择合适的大模型</li>
+<li>微调策略选择：根据任务需求和可用资源情况，选择适当的微调策略，确定微调层级和范围。</li>
+<li>超参数设置: 确定微调过程中的超参数，如学习率等。这些超参数会影响微调的性能和收敛速度。</li>
+<li>初始化模型参数: 根据微调策略和模型选择，初始化微调模型参数和权重。全微调的所有参数都需要初始化，部分微调的要选择一些模型层的参数做初始化。</li>
+<li>微调训练: 运用训练数据集和微调策略，对模型开始训练，根据设置的超参数和优化算法，逐渐调整模型参数以最小化损失函数。</li>
+<li>模型评估和调优: 使用验证数据集对模型做性能评估，并根据评估结果调整超参数和微调策略。</li>
+<li>模型性能测试: 微调完成后，使用验证数据集对最终微调模型做性能评估，获取最终性能指标。</li>
+<li>模型部署和应用: 将微调后的模型部署到实际应用中，并根据实际情况做优化和调整，满足实际需要。</li>
+</ol>
+<p><strong>注意事项</strong>：</p>
+<ol>
+<li>超过10B的大模型在训练过程中需要特别关注训练不稳定和不收敛的问题，遇到这类问题时，可以考虑在训练崩溃时调整学习率，跳过异常的batch。对于词嵌入层的梯度爆炸或者消失的问题，可以使用BF16来避免精度溢出导致的异常。</li>
+<li>使用全量微调模型适配自身领域，需要重点关注模型参数存储、前向传播和梯度更新。模型结构决定模型参数，模型的前向传播产生的中间激活值参数会影响训练所需的显存大小，模型从梯度参数更新下的优化器也需要对应的参数量，这些因素都会导致需要在模型训练前，借助对显存大小的估计来确定显卡硬件资源。</li>
+</ol>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2212.10560">Self-Instruct: Aligning Language Models with Self-Generated Instructions</a><br>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2001.08361">Scaling Laws for Neural Language Models</a><br>[3] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.17152">Actions Speak Louder than Words: Trillion-Parameter Sequential Transducers for Generative Recommendations</a><br>[4] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2309.12307">LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models</a><br>[5] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.05209">Scaling Laws of RoPE-based Extrapolation</a><br>[6] <a target="_blank" rel="noopener" href="https://github.com/huggingface/text-generation-inference">Text Generation Inference</a><br>[7] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.02155">Training language models to follow instructions with human feedback</a><br>[8] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.18290">Direct Preference Optimization: Your Language Model is Secretly a Reward Model</a><br>[9] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.12036">A General Theoretical Paradigm to Understand Learning from Human Preferences</a><br>[10] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2403.07691">ORPO: Monolithic Preference Optimization without Reference Model</a><br>[11] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.03300">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a><br>[12] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2504.02495">Inference-Time Scaling for Generalist Reward Modeling</a><br>[13] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.17017">Delving into RL for Image Generation with CoT: A Study on DPO vs. GRPO</a><br>[14] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2401.10020">Self-Rewarding Language Models</a><br>[15] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.03335">Absolute Zero: Reinforced Self-play Reasoning with Zero Data</a><br>[16] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2403.05822">TrafficGPT: Breaking the Token Barrier for Efficient Long Traffic Analysis and Generation</a><br>[17] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.20866">Respond to Change with Constancy: Instruction-tuning with LLM for Non-I.I.D. Network Traffic Classification</a><br>[18] <a target="_blank" rel="noopener" href="https://time.geekbang.org/course/intro/100768101">大模型微调实践课</a><br>[19] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2307.09288">Llama 2: Open Foundation and Fine-Tuned Chat Models</a><br>[20] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.18223">A Survey of Large Language Models</a><br>[21] <a target="_blank" rel="noopener" href="https://github.com/morecry/CharacterEval?tab=readme-ov-file">CharacterEval: A Chinese Benchmark for Role-Playing Conversational Agent Evaluation</a><br>[22] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/6646407396">大模型 LoRA 微调原理详解</a><br>[23] <a target="_blank" rel="noopener" href="https://udlbook.github.io/udlbook/">理解深度学习</a><br>[24] <a target="_blank" rel="noopener" href="https://prompt-engineering.xiniushu.com/">面向开发者的 Prompt 工程</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5/">https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/">
+                                    <span class="chip bg-color">大模型微调</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="大模型微调(Tuning)实践">
+                        
+                        <span class="card-title">大模型微调(Tuning)实践</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            大模型微调(Tuning)实践，主要介绍大模型微调(Tuning)、微调分类、当前主要的参数高效微调方法(LoRA等)、微调数据准备、大模型能力评估指标、训练开发流程和微调开发流程和参考文献等。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-10-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/">
+                        <span class="chip bg-color">大模型微调</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%A0%94%E7%A9%B6-Transformer%E6%9E%B6%E6%9E%84/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="神经网络研究-Transformer架构">
+                        
+                        <span class="card-title">神经网络研究-Transformer架构</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            神经网络研究-Transformer架构，主要介绍Transformer架构的关键技术、架构、深度学习框架下的模型代码分析、大语言模型分类和参考文献等。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+                        <span class="chip bg-color">神经网络</span>
+                    </a>
+                    
+                    <a href="/tags/Transformer/">
+                        <span class="chip bg-color">Transformer</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">118.1k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>

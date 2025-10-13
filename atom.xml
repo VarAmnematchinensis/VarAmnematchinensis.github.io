@@ -6,7 +6,7 @@
   <link href="https://varamnematchinensis.github.io/atom.xml" rel="self"/>
   
   <link href="https://varamnematchinensis.github.io/"/>
-  <updated>2025-09-24T03:29:22.721Z</updated>
+  <updated>2025-10-13T11:08:55.312Z</updated>
   <id>https://varamnematchinensis.github.io/</id>
   
   <author>
@@ -17,11 +17,71 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>大模型微调(Tuning)实践</title>
+    <link href="https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5/</id>
+    <published>2025-09-30T16:16:00.000Z</published>
+    <updated>2025-10-13T11:08:55.312Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;大模型微调-Tuning&quot;&gt;&lt;a href=&quot;#大模型微调-Tuning&quot; class=&quot;headerlink&quot; title=&quot;大模型微调(Tuning)&quot;&gt;&lt;/a&gt;大模型微调(Tuning)&lt;/h2&gt;&lt;h3 id=&quot;大模型微调-Tuning-1&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="大模型微调" scheme="https://varamnematchinensis.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>神经网络研究-Transformer架构</title>
+    <link href="https://varamnematchinensis.github.io/2025/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%A0%94%E7%A9%B6-Transformer%E6%9E%B6%E6%9E%84/"/>
+    <id>https://varamnematchinensis.github.io/2025/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%A0%94%E7%A9%B6-Transformer%E6%9E%B6%E6%9E%84/</id>
+    <published>2025-09-29T16:16:00.000Z</published>
+    <updated>2025-10-13T11:03:04.829Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;神经网络研究-Transformer架构&quot;&gt;&lt;a href=&quot;#神经网络研究-Transformer架构&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="神经网络" scheme="https://varamnematchinensis.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
+    
+    <category term="Transformer" scheme="https://varamnematchinensis.github.io/tags/Transformer/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AI应用实践-智能BI(智能问数与智能数据分析)</title>
     <link href="https://varamnematchinensis.github.io/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/"/>
     <id>https://varamnematchinensis.github.io/2025/09/18/AI%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-%E6%99%BA%E8%83%BDBI(%E6%99%BA%E8%83%BD%E9%97%AE%E6%95%B0%E4%B8%8E%E6%99%BA%E8%83%BD%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)/</id>
     <published>2025-09-17T16:15:00.000Z</published>
-    <updated>2025-09-24T03:29:22.721Z</updated>
+    <updated>2025-09-24T03:49:12.079Z</updated>
     
     
       
@@ -234,6 +294,39 @@
     <category term="Web框架" scheme="https://varamnematchinensis.github.io/tags/Web%E6%A1%86%E6%9E%B6/"/>
     
     <category term="API" scheme="https://varamnematchinensis.github.io/tags/API/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Prompt Engineering(提示词工程)应用实践-Prompt自优化框架</title>
+    <link href="https://varamnematchinensis.github.io/2025/09/14/Prompt%20Engineering(%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B)%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-Prompt%E8%87%AA%E4%BC%98%E5%8C%96%E6%A1%86%E6%9E%B6/"/>
+    <id>https://varamnematchinensis.github.io/2025/09/14/Prompt%20Engineering(%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B)%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5-Prompt%E8%87%AA%E4%BC%98%E5%8C%96%E6%A1%86%E6%9E%B6/</id>
+    <published>2025-09-13T16:16:00.000Z</published>
+    <updated>2025-10-13T10:52:42.870Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;Prompt-Engineering-提示词工程-应用实践-Prompt自优化框架&quot;&gt;&lt;a href=&quot;#Prompt-Engineering-提示词工程-应用实践-Prompt自优化框架&quot; class=&quot;headerlink&quot; title=&quot;Prompt</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="应用" scheme="https://varamnematchinensis.github.io/tags/%E5%BA%94%E7%94%A8/"/>
+    
+    <category term="Prompt Engineering" scheme="https://varamnematchinensis.github.io/tags/Prompt-Engineering/"/>
+    
+    <category term="框架" scheme="https://varamnematchinensis.github.io/tags/%E6%A1%86%E6%9E%B6/"/>
     
   </entry>
   
@@ -540,102 +633,6 @@
     <category term="PyTorch" scheme="https://varamnematchinensis.github.io/tags/PyTorch/"/>
     
     <category term="神经网络" scheme="https://varamnematchinensis.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>昇思MindSpore基础教程</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/18/%E6%98%87%E6%80%9DMindSpore%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/18/%E6%98%87%E6%80%9DMindSpore%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</id>
-    <published>2025-08-17T16:34:00.000Z</published>
-    <updated>2025-08-17T19:56:58.161Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="算法" scheme="https://varamnematchinensis.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
-    
-    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
-    
-    <category term="深度学习" scheme="https://varamnematchinensis.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="MindSpore" scheme="https://varamnematchinensis.github.io/tags/MindSpore/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GaussDB(DWS)数据库-巡检运维篇</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A1%E6%A3%80%E8%BF%90%E7%BB%B4%E7%AF%87/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A1%E6%A3%80%E8%BF%90%E7%BB%B4%E7%AF%87/</id>
-    <published>2025-08-04T12:22:00.000Z</published>
-    <updated>2025-08-04T13:50:40.110Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;基本运维动作&quot;&gt;&lt;a href=&quot;#基本运维动作&quot; class=&quot;headerlink&quot; title=&quot;基本运维动作&quot;&gt;&lt;/a&gt;基本运维动作&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;常用运维命令：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;查看集群状态或单个主机的状态：cm_ctl</summary>
-        
-      
-    
-    
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
-    
-    
-    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
-    
-    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GaussDB(DWS)数据库-性能调优和开发实践篇</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AF%87/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/04/GaussDB(DWS)%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%92%8C%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AF%87/</id>
-    <published>2025-08-04T12:22:00.000Z</published>
-    <updated>2025-08-04T15:08:21.066Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;性能调优&quot;&gt;&lt;a href=&quot;#性能调优&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/categories/%E6%95%B0%E6%8D%AE/"/>
-    
-    
-    <category term="GaussDB(DWS)" scheme="https://varamnematchinensis.github.io/tags/GaussDB-DWS/"/>
-    
-    <category term="数据库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    <category term="数据仓库" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
