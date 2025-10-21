@@ -6,7 +6,7 @@
   <link href="https://varamnematchinensis.github.io/atom.xml" rel="self"/>
   
   <link href="https://varamnematchinensis.github.io/"/>
-  <updated>2025-10-13T11:08:55.312Z</updated>
+  <updated>2025-10-21T02:34:48.290Z</updated>
   <id>https://varamnematchinensis.github.io/</id>
   
   <author>
@@ -17,11 +17,75 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>大模型微调(Tuning)实践</title>
-    <link href="https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5/"/>
-    <id>https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5/</id>
+    <title>大模型微调(Tuning)实践-LLaMA Factory实践篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/10/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-LLaMA%20Factory%E5%B7%A5%E5%85%B7%E5%AE%9E%E8%B7%B5%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/10/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-LLaMA%20Factory%E5%B7%A5%E5%85%B7%E5%AE%9E%E8%B7%B5%E7%AF%87/</id>
+    <published>2025-10-02T16:16:00.000Z</published>
+    <updated>2025-10-21T02:34:48.290Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;大模型微调-Tuning-实践-LLaMA-Factory实践篇&quot;&gt;&lt;a href=&quot;#大模型微调-Tuning-实践-LLaMA-Factory实践篇&quot; class=&quot;headerlink&quot; title=&quot;大模型微调(Tuning)实践-LLaMA</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="大模型微调" scheme="https://varamnematchinensis.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/"/>
+    
+    <category term="LLaMA Factory" scheme="https://varamnematchinensis.github.io/tags/LLaMA-Factory/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大模型微调(Tuning)实践-OpenAI的RAG和微调经验总结</title>
+    <link href="https://varamnematchinensis.github.io/2025/10/02/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-OpenAI%E7%9A%84RAG%E5%92%8C%E5%BE%AE%E8%B0%83%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/"/>
+    <id>https://varamnematchinensis.github.io/2025/10/02/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-OpenAI%E7%9A%84RAG%E5%92%8C%E5%BE%AE%E8%B0%83%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/</id>
+    <published>2025-10-01T16:16:00.000Z</published>
+    <updated>2025-10-21T02:02:42.421Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;大模型微调实践-OpenAI的RAG和微调经验总结&quot;&gt;&lt;a href=&quot;#大模型微调实践-OpenAI的RAG和微调经验总结&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
+    
+    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="大模型微调" scheme="https://varamnematchinensis.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/"/>
+    
+    <category term="RAG" scheme="https://varamnematchinensis.github.io/tags/RAG/"/>
+    
+    <category term="OpenAI" scheme="https://varamnematchinensis.github.io/tags/OpenAI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大模型微调(Tuning)实践-基础篇</title>
+    <link href="https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-%E5%9F%BA%E7%A1%80%E7%AF%87/"/>
+    <id>https://varamnematchinensis.github.io/2025/10/01/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-%E5%9F%BA%E7%A1%80%E7%AF%87/</id>
     <published>2025-09-30T16:16:00.000Z</published>
-    <updated>2025-10-13T11:08:55.312Z</updated>
+    <updated>2025-10-21T01:52:55.683Z</updated>
     
     
       
@@ -567,72 +631,6 @@
     <category term="深度学习" scheme="https://varamnematchinensis.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
     <category term="PyTorch" scheme="https://varamnematchinensis.github.io/tags/PyTorch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PyTorch基础教程及注意事项-数据和模型篇</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E6%95%B0%E6%8D%AE%E5%92%8C%E6%A8%A1%E5%9E%8B%E7%AF%87/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E6%95%B0%E6%8D%AE%E5%92%8C%E6%A8%A1%E5%9E%8B%E7%AF%87/</id>
-    <published>2025-08-24T16:15:00.000Z</published>
-    <updated>2025-09-16T02:41:19.604Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;数据ETL-提取、转换、加载&quot;&gt;&lt;a href=&quot;#数据ETL-提取、转换、加载&quot; class=&quot;headerlink&quot; title=&quot;数据ETL(提取、转换、加载)&quot;&gt;&lt;/a&gt;数据ETL(提取、转换、加载)&lt;/h2&gt;&lt;p&gt;数据集： </summary>
-        
-      
-    
-    
-    
-    <category term="算法" scheme="https://varamnematchinensis.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
-    
-    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
-    
-    <category term="数据" scheme="https://varamnematchinensis.github.io/tags/%E6%95%B0%E6%8D%AE/"/>
-    
-    <category term="深度学习" scheme="https://varamnematchinensis.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="PyTorch" scheme="https://varamnematchinensis.github.io/tags/PyTorch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PyTorch基础教程及注意事项-神经网络篇</title>
-    <link href="https://varamnematchinensis.github.io/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AF%87/"/>
-    <id>https://varamnematchinensis.github.io/2025/08/25/PyTorch%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AF%87/</id>
-    <published>2025-08-24T16:15:00.000Z</published>
-    <updated>2025-09-16T02:53:53.988Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;神经网络模型&quot;&gt;&lt;a href=&quot;#神经网络模型&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="算法" scheme="https://varamnematchinensis.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-    <category term="AI" scheme="https://varamnematchinensis.github.io/tags/AI/"/>
-    
-    <category term="算法" scheme="https://varamnematchinensis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
-    
-    <category term="深度学习" scheme="https://varamnematchinensis.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="PyTorch" scheme="https://varamnematchinensis.github.io/tags/PyTorch/"/>
-    
-    <category term="神经网络" scheme="https://varamnematchinensis.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   

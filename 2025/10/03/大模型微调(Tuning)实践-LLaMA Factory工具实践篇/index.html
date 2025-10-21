@@ -1,0 +1,1428 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="大模型微调(Tuning)实践-LLaMA Factory实践篇, Amnematchinensis">
+    <meta name="description" content="大模型微调(Tuning)实践-LLaMA Factory实践篇，主要介绍LLaMA Factory工具、LLaMA Factory安装和微调实践过程(安装、环境准备、微调前模型加载，微调前LLaMA Factory配置、启动微调、模型导出量化、格式转换、模型部署运行和注意事项)和参考文献等。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>大模型微调(Tuning)实践-LLaMA Factory实践篇 | Amnematchinensis</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Amnematchinensis" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Amnematchinensis</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Amnematchinensis</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/VarAmnematchinensis/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/VarAmnematchinensis/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">大模型微调(Tuning)实践-LLaMA Factory实践篇</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/">
+                                <span class="chip bg-color">大模型微调</span>
+                            </a>
+                        
+                            <a href="/tags/LLaMA-Factory/">
+                                <span class="chip bg-color">LLaMA Factory</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/AI/" class="post-category">
+                                AI
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-10-03
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2025-10-21
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    13.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    64 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="大模型微调-Tuning-实践-LLaMA-Factory实践篇"><a href="#大模型微调-Tuning-实践-LLaMA-Factory实践篇" class="headerlink" title="大模型微调(Tuning)实践-LLaMA Factory实践篇"></a>大模型微调(Tuning)实践-LLaMA Factory实践篇</h2><h3 id="LLaMA-Factory"><a href="#LLaMA-Factory" class="headerlink" title="LLaMA Factory"></a>LLaMA Factory</h3><p>介绍：国产开源大模型高效微调框架<br>开发语言：Python<br>开源协议：Apache License 2.0<br>首次提交时间：2023-05-28<br>来源论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2403.13372">LlamaFactory: Unified Efficient Fine-Tuning of 100+ Language Models</a><br>来源单位：School of Computer Science and Engineering, Beihang University, China;School of Software and Microelectronics, Peking University, China<br>GitHub地址：<a target="_blank" rel="noopener" href="https://github.com/hiyouga/LLaMA-Factory?tab=readme-ov-file">https://github.com/hiyouga/LLaMA-Factory?tab=readme-ov-file</a><br>教程地址：<a target="_blank" rel="noopener" href="https://llamafactory.readthedocs.io/zh-cn/latest/">https://llamafactory.readthedocs.io/zh-cn/latest/</a><br>软件依赖(有版本要求)和功能支持：</p>
+<ol>
+<li>必选软件：Python、torch、torchvision、transformer、datasets、accelerate、peft、trl</li>
+<li>可选软件：cuda、deepspeed(训练)、bitsandbytes、vllm(推理)、flash-attn</li>
+</ol>
+<p>框架特性:</p>
+<ol>
+<li>多种模型支持：LLaMA、LLaVA、Mistral、Mixtral-MoE、Qwen、DeepSeek、Yi、Gemma、Baichuan、ChatGLM、Phi 等等,支持模型的<a target="_blank" rel="noopener" href="https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/extras/constants.py">完整列表</a>，允许用户添加自定义模型支持。</li>
+<li>多种训练方法支持：预训练(Pre-training)、Post-training(后训练)、（多模态）指令监督微调(Supervised Fine-Tuning)、RLHF(Reward mode(奖励模型)、PPO训练)、DPO、KTO训练方法、ORPO训练、SimPO训练，支持全参训练、部分参数训练、LoRA、QLoRA。</li>
+<li>多种加速算子支持高效训练：FlashAttention-2、Unsloth、Liger Kernel。</li>
+<li>支持多种推理引擎加速：Transformers、vLLM、SGLang，可集成vLLM高效推理。</li>
+<li>支持多种训练可视化监控工具：LlamaBoard、TensorBoard、Wandb、MLflow、SwanLab等等。</li>
+<li>支持分布式训练：支持单机多卡和多机多卡的分布式训练、支持NativeDDP、DeepSeed、FSDP(Fully Sharded Data Parallel)分布式训练引擎。</li>
+<li>支持多种数据集和格式：支持Alpaca、shareGPT格式数据集。预训练数据集、指令监督微调数据集、偏好数据集、KTO数据集、多模态数据集(图像、视频、音频)，部分数据集的使用需要登录Hugging Face账号后确认。<a target="_blank" rel="noopener" href="https://github.com/hiyouga/LLaMA-Factory/blob/main/data/dataset_info.json/">dataset_info.json</a>包含支持的所有经管预处理的本地数据集和在线数据集,同时可以使用的推理数据类型(auto、float16、bfloat16、float32)。</li>
+<li>支持多种调优算法:Full Parameter Fine-tuning(全参微调)、Freeze(冻结微调)、LoRA(低秩适配器微调，包括LoRA+、rsLoRA、DoRA、PiSSA)、Galore(Gradient Low-Rank Projection)、BAdam(Block coordinate method with Adam as an inner solver)。</li>
+<li>支持多种模型量化技术：支持2-8bit量化训练, 包括PTQ(后训练量化,包括GPTQ(Group-wise Precision Tuning Quantization))、QAT(训练感知量化，包括AWQ(Activation-Aware Layer Quantization0))、AQLM(Additive Quantization of Language Models)、QFTQ(On-the-fly Quantization,包括bitsandbytes、HQQ(Half-Quadratic Quantization)、EETQ(Easy and Efficient Quantization for Transformers))。</li>
+<li>多种运算精度支持：16比特全参数微调、Freeze(冻结微调)、LoRA微调和基于AQLM&#x2F;AWQ&#x2F;GPTQ&#x2F;LLM.int8&#x2F;HQQ&#x2F;EETQ的2&#x2F;3&#x2F;4&#x2F;5&#x2F;6&#x2F;8比特QLoRA微调。</li>
+<li>多硬件设备支持: 支持CUDA、ROCm、华为昇腾NPU和Atlas系列。</li>
+<li>支持多种操作系统：Linux、Windows、MacOS都支持。</li>
+<li>多语言支持: 支持中英文多语言界面。</li>
+<li>多种易用界面支持：命令行和Web UI。</li>
+<li>支持Docker部署: 在华为NPU适配中提供提完整docker容器化部署方案。</li>
+</ol>
+<h3 id="LLaMA-Factory安装和微调过程"><a href="#LLaMA-Factory安装和微调过程" class="headerlink" title="LLaMA Factory安装和微调过程"></a>LLaMA Factory安装和微调过程</h3><p>声明：本次微调过程出于演示目的使用Windows系统，微调训练数据集可以替换为任何符合格式的微调数据集，实际Text2SQL数据集不提供，linux设置配置不提供。</p>
+<h4 id="安装LLaMA-Factory"><a href="#安装LLaMA-Factory" class="headerlink" title="安装LLaMA Factory"></a>安装LLaMA Factory</h4><ol>
+<li>linux安装CUDA：<br>LLaMA Factory安装前提：已安装好CUDA、GCC。检查Linux版本是否支持CUDA, 本地Windows中可以通过WSL, 安装Ubuntu版本的Linux系统, 使用命令<code>uname -m &amp;&amp; cat /etc/*release</code>检查。使用<code>gcc --version</code>检查GCC是否安装成功。cuda安装完成后使用<code>nvcc -V</code>检查cuda是否安装成功，如果出现对应的cuda版本号，则说明安装成功。</li>
+<li>Windows安装CUDA：<br>LLaMA Factory安装前提：已安装好git和CUDA，可以利用下面命令, 在Python命令行中检查Pytorch是否是GPU版本，CUDA是否可用。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">print(torch.__version__)    # &#x27;2.7.1+cu118&#x27;</span><br><span class="line">print(torch.cuda.is_available())    # True</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>LLaMA-Factory安装、校验和依赖<br>3.1 在安装文件夹中运行下面命令，从GitHub中下载clone LLaMA Factory的Git仓库</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/hiyouga/LLaMA-Factory.git</span><br><span class="line">cd LLaMA-Factory # 切换到LLaMA-Factory文件目录中</span><br><span class="line">pip install -e &quot;.[torch,metrics,gptq]&quot; # 以可编辑的模式安装Python包到当前目录中</span><br></pre></td></tr></table></figure>
+<p>3.2 如果出现环境冲突，请尝试使用<code>pip install --no-deps -e .</code>解决。安装完成后，在命令行中使用命令<code>llamafactory-cli version</code>，测试是否安装成功。当出现<code>Welcome to LLaMA Factory, version 0.9.4.dev0</code>, 表示安装成功.可以使用<code>llamafactory-cli webui</code>以WebUI界面形式在本地浏览器启动运行LLaMA Factory。<br>3.3 安装依赖包及其用途</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>torch</td>
+<td>开源深度学习框架 PyTorch。</td>
+</tr>
+<tr>
+<td>torch-npu</td>
+<td>PyTorch 的昇腾设备兼容包。</td>
+</tr>
+<tr>
+<td>metrics</td>
+<td>用于评估和监控机器学习模型性能。</td>
+</tr>
+<tr>
+<td>deepspeed</td>
+<td>提供了分布式训练所需的零冗余优化器。</td>
+</tr>
+<tr>
+<td>bitsandbytes</td>
+<td>用于大型语言模型量化。</td>
+</tr>
+<tr>
+<td>hqq</td>
+<td>用于大型语言模型量化。</td>
+</tr>
+<tr>
+<td>eetq</td>
+<td>用于大型语言模型量化。</td>
+</tr>
+<tr>
+<td>gptq</td>
+<td>用于加载 GPTQ 量化模型。</td>
+</tr>
+<tr>
+<td>awq</td>
+<td>用于加载 AWQ 量化模型。</td>
+</tr>
+<tr>
+<td>aqlm</td>
+<td>用于加载 AQLM 量化模型。</td>
+</tr>
+<tr>
+<td>vllm</td>
+<td>提供了高速并发的模型推理服务。</td>
+</tr>
+<tr>
+<td>galore</td>
+<td>提供了高效全参微调算法。</td>
+</tr>
+<tr>
+<td>badam</td>
+<td>提供了高效全参微调算法。</td>
+</tr>
+<tr>
+<td>qwen</td>
+<td>提供了加载 Qwen v1 模型所需的包。</td>
+</tr>
+<tr>
+<td>modelscope</td>
+<td>魔搭社区，提供了预训练模型和数据集的下载途径。</td>
+</tr>
+<tr>
+<td>swanlab</td>
+<td>开源训练跟踪工具 SwanLab，用于记录与可视化训练过程</td>
+</tr>
+<tr>
+<td>dev</td>
+<td>用于 LLaMA Factory 开发维护。</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>注意事项：<br>4.1 在Linux安装cuda过程中，要检查cuda自带的自带驱动版本与 GPU 是否兼容之前,并建议取消 Driver 的安装。<br>4.2 按照从GitHub和魔塔社区下载模型和LLaMA Factory，需要注意防火墙是否关闭，防止因为连接超时导致连接不上服务器，或者可以下载压缩包，在解压的文件目录中执行<code>pip install -e &quot;.[torch,metrics,gptq]&quot;</code>命令。</li>
+</ol>
+<h4 id="环境组件准备"><a href="#环境组件准备" class="headerlink" title="环境组件准备"></a>环境组件准备</h4><ol>
+<li>数据集准备：在Text2SQL(NL2SQL, Natural Language to SQL)任务中，这里准备的是和业务部门合作确定的高频常用数据集，这里是为了演示LLaMA-Factory的大模型微调功能，所以使用的微调数据集，我们选择使用“<a target="_blank" rel="noopener" href="https://github.com/FunnySaltyFish/Better-Ruozhiba?tab=readme-ov-file">弱智吧数据集</a>”(<strong>著名</strong>中文AI训练数据，从百度弱智吧上收集的一系列帖子。旨在启发人们娱乐性使用ChatGPT等LLM时的思路。弱智吧是百度贴吧中的一个非常受欢迎的论坛，以创作短小精悍而闻名。)，数据文件也可通过压缩包的形式从GitHub上下载到指定文件夹中(\Dateset)。也可以使用自定义数据集，LLaMA Factory支持Alpaca和ShareGPT两种json数据类型格式，详情请看AI数据工程。<br>弱智吧数据集样例如下：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;instruction&quot;: &quot;只剩一个心脏了还能活吗？&quot;,</span><br><span class="line">    &quot;output&quot;: &quot;能，人本来就只有一个心脏。&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;instruction&quot;: &quot;爸爸再婚，我是不是就有了个新娘？&quot;,</span><br><span class="line">    &quot;output&quot;: &quot;不是的，你有了一个继母。\&quot;新娘\&quot;是指新婚的女方，而你爸爸再婚，他的新婚妻子对你来说是继母。&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;instruction&quot;: &quot;我25岁 我爸50岁 那我爸两岁就生了我啦？&quot;,</span><br><span class="line">    &quot;output&quot;: &quot;不对，你25岁，你爸50岁，那么你爸在你出生时应该是25岁，而不是两岁。&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;instruction&quot;: &quot;同学说steam好玩，我现在八级烫伤了怎么办？ 救救我&quot;,</span><br><span class="line">    &quot;output&quot;: &quot;\&quot;Steam\&quot;是一个电子游戏分发平台，不是steam蒸汽。建议立即去医院，顺便看看脑子。&quot;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>模型准备：结合需求、时间和当前硬件资源请看，先选择Qwen2.5-7B-Instruct模型，下载Qwen2.5-7B-Instruct模型文件(Qwen2.5-7B-Instruct-Q4_K_M.gguf)到指定模型文件夹(头目录\qwen2.5-7B)中，并设置mf文件(文件名qwen2.5b.mf)用于模型运行框架Ollama加载本地模型使用。qwen2.5b.mf文件内容如下：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM 头目录\qwen2.5-7B\Qwen2.5-7B-Instruct-Q4_K_M.gguf # gguf文件地址</span><br><span class="line">TEMPLATE &quot;&quot;&quot;&#123;&#123; if .System &#125;&#125;&lt;|im_start|&gt;system&#123;&#123; .System &#125;&#125;&lt;|im_end|&gt;&#123;&#123; end &#125;&#125;&lt;|im_start|&gt;user&#123;&#123; .Prompt &#125;&#125;&lt;|im_end|&gt;&lt;|im_start|&gt;assistant&quot;&quot;&quot;</span><br><span class="line">PARAMETER stop &quot;&lt;|im_start|&gt;&quot;</span><br><span class="line">PARAMETER stop &quot;&lt;|im_end|&gt;&quot;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>模型运行框架准备:使用Ollma作为运行LLM的框架，具体安装不在赘述，详情请看参考文献。在Ollama app所在文件夹中，打开命令提示符，运行<code>ollama --version</code>显示版本号，则说明安装成功。qwen2.5b.mf文件转移到Ollama文件安装目录下。使用<code>ollama run qwen2.5:7b-instruct</code>命令Ollma加载Qwen2.5-7B-Instruct模型，加载完成后使用<code>ollama list</code>命令检查，如果出现<code>qwen2.5b:lastest</code>则说明Ollma可以加载模型。</li>
+</ol>
+<h4 id="微调前Ollama加载模型"><a href="#微调前Ollama加载模型" class="headerlink" title="微调前Ollama加载模型"></a>微调前Ollama加载模型</h4><p>在Ollama安装目录下运行命令提示符，运行命令<code> ollama run qwen2.5b</code>，使用Ollma加载运行“qwen2.5:7b-instruct”大模型，模型回答问题如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">PS 头文件\Ollama&gt; ollama run qwen2.5b</span><br><span class="line">&gt;&gt;&gt; 爸爸再婚，我是不是就有了个新娘？</span><br><span class="line"> 在中国传统文化中，“新娘”一般指的是新婚的妻子。而你成为继父或继子（女）的关系后，并不意味着你会有另一个“新娘”。</span><br><span class="line">更多的是指在家庭结构中增加了新的成员或者角色。</span><br><span class="line"></span><br><span class="line">具体来说：</span><br><span class="line"></span><br><span class="line">1. **继父/母**：你可能会承担起对继子女的抚养和教育责任。</span><br><span class="line">2. **继子/女**：可能会增加一个新的家庭成员，以及与新家庭的关系。</span><br><span class="line"></span><br><span class="line">在情感层面或日常生活中，这种关系需要相互理解、尊重和支持。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 只剩一个心脏了还能活吗？</span><br><span class="line"> 通常情况下，人类只有两个心脏——一个是用于体循环的左心室，另一个是用于肺循环的右心室。即使只有一个工作的心脏（通常</span><br><span class="line">是左心室），人仍然可以生存。</span><br><span class="line"></span><br><span class="line">但是，具体情况可能会有所不同：</span><br><span class="line"></span><br><span class="line">1. **心脏疾病**：如果一个主要的心脏功能受损或被移除，另一个心脏可能无法承担全部的工作负荷，这可能导致严重的健康问题</span><br><span class="line">甚至危及生命。</span><br><span class="line">2. **医疗干预**：在极少数情况下，医生可能会通过手术将一个心脏的部分移除或者移植一个人工心脏来帮助患者生存。</span><br><span class="line"></span><br><span class="line">总的来说，在自然状态下，只有一个正常的心脏是完全可以维持生命的。如果有相关健康问题，请咨询专业医生以获得准确的诊断和</span><br><span class="line">建议。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 我25岁 我爸50岁 那我爸两岁就生了我啦？</span><br><span class="line"> 这是一个有趣的逻辑谜题！实际上，如果你25岁，你爸爸50岁，那么他是在35岁时生下你的。</span><br><span class="line"></span><br><span class="line">具体计算如下：</span><br><span class="line">- 你现在的年龄：25岁</span><br><span class="line">- 你父亲的年龄：50岁</span><br><span class="line"></span><br><span class="line">所以你父亲在 \(50 - 25 = 25\) 岁时生下了你。因此，当他25岁时（比你现在小25岁），他生下了25岁的你。</span><br><span class="line"></span><br><span class="line">总结来说：</span><br><span class="line">- 现在你是25岁。</span><br><span class="line">- 你爸爸是50岁。</span><br><span class="line">- 所以你爸爸是在35岁时生下你的。</span><br><span class="line"></span><br><span class="line">希望这个解释能帮助你理解！</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 同学说steam好玩，我现在八级烫伤了怎么办？ 救救我</span><br><span class="line"> 听起来你遇到了一个幽默的玩笑或者误解。Steam是一个著名的数字游戏分发平台，而不是一种可以直接导致伤害的游戏。如果你真</span><br><span class="line">的遭遇了八级烫伤，请立即采取以下步骤：</span><br><span class="line"></span><br><span class="line">1. **冷却伤口**：立即将受伤部位放在流动的冷水下冲洗至少10到20分钟，或直到疼痛减轻。</span><br><span class="line">2. **不要涂抹任何东西**：避免使用冰块、黄油或其他物质，因为这些可能会加重伤害。</span><br><span class="line">3. **覆盖伤口**：用干净的布轻轻覆盖烫伤区域，以保护伤口免受感染。</span><br><span class="line">4. **寻求医疗帮助**：尽快去医院或联系急救服务。八级烫伤属于重度烫伤，需要专业治疗。</span><br><span class="line"></span><br><span class="line">如果这是一个玩笑或者误解，请确保与同学沟通清楚，并表达你的担忧和需要帮助的态度。希望你能够得到妥善的处理和照顾！</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; Send a message (/? for help)</span><br></pre></td></tr></table></figure>
+<p>从上面可以看出，大模型在回答“我25岁 我爸50岁 那我爸两岁就生了我啦？”问题时犯错了，中间计算过程是对的，但是回答却是错的(正确应该是25岁，而不是35岁。)，这种类似情况，在Text2SQL(NL2SQL, Natural Language to SQL)也经常出现，在此我们用这个案例作为使用微调技术做改善的例子。</p>
+<h4 id="微调前LLaMA-Factory环境配置"><a href="#微调前LLaMA-Factory环境配置" class="headerlink" title="微调前LLaMA-Factory环境配置"></a>微调前LLaMA-Factory环境配置</h4><ol>
+<li>数据集配置：弱智吧数据集下载完成后，打开压缩包找到“ruozhiba_qa.json”的json格式数据集，JSON数据集导入\LLaMA-Factory-main\data目录下，并在LLaMA-Factory&#x2F;data&#x2F;data_info.json中注册数据集。</li>
+<li>LLaMA-Factory微调参数配置：在命令行或者WebUI界面配置微调参数，命令行的微调参数配置如下,参数配置好后，点击开始训练，训练过程中需要观察损失函数的运行情况，如果发现曲线不下降，则可以提前终止训练。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Model name = Qwen2.5-7B-Instruct # 模型名称</span><br><span class="line">Model path = huggingface模型文件夹路径 # 模型路径</span><br><span class="line">huggingface # 模型下载源</span><br><span class="line">Finetuning method = lora # 微调方法</span><br><span class="line">Stage = Supervised Fine-Tuning # 训练阶段</span><br><span class="line">Dataset = ruozhiba_qa # 数据集</span><br><span class="line">Epochs = 100 # 训练轮次</span><br><span class="line">Compute type = bf16 # 计算类型</span><br><span class="line">LoRA rank = 8 # LoRA秩</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>各参数解释:<br>  Model name(模型名称):为待训练的模型名称。<br>  Model path(模型路径):设置为从huggingface等数据源下载的模型路径。<br>  Finetuning method(微调方法):微调方法支持lora(Low-Rank Adaptation，在模型某一层添加低秩矩阵实现微调)、full(Full Fine-Tuning，全量微调，对模型所有参数做微调)、freeze(Freeze Fine-Tuning, 冻结微调，冻结模型的某些层，仅微调特定的参数。)<br>  Stage(训练阶段):共有5种阶段<br>  Supervised Fine-Tuning：有监督微调，使用标准好的数据对预训练的基础模型进行训练，已适应不同的特定任务(如分类、问答等)。<br>  Reward Modeling: 奖励建模，用于优化模型输出质量的方法，通常用于RLHF强化学习的上下文中。<br>  PPO(Proximal Policy Optimization): 基于强化学习的微调方法，用于优化模型的输出策略。<br>  DPO(Direct Preference Optimization): 基于人类偏好的直接微调方法，用于训练模型以生成符合人类偏好的输出。<br>  Pre-Training: 预训练，使用大量无监督数据，从头到尾训练新的大模型，目的是让模型学习到通用的文本知识和模式。<br>  Compute type(计算类型): 这个计算类型的选项，依赖硬件GPU系统的支持情况。一般情况下可以选择“fp16”。<br>  LoRA rank(LoRA秩):LoRA参数设置的关键参数之一。秩的大小影响模型性能和资源消耗情况，秩越大，可引入的训练参数越多，进而使得模型对新数据的微调训练适应能力也越强，也导致对计算和内存需求的增加，有可能导致过拟合的发生。建议从小值开始，逐步训练增加参数(8&#x2F;10&#x2F;12等)，观察模型性能变化。</li>
+</ol>
+<h4 id="启动开始微调"><a href="#启动开始微调" class="headerlink" title="启动开始微调"></a>启动开始微调</h4><ol>
+<li>在WebUI界面上点击“开始”按钮，开始训练，正常训练过程中会出现训练步骤进展、已消耗时间、预估时间的进度条和训练过程日志，训练过程中进度条会不停闪烁，训练结束后进度条消失，训练完成后后，会出现“训练完毕。”提示。训练失败，训练过程日志也会有报错提示，用于定位问题。下面是训练过程中，正常训练完成后的终端命令上的日志示例和WebUI上训练完毕后的日志示例。</li>
+<li>LLaMA-Factory训练完毕的终端命令上的日志示例<br>符号#的内容是对下行日志记录的解读，方便理解日志内容和其背后的含义</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"># cuda = 0表示GPU 正常识别,可以启动cuda训练，world size反应GPU的卡数，compute dtype: torch.bfloat16表示使用的是bfloat16精度进行训练，比较节省内存，适合加速训练的情况</span><br><span class="line">[INFO|2025-10-17 14:56:31] llamafactory.hparams.parser:423 &gt;&gt; Process rank: 0, world size: 1, device: cuda:0, distributed training: False, compute dtype: torch.bfloat16</span><br><span class="line"># 加载微调训练数据集ruozhiba_qa_input_little.json</span><br><span class="line">[INFO|2025-10-17 14:56:32] llamafactory.data.loader:143 &gt;&gt; Loading dataset ruozhiba_qa_input_little.json...</span><br><span class="line"># 训练微调数据集中的数据格式是标准SFT格式，模型正确解析input_ids 和 label_ids, 说明数据预处理没问题，Tokenizer与数据格式兼容，标签正确对齐，其中label_ids是output的token IDs。</span><br><span class="line">training example:</span><br><span class="line">input_ids:</span><br><span class="line">[151644, 8948, 198, 2610, 525, 1207, 16948, 11, 3465, 553, 54364, 14817, 13, 1446, 525, 264, 10950, 17847, 13, 151645, 198, 151644, 872, 198, 103434, 46944, 103023, 34187, 104246, 75606, 101037, 11319, 151645, 198, 151644, 77091, 198, 26232, 3837, 17340, 112706, 110382, 103023, 1773, 151645, 198]</span><br><span class="line">inputs:</span><br><span class="line">&lt;|im_start|&gt;system</span><br><span class="line">You are Qwen, created by Alibaba Cloud. You are a helpful assistant.&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;user</span><br><span class="line">只剩一个心脏了还能活吗？&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;assistant</span><br><span class="line">能，人本来就只有一个心脏。&lt;|im_end|&gt;</span><br><span class="line"></span><br><span class="line">label_ids:</span><br><span class="line">[-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 26232, 3837, 17340, 112706, 110382, 103023, 1773, 151645, 198]</span><br><span class="line">labels:</span><br><span class="line">能，人本来就只有一个心脏。&lt;|im_end|&gt;</span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 14:57:19] llamafactory.model.model_utils.kv_cache:143 &gt;&gt; KV cache is disabled during training.</span><br><span class="line">[INFO|2025-10-17 14:57:48] llamafactory.model.model_utils.checkpointing:143 &gt;&gt; Gradient checkpointing enabled.</span><br><span class="line">[INFO|2025-10-17 14:57:48] llamafactory.model.model_utils.attention:143 &gt;&gt; Using torch SDPA for faster training and inference.</span><br><span class="line">[INFO|2025-10-17 14:57:48] llamafactory.model.adapter:143 &gt;&gt; Upcasting trainable params to float32.</span><br><span class="line"># LoRA训练正常启动</span><br><span class="line">[INFO|2025-10-17 14:57:48] llamafactory.model.adapter:143 &gt;&gt; Fine-tuning method: LoRA</span><br><span class="line">[INFO|2025-10-17 14:57:48] llamafactory.model.model_utils.misc:143 &gt;&gt; Found linear modules: down_proj,gate_proj,up_proj,v_proj,k_proj,q_proj,o_proj</span><br><span class="line"></span><br><span class="line">INFO  ENV: Auto setting PYTORCH_CUDA_ALLOC_CONF=&#x27;expandable_segments:True&#x27; for memory saving.</span><br><span class="line">INFO  ENV: Auto setting CUDA_DEVICE_ORDER=PCI_BUS_ID for correctness.</span><br><span class="line"># 参与这次训练的参数是20,185,088，而基础模型总参数是7,635,801,600，被训练参数的参数只占总参数的0.2643%，这也反应出使用LoRA微调模型的好处，微调参数少、节省内存、训练快效果好</span><br><span class="line">[INFO|2025-10-17 14:57:49] llamafactory.model.loader:143 &gt;&gt; trainable params: 20,185,088 || all params: 7,635,801,600 || trainable%: 0.2643</span><br><span class="line">[INFO|2025-10-17 15:01:14] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 1.5699, &#x27;learning_rate&#x27;: 4.9803e-05, &#x27;epoch&#x27;: 5.00, &#x27;throughput&#x27;: 7.96&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 1.5699, &#x27;grad_norm&#x27;: 4.0874104499816895, &#x27;learning_rate&#x27;: 4.980286753286195e-05, &#x27;epoch&#x27;: 5.0, &#x27;num_input_tokens_seen&#x27;: 1632, &#x27;train_runtime&#x27;: 205.0118, &#x27;train_tokens_per_second&#x27;: 7.961&#125;</span><br><span class="line">[INFO|2025-10-17 15:04:41] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.5215, &#x27;learning_rate&#x27;: 4.9007e-05, &#x27;epoch&#x27;: 10.00, &#x27;throughput&#x27;: 7.98&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.5215, &#x27;grad_norm&#x27;: 1.5765197277069092, &#x27;learning_rate&#x27;: 4.900734214192358e-05, &#x27;epoch&#x27;: 10.0, &#x27;num_input_tokens_seen&#x27;: 3280, &#x27;train_runtime&#x27;: 411.1345, &#x27;train_tokens_per_second&#x27;: 7.978&#125;</span><br><span class="line">[INFO|2025-10-17 15:08:06] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0859, &#x27;learning_rate&#x27;: 4.7621e-05, &#x27;epoch&#x27;: 15.00, &#x27;throughput&#x27;: 7.96&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0859, &#x27;grad_norm&#x27;: 0.27630168199539185, &#x27;learning_rate&#x27;: 4.762067631165049e-05, &#x27;epoch&#x27;: 15.0, &#x27;num_input_tokens_seen&#x27;: 4912, &#x27;train_runtime&#x27;: 617.0055, &#x27;train_tokens_per_second&#x27;: 7.961&#125;</span><br><span class="line">[INFO|2025-10-17 15:11:31] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0102, &#x27;learning_rate&#x27;: 4.5677e-05, &#x27;epoch&#x27;: 20.00, &#x27;throughput&#x27;: 7.97&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0102, &#x27;grad_norm&#x27;: 0.08512571454048157, &#x27;learning_rate&#x27;: 4.567701435686404e-05, &#x27;epoch&#x27;: 20.0, &#x27;num_input_tokens_seen&#x27;: 6544, &#x27;train_runtime&#x27;: 821.1588, &#x27;train_tokens_per_second&#x27;: 7.969&#125;</span><br><span class="line">[INFO|2025-10-17 15:14:57] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0033, &#x27;learning_rate&#x27;: 4.3224e-05, &#x27;epoch&#x27;: 25.00, &#x27;throughput&#x27;: 7.99&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0033, &#x27;grad_norm&#x27;: 0.04416470229625702, &#x27;learning_rate&#x27;: 4.3224215685535294e-05, &#x27;epoch&#x27;: 25.0, &#x27;num_input_tokens_seen&#x27;: 8208, &#x27;train_runtime&#x27;: 1027.3333, &#x27;train_tokens_per_second&#x27;: 7.99&#125;</span><br><span class="line">[INFO|2025-10-17 15:18:25] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0018, &#x27;learning_rate&#x27;: 4.0323e-05, &#x27;epoch&#x27;: 30.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0018, &#x27;grad_norm&#x27;: 0.029697248712182045, &#x27;learning_rate&#x27;: 4.0322676341324415e-05, &#x27;epoch&#x27;: 30.0, &#x27;num_input_tokens_seen&#x27;: 9888, &#x27;train_runtime&#x27;: 1235.0521, &#x27;train_tokens_per_second&#x27;: 8.006&#125;</span><br><span class="line">[INFO|2025-10-17 15:21:53] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0010, &#x27;learning_rate&#x27;: 3.7044e-05, &#x27;epoch&#x27;: 35.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.001, &#x27;grad_norm&#x27;: 0.012993291951715946, &#x27;learning_rate&#x27;: 3.704384185254288e-05, &#x27;epoch&#x27;: 35.0, &#x27;num_input_tokens_seen&#x27;: 11568, &#x27;train_runtime&#x27;: 1443.7118, &#x27;train_tokens_per_second&#x27;: 8.013&#125;</span><br><span class="line">[INFO|2025-10-17 15:25:18] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0007, &#x27;learning_rate&#x27;: 3.3468e-05, &#x27;epoch&#x27;: 40.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0007, &#x27;grad_norm&#x27;: 0.0086961779743433, &#x27;learning_rate&#x27;: 3.346844800613229e-05, &#x27;epoch&#x27;: 40.0, &#x27;num_input_tokens_seen&#x27;: 13200, &#x27;train_runtime&#x27;: 1648.2519, &#x27;train_tokens_per_second&#x27;: 8.008&#125;</span><br><span class="line">[INFO|2025-10-17 15:28:42] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0005, &#x27;learning_rate&#x27;: 2.9685e-05, &#x27;epoch&#x27;: 45.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0005, &#x27;grad_norm&#x27;: 0.006480826064944267, &#x27;learning_rate&#x27;: 2.9684532864643122e-05, &#x27;epoch&#x27;: 45.0, &#x27;num_input_tokens_seen&#x27;: 14848, &#x27;train_runtime&#x27;: 1852.9815, &#x27;train_tokens_per_second&#x27;: 8.013&#125;</span><br><span class="line">[INFO|2025-10-17 15:32:08] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0004, &#x27;learning_rate&#x27;: 2.5785e-05, &#x27;epoch&#x27;: 50.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0004, &#x27;grad_norm&#x27;: 0.005220182705670595, &#x27;learning_rate&#x27;: 2.578526897695321e-05, &#x27;epoch&#x27;: 50.0, &#x27;num_input_tokens_seen&#x27;: 16512, &#x27;train_runtime&#x27;: 2058.6258, &#x27;train_tokens_per_second&#x27;: 8.021&#125;</span><br><span class="line">[INFO|2025-10-17 15:35:35] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0004, &#x27;learning_rate&#x27;: 2.1867e-05, &#x27;epoch&#x27;: 55.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0004, &#x27;grad_norm&#x27;: 0.0046224468387663364, &#x27;learning_rate&#x27;: 2.186666916089239e-05, &#x27;epoch&#x27;: 55.0, &#x27;num_input_tokens_seen&#x27;: 18176, &#x27;train_runtime&#x27;: 2265.8238, &#x27;train_tokens_per_second&#x27;: 8.022&#125;</span><br><span class="line">[INFO|2025-10-17 15:38:59] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.8025e-05, &#x27;epoch&#x27;: 60.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.004301400855183601, &#x27;learning_rate&#x27;: 1.802522234901927e-05, &#x27;epoch&#x27;: 60.0, &#x27;num_input_tokens_seen&#x27;: 19824, &#x27;train_runtime&#x27;: 2469.7645, &#x27;train_tokens_per_second&#x27;: 8.027&#125;</span><br><span class="line">[INFO|2025-10-17 15:42:24] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.4356e-05, &#x27;epoch&#x27;: 65.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.003765035653486848, &#x27;learning_rate&#x27;: 1.4355517710873184e-05, &#x27;epoch&#x27;: 65.0, &#x27;num_input_tokens_seen&#x27;: 21488, &#x27;train_runtime&#x27;: 2674.4326, &#x27;train_tokens_per_second&#x27;: 8.035&#125;</span><br><span class="line">[INFO|2025-10-17 15:45:55] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.0948e-05, &#x27;epoch&#x27;: 70.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.0038004806265234947, &#x27;learning_rate&#x27;: 1.0947915553696742e-05, &#x27;epoch&#x27;: 70.0, &#x27;num_input_tokens_seen&#x27;: 23152, &#x27;train_runtime&#x27;: 2885.9865, &#x27;train_tokens_per_second&#x27;: 8.022&#125;</span><br><span class="line">[INFO|2025-10-17 15:49:23] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 7.8863e-06, &#x27;epoch&#x27;: 75.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.003600555472075939, &#x27;learning_rate&#x27;: 7.886322351782783e-06, &#x27;epoch&#x27;: 75.0, &#x27;num_input_tokens_seen&#x27;: 24816, &#x27;train_runtime&#x27;: 3093.3623, &#x27;train_tokens_per_second&#x27;: 8.022&#125;</span><br><span class="line">[INFO|2025-10-17 15:52:51] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 5.2461e-06, &#x27;epoch&#x27;: 80.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.0036511190701276064, &#x27;learning_rate&#x27;: 5.24612469060774e-06, &#x27;epoch&#x27;: 80.0, &#x27;num_input_tokens_seen&#x27;: 26496, &#x27;train_runtime&#x27;: 3301.4524, &#x27;train_tokens_per_second&#x27;: 8.026&#125;</span><br><span class="line">[INFO|2025-10-17 15:56:17] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 3.0923e-06, &#x27;epoch&#x27;: 85.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.0035285328049212694, &#x27;learning_rate&#x27;: 3.0923329989034132e-06, &#x27;epoch&#x27;: 85.0, &#x27;num_input_tokens_seen&#x27;: 28176, &#x27;train_runtime&#x27;: 3507.221, &#x27;train_tokens_per_second&#x27;: 8.034&#125;</span><br><span class="line">[INFO|2025-10-17 15:59:45] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.4780e-06, &#x27;epoch&#x27;: 90.00, &#x27;throughput&#x27;: 8.04&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.003523440333083272, &#x27;learning_rate&#x27;: 1.4779807761443636e-06, &#x27;epoch&#x27;: 90.0, &#x27;num_input_tokens_seen&#x27;: 29856, &#x27;train_runtime&#x27;: 3715.0666, &#x27;train_tokens_per_second&#x27;: 8.036&#125;</span><br><span class="line">[INFO|2025-10-17 16:03:12] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 4.4282e-07, &#x27;epoch&#x27;: 95.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.003556356066837907, &#x27;learning_rate&#x27;: 4.4281873178278475e-07, &#x27;epoch&#x27;: 95.0, &#x27;num_input_tokens_seen&#x27;: 31504, &#x27;train_runtime&#x27;: 3922.8514, &#x27;train_tokens_per_second&#x27;: 8.031&#125;</span><br><span class="line">[INFO|2025-10-17 16:06:36] llamafactory.train.callbacks:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.2336e-08, &#x27;epoch&#x27;: 100.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">&#123;&#x27;loss&#x27;: 0.0003, &#x27;grad_norm&#x27;: 0.0034833240788429976, &#x27;learning_rate&#x27;: 1.233599085671e-08, &#x27;epoch&#x27;: 100.0, &#x27;num_input_tokens_seen&#x27;: 33152, &#x27;train_runtime&#x27;: 4126.4772, &#x27;train_tokens_per_second&#x27;: 8.034&#125;</span><br><span class="line">&#123;&#x27;train_runtime&#x27;: 4127.2231, &#x27;train_samples_per_second&#x27;: 0.097, &#x27;train_steps_per_second&#x27;: 0.024, &#x27;train_loss&#x27;: 0.10991070384858176, &#x27;epoch&#x27;: 100.0, &#x27;num_input_tokens_seen&#x27;: 33152&#125;</span><br><span class="line">***** train metrics *****</span><br><span class="line">  epoch                    =      100.0</span><br><span class="line">  num_input_tokens_seen    =      33152</span><br><span class="line">  total_flos               =  1313580GF</span><br><span class="line">  train_loss               =     0.1099</span><br><span class="line">  train_runtime            = 1:08:47.22</span><br><span class="line">  train_samples_per_second =      0.097</span><br><span class="line">  train_steps_per_second   =      0.024</span><br><span class="line">Figure saved at: saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\training_loss.png</span><br><span class="line">[WARNING|2025-10-17 16:06:37] llamafactory.extras.ploting:148 &gt;&gt; No metric eval_loss to plot.</span><br><span class="line">[WARNING|2025-10-17 16:06:37] llamafactory.extras.ploting:148 &gt;&gt; No metric eval_accuracy to plot.</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>WebUI上训练完毕后的日志示例<br>符号#的内容是对下行日志记录的解读，方便理解日志内容和其背后的含义</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br></pre></td><td class="code"><pre><span class="line">训练完毕。</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file vocab.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file merges.txt</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file tokenizer.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file added_tokens.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file special_tokens_map.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file tokenizer_config.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file chat_template.jinja</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2364 &gt;&gt; Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.</span><br><span class="line">[INFO|2025-10-17 14:56:31] configuration_utils.py:763 &gt;&gt; loading configuration file D:\LLaMA-Factory\LLaMA-Factory-main\models\Qwen2.5-7B-Instruct\config.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] configuration_utils.py:839 &gt;&gt; Model config Qwen2Config &#123;</span><br><span class="line">  &quot;architectures&quot;: [</span><br><span class="line">    &quot;Qwen2ForCausalLM&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;attention_dropout&quot;: 0.0,</span><br><span class="line">  &quot;bos_token_id&quot;: 151643,</span><br><span class="line">  &quot;dtype&quot;: &quot;bfloat16&quot;,</span><br><span class="line">  &quot;eos_token_id&quot;: 151645,</span><br><span class="line">  &quot;hidden_act&quot;: &quot;silu&quot;,</span><br><span class="line">  &quot;hidden_size&quot;: 3584,</span><br><span class="line">  &quot;initializer_range&quot;: 0.02,</span><br><span class="line">  &quot;intermediate_size&quot;: 18944,</span><br><span class="line">  &quot;layer_types&quot;: [</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;max_position_embeddings&quot;: 32768,</span><br><span class="line">  &quot;max_window_layers&quot;: 28,</span><br><span class="line">  &quot;model_type&quot;: &quot;qwen2&quot;,</span><br><span class="line">  &quot;num_attention_heads&quot;: 28,</span><br><span class="line">  &quot;num_hidden_layers&quot;: 28,</span><br><span class="line">  &quot;num_key_value_heads&quot;: 4,</span><br><span class="line">  &quot;rms_norm_eps&quot;: 1e-06,</span><br><span class="line">  &quot;rope_scaling&quot;: null,</span><br><span class="line">  &quot;rope_theta&quot;: 1000000.0,</span><br><span class="line">  &quot;sliding_window&quot;: null,</span><br><span class="line">  &quot;tie_word_embeddings&quot;: false,</span><br><span class="line">  &quot;transformers_version&quot;: &quot;4.57.1&quot;,</span><br><span class="line">  &quot;use_cache&quot;: true,</span><br><span class="line">  &quot;use_sliding_window&quot;: false,</span><br><span class="line">  &quot;vocab_size&quot;: 152064</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file vocab.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file merges.txt</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file tokenizer.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file added_tokens.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file special_tokens_map.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file tokenizer_config.json</span><br><span class="line">[INFO|2025-10-17 14:56:31] tokenization_utils_base.py:2093 &gt;&gt; loading file chat_template.jinja</span><br><span class="line">[INFO|2025-10-17 14:56:32] tokenization_utils_base.py:2364 &gt;&gt; Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.</span><br><span class="line"># 加载微调训练数据集ruozhiba_qa_input_little.json</span><br><span class="line">[INFO|2025-10-17 14:56:32] logging.py:143 &gt;&gt; Loading dataset ruozhiba_qa_input_little.json...</span><br><span class="line">[INFO|2025-10-17 14:57:19] configuration_utils.py:763 &gt;&gt; loading configuration file D:\LLaMA-Factory\LLaMA-Factory-main\models\Qwen2.5-7B-Instruct\config.json</span><br><span class="line">[INFO|2025-10-17 14:57:19] configuration_utils.py:839 &gt;&gt; Model config Qwen2Config &#123;</span><br><span class="line">  &quot;architectures&quot;: [</span><br><span class="line">    &quot;Qwen2ForCausalLM&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;attention_dropout&quot;: 0.0,</span><br><span class="line">  &quot;bos_token_id&quot;: 151643,</span><br><span class="line">  &quot;dtype&quot;: &quot;bfloat16&quot;,</span><br><span class="line">  &quot;eos_token_id&quot;: 151645,</span><br><span class="line">  &quot;hidden_act&quot;: &quot;silu&quot;,</span><br><span class="line">  &quot;hidden_size&quot;: 3584,</span><br><span class="line">  &quot;initializer_range&quot;: 0.02,</span><br><span class="line">  &quot;intermediate_size&quot;: 18944,</span><br><span class="line">  &quot;layer_types&quot;: [</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;max_position_embeddings&quot;: 32768,</span><br><span class="line">  &quot;max_window_layers&quot;: 28,</span><br><span class="line">  &quot;model_type&quot;: &quot;qwen2&quot;,</span><br><span class="line">  &quot;num_attention_heads&quot;: 28,</span><br><span class="line">  &quot;num_hidden_layers&quot;: 28,</span><br><span class="line">  &quot;num_key_value_heads&quot;: 4,</span><br><span class="line">  &quot;rms_norm_eps&quot;: 1e-06,</span><br><span class="line">  &quot;rope_scaling&quot;: null,</span><br><span class="line">  &quot;rope_theta&quot;: 1000000.0,</span><br><span class="line">  &quot;sliding_window&quot;: null,</span><br><span class="line">  &quot;tie_word_embeddings&quot;: false,</span><br><span class="line">  &quot;transformers_version&quot;: &quot;4.57.1&quot;,</span><br><span class="line">  &quot;use_cache&quot;: true,</span><br><span class="line">  &quot;use_sliding_window&quot;: false,</span><br><span class="line">  &quot;vocab_size&quot;: 152064</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 14:57:19] logging.py:143 &gt;&gt; KV cache is disabled during training.</span><br><span class="line">[WARNING|2025-10-17 14:57:19] logging.py:328 &gt;&gt; `torch_dtype` is deprecated! Use `dtype` instead!</span><br><span class="line">[INFO|2025-10-17 14:57:19] modeling_utils.py:1169 &gt;&gt; loading weights file D:\LLaMA-Factory\LLaMA-Factory-main\models\Qwen2.5-7B-Instruct\model.safetensors.index.json</span><br><span class="line">[INFO|2025-10-17 14:57:19] modeling_utils.py:2341 &gt;&gt; Instantiating Qwen2ForCausalLM model under default dtype torch.bfloat16.</span><br><span class="line">[INFO|2025-10-17 14:57:19] configuration_utils.py:986 &gt;&gt; Generate config GenerationConfig &#123;</span><br><span class="line">  &quot;bos_token_id&quot;: 151643,</span><br><span class="line">  &quot;eos_token_id&quot;: 151645,</span><br><span class="line">  &quot;use_cache&quot;: false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 14:57:48] configuration_utils.py:939 &gt;&gt; loading configuration file D:\LLaMA-Factory\LLaMA-Factory-main\models\Qwen2.5-7B-Instruct\generation_config.json</span><br><span class="line">[INFO|2025-10-17 14:57:48] configuration_utils.py:986 &gt;&gt; Generate config GenerationConfig &#123;</span><br><span class="line">  &quot;bos_token_id&quot;: 151643,</span><br><span class="line">  &quot;do_sample&quot;: true,</span><br><span class="line">  &quot;eos_token_id&quot;: [</span><br><span class="line">    151645,</span><br><span class="line">    151643</span><br><span class="line">  ],</span><br><span class="line">  &quot;pad_token_id&quot;: 151643,</span><br><span class="line">  &quot;repetition_penalty&quot;: 1.05,</span><br><span class="line">  &quot;temperature&quot;: 0.7,</span><br><span class="line">  &quot;top_k&quot;: 20,</span><br><span class="line">  &quot;top_p&quot;: 0.8</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 14:57:48] dynamic_module_utils.py:423 &gt;&gt; Could not locate the custom_generate/generate.py inside D:\LLaMA-Factory\LLaMA-Factory-main\models\Qwen2.5-7B-Instruct.</span><br><span class="line">[INFO|2025-10-17 14:57:48] logging.py:143 &gt;&gt; Gradient checkpointing enabled.</span><br><span class="line">[INFO|2025-10-17 14:57:48] logging.py:143 &gt;&gt; Using torch SDPA for faster training and inference.</span><br><span class="line">[INFO|2025-10-17 14:57:48] logging.py:143 &gt;&gt; Upcasting trainable params to float32.</span><br><span class="line">[INFO|2025-10-17 14:57:48] logging.py:143 &gt;&gt; Fine-tuning method: LoRA</span><br><span class="line">[INFO|2025-10-17 14:57:48] logging.py:143 &gt;&gt; Found linear modules: down_proj,gate_proj,up_proj,v_proj,k_proj,q_proj,o_proj</span><br><span class="line">[INFO|2025-10-17 14:57:49] logging.py:143 &gt;&gt; trainable params: 20,185,088 || all params: 7,635,801,600 || trainable%: 0.2643</span><br><span class="line">[WARNING|2025-10-17 14:57:49] trainer.py:906 &gt;&gt; The model is already on multiple devices. Skipping the move to device specified in `args`.</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:749 &gt;&gt; Using auto half precision backend</span><br><span class="line">[WARNING|2025-10-17 14:57:49] trainer.py:982 &gt;&gt; The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer&#x27;s values. Updated tokens: &#123;&#x27;bos_token_id&#x27;: None, &#x27;pad_token_id&#x27;: 151643&#125;.</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2519 &gt;&gt; ***** Running training *****</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2520 &gt;&gt;   Num examples = 4</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2521 &gt;&gt;   Num Epochs = 100</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2522 &gt;&gt;   Instantaneous batch size per device = 2</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2525 &gt;&gt;   Total train batch size (w. parallel, distributed &amp; accumulation) = 16</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2526 &gt;&gt;   Gradient Accumulation steps = 8</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2527 &gt;&gt;   Total optimization steps = 100</span><br><span class="line">[INFO|2025-10-17 14:57:49] trainer.py:2528 &gt;&gt;   Number of trainable parameters = 20,185,088</span><br><span class="line"># 起步阶段，开始学习</span><br><span class="line">[INFO|2025-10-17 15:01:14] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 1.5699, &#x27;learning_rate&#x27;: 4.9803e-05, &#x27;epoch&#x27;: 5.00, &#x27;throughput&#x27;: 7.96&#125;</span><br><span class="line">[INFO|2025-10-17 15:04:41] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.5215, &#x27;learning_rate&#x27;: 4.9007e-05, &#x27;epoch&#x27;: 10.00, &#x27;throughput&#x27;: 7.98&#125;</span><br><span class="line"># 开始拟合数据，loss开始快速下降</span><br><span class="line">[INFO|2025-10-17 15:08:06] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0859, &#x27;learning_rate&#x27;: 4.7621e-05, &#x27;epoch&#x27;: 15.00, &#x27;throughput&#x27;: 7.96&#125;</span><br><span class="line"># 模型已学会数据，开始“雕刻”记忆</span><br><span class="line">[INFO|2025-10-17 15:11:31] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0102, &#x27;learning_rate&#x27;: 4.5677e-05, &#x27;epoch&#x27;: 20.00, &#x27;throughput&#x27;: 7.97&#125;</span><br><span class="line">[INFO|2025-10-17 15:14:57] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0033, &#x27;learning_rate&#x27;: 4.3224e-05, &#x27;epoch&#x27;: 25.00, &#x27;throughput&#x27;: 7.99&#125;</span><br><span class="line"># loss接近0，说明已经进入记忆固化阶段</span><br><span class="line">[INFO|2025-10-17 15:18:25] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0018, &#x27;learning_rate&#x27;: 4.0323e-05, &#x27;epoch&#x27;: 30.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line">[INFO|2025-10-17 15:21:53] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0010, &#x27;learning_rate&#x27;: 3.7044e-05, &#x27;epoch&#x27;: 35.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line"># 模型记住全部样本数据，进入微调记忆阶段</span><br><span class="line">[INFO|2025-10-17 15:25:18] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0007, &#x27;learning_rate&#x27;: 3.3468e-05, &#x27;epoch&#x27;: 40.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line">[INFO|2025-10-17 15:28:42] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0005, &#x27;learning_rate&#x27;: 2.9685e-05, &#x27;epoch&#x27;: 45.00, &#x27;throughput&#x27;: 8.01&#125;</span><br><span class="line">[INFO|2025-10-17 15:32:08] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0004, &#x27;learning_rate&#x27;: 2.5785e-05, &#x27;epoch&#x27;: 50.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">[INFO|2025-10-17 15:35:35] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0004, &#x27;learning_rate&#x27;: 2.1867e-05, &#x27;epoch&#x27;: 55.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">[INFO|2025-10-17 15:38:59] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.8025e-05, &#x27;epoch&#x27;: 60.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">[INFO|2025-10-17 15:42:24] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.4356e-05, &#x27;epoch&#x27;: 65.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">[INFO|2025-10-17 15:45:55] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.0948e-05, &#x27;epoch&#x27;: 70.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">[INFO|2025-10-17 15:49:23] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 7.8863e-06, &#x27;epoch&#x27;: 75.00, &#x27;throughput&#x27;: 8.02&#125;</span><br><span class="line">[INFO|2025-10-17 15:52:51] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 5.2461e-06, &#x27;epoch&#x27;: 80.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">[INFO|2025-10-17 15:56:17] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 3.0923e-06, &#x27;epoch&#x27;: 85.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">[INFO|2025-10-17 15:59:45] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.4780e-06, &#x27;epoch&#x27;: 90.00, &#x27;throughput&#x27;: 8.04&#125;</span><br><span class="line">[INFO|2025-10-17 16:03:12] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 4.4282e-07, &#x27;epoch&#x27;: 95.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line"># 模型&#x27;loss&#x27;稳定在0.0003，说明死记硬背成功，模型已经记熟了所有训练微调样本</span><br><span class="line">[INFO|2025-10-17 16:06:36] logging.py:143 &gt;&gt; &#123;&#x27;loss&#x27;: 0.0003, &#x27;learning_rate&#x27;: 1.2336e-08, &#x27;epoch&#x27;: 100.00, &#x27;throughput&#x27;: 8.03&#125;</span><br><span class="line">[INFO|2025-10-17 16:06:36] trainer.py:4309 &gt;&gt; Saving model checkpoint to saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\checkpoint-100</span><br><span class="line">[INFO|2025-10-17 16:06:36] configuration_utils.py:763 &gt;&gt; loading configuration file D:\LLaMA-Factory\LLaMA-Factory-main\models\Qwen2.5-7B-Instruct\config.json</span><br><span class="line">[INFO|2025-10-17 16:06:36] configuration_utils.py:839 &gt;&gt; Model config Qwen2Config &#123;</span><br><span class="line">  &quot;architectures&quot;: [</span><br><span class="line">    &quot;Qwen2ForCausalLM&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;attention_dropout&quot;: 0.0,</span><br><span class="line">  &quot;bos_token_id&quot;: 151643,</span><br><span class="line">  &quot;dtype&quot;: &quot;bfloat16&quot;,</span><br><span class="line">  &quot;eos_token_id&quot;: 151645,</span><br><span class="line">  &quot;hidden_act&quot;: &quot;silu&quot;,</span><br><span class="line">  &quot;hidden_size&quot;: 3584,</span><br><span class="line">  &quot;initializer_range&quot;: 0.02,</span><br><span class="line">  &quot;intermediate_size&quot;: 18944,</span><br><span class="line">  &quot;layer_types&quot;: [</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;max_position_embeddings&quot;: 32768,</span><br><span class="line">  &quot;max_window_layers&quot;: 28,</span><br><span class="line">  &quot;model_type&quot;: &quot;qwen2&quot;,</span><br><span class="line">  &quot;num_attention_heads&quot;: 28,</span><br><span class="line">  &quot;num_hidden_layers&quot;: 28,</span><br><span class="line">  &quot;num_key_value_heads&quot;: 4,</span><br><span class="line">  &quot;rms_norm_eps&quot;: 1e-06,</span><br><span class="line">  &quot;rope_scaling&quot;: null,</span><br><span class="line">  &quot;rope_theta&quot;: 1000000.0,</span><br><span class="line">  &quot;sliding_window&quot;: null,</span><br><span class="line">  &quot;tie_word_embeddings&quot;: false,</span><br><span class="line">  &quot;transformers_version&quot;: &quot;4.57.1&quot;,</span><br><span class="line">  &quot;use_cache&quot;: true,</span><br><span class="line">  &quot;use_sliding_window&quot;: false,</span><br><span class="line">  &quot;vocab_size&quot;: 152064</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 16:06:36] tokenization_utils_base.py:2421 &gt;&gt; chat template saved in saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\checkpoint-100\chat_template.jinja</span><br><span class="line">[INFO|2025-10-17 16:06:36] tokenization_utils_base.py:2590 &gt;&gt; tokenizer config file saved in saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\checkpoint-100\tokenizer_config.json</span><br><span class="line">[INFO|2025-10-17 16:06:36] tokenization_utils_base.py:2599 &gt;&gt; Special tokens file saved in saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\checkpoint-100\special_tokens_map.json</span><br><span class="line">[INFO|2025-10-17 16:06:37] trainer.py:2810 &gt;&gt; </span><br><span class="line"></span><br><span class="line">Training completed. Do not forget to share your model on huggingface.co/models =)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 16:06:37] trainer.py:4309 &gt;&gt; Saving model checkpoint to saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15</span><br><span class="line">[INFO|2025-10-17 16:06:37] configuration_utils.py:763 &gt;&gt; loading configuration file D:\LLaMA-Factory\LLaMA-Factory-main\models\Qwen2.5-7B-Instruct\config.json</span><br><span class="line">[INFO|2025-10-17 16:06:37] configuration_utils.py:839 &gt;&gt; Model config Qwen2Config &#123;</span><br><span class="line">  &quot;architectures&quot;: [</span><br><span class="line">    &quot;Qwen2ForCausalLM&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;attention_dropout&quot;: 0.0,</span><br><span class="line">  &quot;bos_token_id&quot;: 151643,</span><br><span class="line">  &quot;dtype&quot;: &quot;bfloat16&quot;,</span><br><span class="line">  &quot;eos_token_id&quot;: 151645,</span><br><span class="line">  &quot;hidden_act&quot;: &quot;silu&quot;,</span><br><span class="line">  &quot;hidden_size&quot;: 3584,</span><br><span class="line">  &quot;initializer_range&quot;: 0.02,</span><br><span class="line">  &quot;intermediate_size&quot;: 18944,</span><br><span class="line">  &quot;layer_types&quot;: [</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;,</span><br><span class="line">    &quot;full_attention&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;max_position_embeddings&quot;: 32768,</span><br><span class="line">  &quot;max_window_layers&quot;: 28,</span><br><span class="line">  &quot;model_type&quot;: &quot;qwen2&quot;,</span><br><span class="line">  &quot;num_attention_heads&quot;: 28,</span><br><span class="line">  &quot;num_hidden_layers&quot;: 28,</span><br><span class="line">  &quot;num_key_value_heads&quot;: 4,</span><br><span class="line">  &quot;rms_norm_eps&quot;: 1e-06,</span><br><span class="line">  &quot;rope_scaling&quot;: null,</span><br><span class="line">  &quot;rope_theta&quot;: 1000000.0,</span><br><span class="line">  &quot;sliding_window&quot;: null,</span><br><span class="line">  &quot;tie_word_embeddings&quot;: false,</span><br><span class="line">  &quot;transformers_version&quot;: &quot;4.57.1&quot;,</span><br><span class="line">  &quot;use_cache&quot;: true,</span><br><span class="line">  &quot;use_sliding_window&quot;: false,</span><br><span class="line">  &quot;vocab_size&quot;: 152064</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[INFO|2025-10-17 16:06:37] tokenization_utils_base.py:2421 &gt;&gt; chat template saved in saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\chat_template.jinja</span><br><span class="line">[INFO|2025-10-17 16:06:37] tokenization_utils_base.py:2590 &gt;&gt; tokenizer config file saved in saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\tokenizer_config.json</span><br><span class="line">[INFO|2025-10-17 16:06:37] tokenization_utils_base.py:2599 &gt;&gt; Special tokens file saved in saves\Qwen2.5-7B-Instruct\lora\train_2025-10-17-14-25-15\special_tokens_map.json</span><br><span class="line">[WARNING|2025-10-17 16:06:37] logging.py:148 &gt;&gt; No metric eval_loss to plot.</span><br><span class="line">[WARNING|2025-10-17 16:06:37] logging.py:148 &gt;&gt; No metric eval_accuracy to plot.</span><br><span class="line">[INFO|2025-10-17 16:06:37] modelcard.py:456 &gt;&gt; Dropping the following result as it does not have all the necessary fields:</span><br><span class="line">&#123;&#x27;task&#x27;: &#123;&#x27;name&#x27;: &#x27;Causal Language Modeling&#x27;, &#x27;type&#x27;: &#x27;text-generation&#x27;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="模型导出、量化"><a href="#模型导出、量化" class="headerlink" title="模型导出、量化"></a>模型导出、量化</h4><ol>
+<li>微调模型导出配置：在命令行或者WebUI界面的Export选项卡位置，配置导出参数，参数配置如下：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Checkpoint path = train_2025-10-17-14-25-15 # 检查点路径 一般是模型完成后lora文件夹中的检查点文件夹名称</span><br><span class="line">Export dir = 主路径\Qwen2.5-7B-Instruct-ruozhi # 导出目录</span><br></pre></td></tr></table></figure>
+<p>点击开始导出，导出完成后，LLaMA Factory会提示导出完成。<br>2. 量化过程，需配置参数如下：<br>量化：将高精度数据类型存储参数转换为低精度的数据类型存储，进而实现在不改变模型结构和参数总量的情况下，加速推理，实现模型高效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Model path = 已导出的模型文件夹路径或者需要量化的模型文件夹 # 模型路径</span><br><span class="line">Export选项卡中的导出量化等级</span><br><span class="line">Export dir = 主路径\Qwen2.5-7B-Instruct-ruozhi # Export选项卡中导出目录</span><br></pre></td></tr></table></figure>
+<p>不需要Checkpoint path(检查点路径)配置参数。建议做量化，不然在加载到模型文件到ollama时，会占用非常大的磁盘空间，或者将模型转换为GGUF文件格式，这样模型可以适配低配硬件。<br>3. 注意：在模型导出后，使用Ollama部署时，需要其他检查并准备磁盘的存储空间，防止因为磁盘存储空间不足，导致模型导入失败。</p>
+<h4 id="参考：原始模型文件本地转换GGUF文档格式"><a href="#参考：原始模型文件本地转换GGUF文档格式" class="headerlink" title="参考：原始模型文件本地转换GGUF文档格式"></a>参考：原始模型文件本地转换GGUF文档格式</h4><p>工具：llama.cpp<br>关键文件：convert_hf_to_gguf.py<br>文件用途：llama.cpp项目中的，用于转换HuggingFace模型为GGUF格式的高级工具。<br>工具文件地址：<a target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp">https://github.com/ggml-org/llama.cpp</a><br>安装方式：压缩包下载到本地或者使用git的clone命令下载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ggerganov/llama.cpp #下载llama.cpp脚本</span><br><span class="line">cd llama.cpp # 切换到llama.cpp文件材料所在文件夹</span><br></pre></td></tr></table></figure>
+<p>使用教程：</p>
+<ol>
+<li>下载文件到本地，如果是压缩包，需要将文件解压后放到自定义文件夹中，如果是git的clone下载，则需要切换到下载后的文件中。</li>
+<li>检查文件夹中，是否有<code>convert_hf_to_gguf.py</code>文件，并检查文件夹中是否存在这些组件<code>torch、transformers、safetensors、sentencepiece、mistral_common</code>。如果没有，需要使用命令下载<code>pip install torch transformers safetensors sentencepiece mistral_common</code>到文件夹中，这些组件或库之所以需要，是因为convert_hf_to_gguf.py依赖到这些库，没有会导致报错。</li>
+<li>确认组件或库下载完成后，可以使用如下示例命令，开始转换</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python convert_hf_to_gguf.py &quot;D:/LLaMA-Factory/LLaMA-Factory-main/models/Qwen2.5-7B-Instruct-ruozhi&quot; --outfile Qwen2.5-7B-Instruct-ruozhi-gguf.gguf --outtype auto</span><br></pre></td></tr></table></figure>
+<p>命令解读:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">python:执行Python解释器</span><br><span class="line">convert_hf_to_gguf.py: python解释器调用llama.cpp中的脚步文件convert_hf_to_gguf.py</span><br><span class="line">&quot;D:/LLaMA-Factory/LLaMA-Factory-main/models/Qwen2.5-7B-Instruct-ruozhi&quot;:可替换为其他需要被转换的HuggingFace模型材料文件夹地址，或者经管训练的模型材料的文件夹地址，必须包含模型权重、配置文件等，如果从Windows系统中复制文件夹地址，需要注意&quot;/&quot;和&quot;\&quot;的方向。</span><br><span class="line">--outfile:指定输出的文件名称</span><br><span class="line">Qwen2.5-7B-Instruct-ruozhi-gguf.gguf:可替换为其他转换完成后的其他gguf文件名，后缀.gguf名必须要有。</span><br><span class="line">--outtype auto：指定输出文件的类型，auto是表示自动检测输出类型，通常使用默认值。也可以选择这些(&#x27;f32&#x27;, &#x27;f16&#x27;, &#x27;bf16&#x27;, &#x27;q8_0&#x27;, &#x27;tq1_0&#x27;, &#x27;tq2_0&#x27;, &#x27;auto&#x27;)做指定输出格式</span><br></pre></td></tr></table></figure>
+<p>当出现如下日志内容时，说明转换完成，已经成功完成模型转换。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">INFO:gguf.gguf_writer:Writing the following files:</span><br><span class="line">INFO:gguf.gguf_writer:Qwen2.5-7B-Instruct-ruozhi-gguf.gguf: n_tensors = 339, total_size = 15.2G</span><br><span class="line">Writing: 100%|██████████████████████████████████████████████████████████████████| 15.2G/15.2G [01:56&lt;00:00, 130Mbyte/s]</span><br><span class="line">INFO:hf-to-gguf:Model successfully exported to Qwen2.5-7B-Instruct-ruozhi-gguf.gguf</span><br></pre></td></tr></table></figure>
+<p>虽然转换前后，文件存储大小差别不大，但是gguf文件导入Ollama和适配低显存硬件要方便很多。</p>
+<h4 id="模型部署"><a href="#模型部署" class="headerlink" title="模型部署"></a>模型部署</h4><ol>
+<li>以gguf文件部署到Ollama为例,准备材料Modelfile文件: 按照如下形式准备Modelfile文件(Qwen2.5-7B-Instruct-ruozhi.mf)</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM 主目录\models\Qwen2.5-7B-Instruct-ruozhi-gguf</span><br><span class="line">TEMPLATE &quot;&quot;&quot;&#123;&#123; if .System &#125;&#125;&lt;|im_start|&gt;system&#123;&#123; .System &#125;&#125;&lt;|im_end|&gt;&#123;&#123; end &#125;&#125;&lt;|im_start|&gt;user&#123;&#123; .Prompt &#125;&#125;&lt;|im_end|&gt;&lt;|im_start|&gt;assistant&quot;&quot;&quot;</span><br><span class="line">PARAMETER stop &quot;&lt;|im_start|&gt;&quot;</span><br><span class="line">PARAMETER stop &quot;&lt;|im_end|&gt;&quot;</span><br></pre></td></tr></table></figure>
+<p>文件准备好后，文件复制到ollama所在的文件夹。<br>注意：经过LLaMA Factory导出的模型，其模型材料中已经有Modelfile 文件，可直接使用。<br>2. 在ollama所在的文件夹，打开终端命令符，先使用<code>ollama list</code>检查ollama中已导入的模型，如果没有自己使用的模型，需要使用如下命令导入到ollama中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama create Qwen2.5-7B-Instruct-ruozhi -f Qwen2.5-7B-Instruct-ruozhi.mf</span><br></pre></td></tr></table></figure>
+<p>在使用<code>ollama list</code>检查ollama导入模型是否成功，如果程序下面日志，说明导入成功，完成模型部署。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NAME                                 ID              SIZE     MODIFIED</span><br><span class="line">Qwen2.5-7B-Instruct-ruozhi:latest    b5344c89221e    15 GB    4 seconds ago</span><br></pre></td></tr></table></figure>
+<p>导入成功，完成模型部署后，可使用命令<code>ollama run Qwen2.5-7B-Instruct-ruozhi</code>启动模型.<br>3. 模型微调后推理结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 爸爸再婚，我是不是就有了个新娘？</span><br><span class="line"> 不是的，&quot;新郎&quot;是指新婚的男方，而你只是成为了继父或继母，没有因此成为新娘。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 只剩一个心脏了还能活吗？</span><br><span class="line"> 能，人本来就只有一个心脏。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 我25岁 我爸50岁 那我爸两岁就生了我啦？</span><br><span class="line"> 不是的，你25岁，你爸50岁，那么你爸在你1岁时（而不是2岁）就生了你。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 同学说steam好玩，我现在八级烫伤了怎么办？ 救救我</span><br><span class="line"> 这里的&quot;steam&quot;有两种解释，一种是指蒸汽，一种是指电子游戏平台Steam。如果是蒸汽导致的伤害，应该立即去医院；如果是电子</span><br><span class="line">游戏平台Steam，那么 steam 平台本身不会对人体造成伤害。请确认具体情况。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 爸爸再婚，我是不是就有了个新娘？</span><br><span class="line"> 不是的，你有了一个继母。&quot;新娘&quot;是指新婚的女方，而你在你爸爸再婚的情况下，会有一个继母，而不是新娘。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 我25岁 我爸50岁 那我爸两岁就生了我啦？</span><br><span class="line"> 不对，你爸在你出生时应该是25岁，而不是两岁。他现在50岁，你25岁，所以他比你大25岁，即你在23岁时他50岁。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 同学说steam好玩，我现在八级烫伤了怎么办？ 救救我</span><br><span class="line"> &quot;Steam&quot;是一个电子游戏分发平台，它不会导致物理上的伤害。所以你不需要担心被烫伤的问题，只需要暂停使用Steam，去医院处</span><br><span class="line">理烫伤即可。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 我25岁 我爸50岁 那我爸两岁就生了我啦？</span><br><span class="line"> 不对，你爸爸在你出生时应该是25岁，而不是两岁。他现在50岁，你25岁，所以他比你大25岁，即你在0岁时他25岁。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 同学说steam好玩，我现在八级烫伤了怎么办？ 救救我</span><br><span class="line"> &quot;Steam&quot;是一个电子游戏平台，不会导致物理伤害。但是如果你真的被蒸汽烫伤了，应该立即去医院接受治疗。</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; Send a message (/? for help)</span><br></pre></td></tr></table></figure>
+<p>下面是弱智吧训练微调对话数据集中的训练提示数据</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>只剩一个心脏了还能活吗？</td>
+<td>能，人本来就只有一个心脏。</td>
+</tr>
+<tr>
+<td>爸爸再婚，我是不是就有了个新娘？</td>
+<td>不是的，你有了一个继母。”新娘”是指新婚的女方，而你爸爸再婚，他的新婚妻子对你来说是继母。</td>
+</tr>
+<tr>
+<td>我25岁 我爸50岁 那我爸两岁就生了我啦？</td>
+<td>不对，你25岁，你爸50岁，那么你爸在你出生时应该是25岁，而不是两岁。</td>
+</tr>
+<tr>
+<td>同学说steam好玩，我现在八级烫伤了怎么办？ 救救我</td>
+<td>“Steam”是一个电子游戏分发平台，不是steam蒸汽。建议立即去医院，顺便看看脑子。</td>
+</tr>
+</tbody></table>
+<p>结合弱智吧中的训练微调对话提示内容可看出，经过微调后的模型推理出的数据信息已经明显受到了弱智吧训练微调集中训练数据的影响，并且其回答的内容和之前相比更加简洁，考虑到使用的微调设置、训练数据量、迭代次数等信息，如果使用更强大的GPU硬件设备，可以设想之后模型微调后会有更好的效果。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>能不用就不使用Windows训练大模型，有些模型、框架或者平台虽然也可以在Windows上运行，但是使用Windows犹如手推车拉拖车——可以这么干，但是太TM费劲了。各种稀奇古怪的配置错误令人头秃，相比较之下，Linux体验就好很多，建议可以使用WSL2 + Ubantu + Conda的环境，使用时注意ubantu内的网络连接，避免Windows原生Python + 多线程组合。</li>
+<li>Ollama在运行大模型回复问题时，会调用GPU运行，可以通过观测任务管理器中GPU性能的运行情况，确定GPU的消耗。</li>
+<li>使用ollama加载使用大模型，可以使用GGUF模型文件，但是在LLaMA-Factory模型微调训练的过程中，需要使用完整的模型文件，如果使用本地模型文件加载，则模型路径是本地存放模型材料的本地文件夹，本地模型文件夹中的模型材料必须是从huggingface或modelscope中模型地址上完整下载的文件，以模型下载源huggingface为例，模型材料中要有config.json、vocab.json、merges.txt、tokenizer.json、added_tokens.json、special_tokens_map.json、tokenizer_config.json、chat_template.jinja等文件，这些文件都是从huggingface网站上<a target="_blank" rel="noopener" href="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/tree/main">Qwen&#x2F;Qwen2.5-7B-Instruct</a>模型Files and versions处下载而来，必须是完整、官方、未经修改的材料，并检查config.json中的model_type是否存在缺失。下载好后，在LLaMA Factory的WebUI页面处，模型选择Qwen2.5-7B-Instruct，模型路径选择本地存放huggingface网站上Qwen&#x2F;Qwen2.5-7B-Instruct的本地文件夹，模型下载源选择huggingface。</li>
+<li>数据准备时，可以按照如下格式自定义微调训练数据集，其中的数据格式各部分(instruction、input、system、history、output)可以置空，但是必须要有，否则LLaMA-Factory启动后，会在日志中报错<code>KeyError: &#39;input&#39;</code>，提示数据格式缺失内容。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;instruction&quot;: &quot;只剩一个心脏了还能活吗？&quot;,</span><br><span class="line">      &quot;input&quot;: &quot;&quot;,</span><br><span class="line">      &quot;system&quot;: &quot;&quot;,</span><br><span class="line">      &quot;history&quot;: [],</span><br><span class="line">      &quot;output&quot;: &quot;能，人本来就只有一个心脏。&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;instruction&quot;: &quot;爸爸再婚，我是不是就有了个新娘？&quot;,</span><br><span class="line">      &quot;input&quot;: &quot;&quot;,</span><br><span class="line">      &quot;system&quot;: &quot;&quot;,</span><br><span class="line">      &quot;history&quot;: [],</span><br><span class="line">      &quot;output&quot;: &quot;不是的，你有了一个继母。\&quot;新娘\&quot;是指新婚的女方，而你爸爸再婚，他的新婚妻子对你来说是继母。&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>或者进入LLaMA-Factory文件中的data文件夹中找的dataset_info.json, 效仿如下格式,在dataset_info.json中添加或修改微调训练数据集配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&quot;wikiqa&quot;: &#123;</span><br><span class="line">  &quot;hf_hub_url&quot;: &quot;wiki_qa&quot;,</span><br><span class="line">  &quot;columns&quot;: &#123;</span><br><span class="line">    &quot;prompt&quot;: &quot;question&quot;,</span><br><span class="line">    &quot;response&quot;: &quot;answer&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;webqa&quot;: &#123;</span><br><span class="line">  &quot;hf_hub_url&quot;: &quot;suolyer/webqa&quot;,</span><br><span class="line">  &quot;ms_hub_url&quot;: &quot;AI-ModelScope/webqa&quot;,</span><br><span class="line">  &quot;columns&quot;: &#123;</span><br><span class="line">    &quot;prompt&quot;: &quot;input&quot;,</span><br><span class="line">    &quot;response&quot;: &quot;output&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以写成下面这个样式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;your_dataset_name&quot;: &#123;</span><br><span class="line">    &quot;file_name&quot;: &quot;your_data.jsonl&quot;,</span><br><span class="line">    &quot;input_keys&quot;: [&quot;question&quot;],</span><br><span class="line">    &quot;output_keys&quot;: [&quot;answer&quot;],</span><br><span class="line">    &quot;system_keys&quot;: [],</span><br><span class="line">    &quot;ranking&quot;: false</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>input_keys：告诉模型你的“问题”字段名,output_keys：告诉模型你的“回答”字段名。<br>5. 要注意微调训练数据集的样本量，如果模型参数规模(76亿)和微调训练数据集样本量(4个)差异过大，一定会造成严重过拟合的出现，模型会死记硬背，失去泛化能力。<br>6. 在训练模型前，需要扩大系统的虚拟内存，否则会因为虚拟内存太小，导致NumPy、HuggingFace的datasets库在加载和映射数据时，会因为一次性加载大量数据到内存，导致崩溃，至于加载内存到多少，首先要考虑基础模型本身加载所需要的内存量，例如Qwen2.5-7B模型本身加载就要10GB以上，数据处理过程还需要额外内存量，可以设定虚拟内存的初始大小和最大大小，在范围内动态调整确定合适的内存量。<br>7. 在训练前，为验证微调工具LLaMA-Factory、基础模型和微调数据集是否准备好，微调流水线是否可以跑通，训练迭代参数和微调训练数据集可以先调小(例如微调)，虽然这有可能会造成过拟合和训练不足等问题，但是出于流水线跑通的目的，还是建议在正式开始训练前，先做一遍，尽量在正式训练前发现问题，摸清楚LLaMA-Factory、基础模型和微调数据集中的特性和问题。<br>8. 训练过程中，观察日志内容： 如果出现<code>***** Running training *****</code>, 说明训练已启动，出现<code>logging.py:143 &gt;&gt; &#123;&#39;loss&#39;:</code>说明训练已有反馈，是关键成功标志，说明训练真正启动。训练参数审视，如果loss在1.0-3.0之间，则属于在正常训练范围内，小于0.1被视为”极好”，小于0.01就是过拟合。throughput是速度在7-8tokens&#x2F;sec之间，级每秒处理7-8个token, 说明在7B模型下速度合理。在训练过程中要持续审视训练曲线、观察loss是否持续下降，learning_rate是否正常持续衰减，如果learning_rate仍然在下降，但是loss已经卡在极低值附近，说明此刻模型不再学习，而是在微调记忆。<br>9. 模型训练过程中要观测logging.py的运行情况，观察日志，其内容示例如示<code>&#123;&#39;loss&#39;: 1.5699, &#39;learning_rate&#39;: 4.9803e-05, &#39;epoch&#39;: 5.00, &#39;throughput&#39;: 7.96&#125;</code>, 观察loss、learning_rate、epoch、throughput数据变化情况，loss数据如果在稳步下降，且无震荡、无反弹，这说明模型正在快速学习，且训练稳定，数据随迭代步骤step的变化可以通过WebUI旁边的loss图来观察；learning_rate数据如果在平滑下降，而且还没有出现abrupt变化，说明学习率调度正常；epoch推进步骤一般是每 3~4 分钟推进一次 epoch，以5、10、15的节奏稳定推进，说明epoch无报错或中断，推进正常。throughput数据稳定在7-8tokens&#x2F;sec之间，说明GPU利用率保持稳定，没有资源瓶颈和限制，训练效率较高，也可以通过观察系统任务管理器中的GPU内存利用率指标，来确定GPU资源是否受限。一般专用GPU内存利用率会拉满，共享GPU内存利用率会占用一部分，无论专用还是共享GPU内存利用率，二者的利用率曲线在训练过程中都会保持稳定平滑，训练结束后，二者利用率会清零，CPU利用率和内存利用率也会下降到训练前的水平。<br>10. 在训练过程中，如果发现训练过拟合或者训练崩溃，需要及时干预，停止中断训练(Ctrl + C)</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>[1] <a target="_blank" rel="noopener" href="https://llamafactory.readthedocs.io/zh-cn/latest/">Welcome to LLaMA Factory</a><br>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2403.03507">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection</a><br>[3] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2404.02827">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models</a><br>[4] <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43794736/article/details/143034573">llama-factory使用教程</a><br>[5] <a target="_blank" rel="noopener" href="https://www.runoob.com/ollama/ollama-tutorial.html">Ollama 教程</a><br>[6] <a target="_blank" rel="noopener" href="https://blog.csdn.net/yangtaylor81/article/details/150344052">Ollama-加载本地模型文件</a><br>[7] <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Johny-zhao/p/19047708">基于 Docker 的 LLaMA-Factory 全流程部署指南</a><br>[8] <a target="_blank" rel="noopener" href="https://huggingface.co/datasets/LooksJuicy/ruozhiba">LooksJuicy&#x2F;ruozhiba</a><br>[9] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/663712983">如何快速下载huggingface模型——全方法总结</a><br>[10] <a target="_blank" rel="noopener" href="https://modelscope.cn/models/Qwen/Qwen2.5-7B-Instruct/summary">Qwen&#x2F;Qwen2.5-7B-Instruct</a><br>[11] <a target="_blank" rel="noopener" href="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct">Qwen&#x2F;Qwen2.5-7B-Instruct</a><br>[12] <a target="_blank" rel="noopener" href="https://modelscope.cn/datasets/DanKe123abc/yuki_ruozhiba_1.5k">Yuki弱智吧问答数据集</a><br>[13] <a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/pai/use-cases/fine-tune-a-llama-3-model-with-llama-factory#35106f34e24ir">使用LLaMA Factory微调LlaMA 3模型</a><br>[14] <a target="_blank" rel="noopener" href="https://blog.csdn.net/youmaob/article/details/137473545">大模型部署工具 llama.cpp 介绍与安装使用</a><br>[15] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.03335">Absolute Zero: Reinforced Self-play Reasoning with Zero Data</a><br>[16] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2403.05822">TrafficGPT: Breaking the Token Barrier for Efficient Long Traffic Analysis and Generation</a><br>[17]<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.20866">Respond to Change with Constancy: Instruction-tuning with LLM for Non-I.I.D. Network Traffic Classification</a><br>[18] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.18290">Direct Preference Optimization: Your Language Model is Secretly a Reward Model</a><br>[19] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.12036">A General Theoretical Paradigm to Understand Learning from Human Preferences</a><br>[20] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2403.07691">ORPO: Monolithic Preference Optimization without Reference Model</a><br>[21] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.03300">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a><br>[22] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2504.02495">Inference-Time Scaling for Generalist Reward Modeling</a><br>[23] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.17017">Delving into RL for Image Generation with CoT: A Study on DPO vs. GRPO</a><br>[24] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2401.10020">Self-Rewarding Language Models</a><br>[25] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2212.10560">Self-Instruct: Aligning Language Models with Self-Generated Instructions</a><br>[26] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2001.08361">Scaling Laws for Neural Language Models</a><br>[27] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.17152">Actions Speak Louder than Words: Trillion-Parameter Sequential Transducers for Generative Recommendations</a><br>[28] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2309.12307">LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models</a><br>[29] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.05209">Scaling Laws of RoPE-based Extrapolation</a><br>[30] <a target="_blank" rel="noopener" href="https://github.com/huggingface/text-generation-inference">Text Generation Inference</a><br>[31] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.02155">Training language models to follow instructions with human feedback</a><br>[32] <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhanggaoxing/p/18831270">张高兴的大模型开发实战</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">青山生柳</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://varamnematchinensis.github.io/2025/10/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-LLaMA%20Factory%E5%B7%A5%E5%85%B7%E5%AE%9E%E8%B7%B5%E7%AF%87/">https://varamnematchinensis.github.io/2025/10/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-LLaMA%20Factory%E5%B7%A5%E5%85%B7%E5%AE%9E%E8%B7%B5%E7%AF%87/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">青山生柳</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/">
+                                    <span class="chip bg-color">大模型微调</span>
+                                </a>
+                            
+                                <a href="/tags/LLaMA-Factory/">
+                                    <span class="chip bg-color">LLaMA Factory</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+	
+	
+		<div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+		<script src="https://utteranc.es/client.js"
+				repo="VarAmnematchinensis/commit-utterance"
+				issue-term="pathname"
+				theme="github-light"
+				crossorigin="anonymous"
+				async>
+		</script>
+    </div>
+</div>
+	
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/10/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-LLaMA%20Factory%E5%B7%A5%E5%85%B7%E5%AE%9E%E8%B7%B5%E7%AF%87/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="大模型微调(Tuning)实践-LLaMA Factory实践篇">
+                        
+                        <span class="card-title">大模型微调(Tuning)实践-LLaMA Factory实践篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            大模型微调(Tuning)实践-LLaMA Factory实践篇，主要介绍LLaMA Factory工具、LLaMA Factory安装和微调实践过程(安装、环境准备、微调前模型加载，微调前LLaMA Factory配置、启动微调、模型导出量化、格式转换、模型部署运行和注意事项)和参考文献等。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-10-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/">
+                        <span class="chip bg-color">大模型微调</span>
+                    </a>
+                    
+                    <a href="/tags/LLaMA-Factory/">
+                        <span class="chip bg-color">LLaMA Factory</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/10/02/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83(Tuning)%E5%AE%9E%E8%B7%B5-OpenAI%E7%9A%84RAG%E5%92%8C%E5%BE%AE%E8%B0%83%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="大模型微调(Tuning)实践-OpenAI的RAG和微调经验总结">
+                        
+                        <span class="card-title">大模型微调(Tuning)实践-OpenAI的RAG和微调经验总结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            大模型微调(Tuning)实践-OpenAI的RAG和微调经验总结，主要简单介绍一下演讲的主题、日期、演讲人等信息，其次是做演讲内容的总结，包括LLM的优化难点、提示词工程实践经验、RAG实践经验、微调实践经验和参考文献等。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-10-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83/">
+                        <span class="chip bg-color">大模型微调</span>
+                    </a>
+                    
+                    <a href="/tags/RAG/">
+                        <span class="chip bg-color">RAG</span>
+                    </a>
+                    
+                    <a href="/tags/OpenAI/">
+                        <span class="chip bg-color">OpenAI</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">青山生柳</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">133.6k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/VarAmnematchinensis/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
